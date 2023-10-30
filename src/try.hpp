@@ -7,7 +7,7 @@ public:
     T value;   // The original value
     T tangent; // The derivative (tangent)
 
-    DualNumber(T val, T tan = T()) : value(val), tangent(tan) {}
+    explicit DualNumber(T val, T tan = T()) : value(val), tangent(tan) {}
 
     // Overload arithmetic operators to propagate derivatives
     DualNumber operator+(const DualNumber& other) const {
