@@ -1,11 +1,12 @@
 cmake_minimum_required(VERSION 3.20)
-PROJECT(SiSc)
+PROJECT(SiSc CXX)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(FetchContent)
 
-ADD_EXECUTABLE(try src/try.cpp)
+ADD_SUBDIRECTORY(src)
+# ADD_EXECUTABLE(try src/try.cpp)
 
 FetchContent_Declare(
   googletest
