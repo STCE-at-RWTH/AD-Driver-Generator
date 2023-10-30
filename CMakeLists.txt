@@ -1,4 +1,5 @@
 cmake_minimum_required(VERSION 3.20)
+
 PROJECT(SiSc CXX)
 
 set(CMAKE_CXX_STANDARD 17)
@@ -8,9 +9,11 @@ include(FetchContent)
 ADD_SUBDIRECTORY(src)
 # ADD_EXECUTABLE(try src/try.cpp)
 
+cmake_policy(SET CMP0135 NEW)
 FetchContent_Declare(
   googletest
-  URL https://github.com/google/googletest/archive/03597a01ee50ed33e9dfd640b249b4be3799d395.zip
+  # currently v1.14
+  URL https://github.com/google/googletest/archive/f8d7d77c06936315286eb55f8de22cd23c188571.zip
   )
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
