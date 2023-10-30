@@ -9,7 +9,6 @@ include(FetchContent)
 
 ADD_SUBDIRECTORY(src)
 
-cmake_policy(SET CMP0135 NEW)
 FetchContent_Declare(
   googletest
   # currently v1.14

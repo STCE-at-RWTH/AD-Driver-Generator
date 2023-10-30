@@ -13,7 +13,8 @@ and the project should be ready.
 # Testing
 In order to start the test suite run
 ```sh
-ctest --test-dir build/src/
+cd build/src
+ctest
 ```
 and you should receive an overview about the tests and if they failed or not.
 
