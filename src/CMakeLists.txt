@@ -1,13 +1,15 @@
-enable_testing()
+IF(ENABLE_UNIT_TESTS)
+  enable_testing()
 
-add_executable(
-  hello_test
-  hello_test.cc
-)
-target_link_libraries(
-  hello_test
-  GTest::gtest_main
-)
+  add_executable(
+    try_test
+    try.test.cpp
+    )
+  target_link_libraries(
+    try_test
+    GTest::gtest_main
+    )
 
-include(GoogleTest)
-gtest_discover_tests(hello_test)
+  include(GoogleTest)
+  gtest_discover_tests(try_test)
+ENDIF()
