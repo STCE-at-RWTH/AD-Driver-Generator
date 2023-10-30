@@ -111,5 +111,7 @@ int main() {
     std::cout << std::left << std::setw(width) << "exp(x)"   << std::left << std::setw(width) << exp_result.value     << std::left << std::setw(width)    << exp_result.tangent << std::endl;
     std::cout << std::left << std::setw(width) << "pow(x,2)" << std::left << std::setw(width) << pow_result.value     << std::left << std::setw(width)    << pow_result.tangent << std::endl;
 
+    std::cout << std::left << std::setw(width) << "pow(x,2)" << std::left << std::setw(width) << pow_result.value     << std::left << std::setw(width)    << pow_result.tangent << std::endl;
+
     return 0;
 }
