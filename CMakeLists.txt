@@ -4,3 +4,9 @@ PROJECT(SiSc CXX)
 
 ADD_SUBDIRECTORY(src)
 ADD_EXECUTABLE(try src/try.cpp)
+
+option(ENABLE_UNIT_TESTS OFF)
+IF (ENABLE_UNIT_TESTS)
+  find_package(GTest CONFIG REQUIRED)
+  ADD_EXECUTABLE(try.test src/try.test.cpp)
+ENDIF()
