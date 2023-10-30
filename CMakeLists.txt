@@ -1,0 +1,6 @@
+cmake_minimum_required(VERSION 3.20)
+SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+PROJECT(SiSc CXX)
+
+ADD_SUBDIRECTORY(src)
+ADD_EXECUTABLE(try src/try.cpp)
