@@ -8,7 +8,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 include(FetchContent)
 
 ADD_SUBDIRECTORY(src)
-# ADD_EXECUTABLE(try src/try.cpp)
 
 option(ENABLE_UNIT_TESTS "Enables to build the unit tests" ON)
 IF(ENABLE_UNIT_TESTS)
@@ -23,3 +22,5 @@ IF(ENABLE_UNIT_TESTS)
   set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
   FetchContent_MakeAvailable(googletest)
 ENDIF()
+
+add_executable(run_try src/run_try.cpp)
