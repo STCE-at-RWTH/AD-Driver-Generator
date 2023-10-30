@@ -3,6 +3,7 @@
 
 # IDE stuff
 *.idea
+*.cache
 
 # Prerequisites
 *.d
