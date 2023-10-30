@@ -1,5 +1,6 @@
 # build directories
 *build*
+compile_commands.json
 
 # IDE stuff
 *.idea
