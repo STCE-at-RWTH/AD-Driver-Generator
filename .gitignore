@@ -1,8 +1,10 @@
 # build directories
 *build*
+compile_commands.json
 
 # IDE stuff
 *.idea
+*.cache
 
 # Prerequisites
 *.d
@@ -37,3 +39,5 @@
 *.out
 *.app
 
+# tags files
+tags
