@@ -6,6 +6,7 @@
 int main() {
     // Set the input value and derivative seed
     DualNumber<double> b(3.0, 1.0); // x=3.0, seed for derivative is 1.0
+    //Added extra line to see how brach changes can be applied
 
     // Call the simulation function
     DualNumber<double> result = MySimulationFunction2(b);
