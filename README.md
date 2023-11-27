@@ -41,9 +41,11 @@ Most of our code files will be in `src` where it might be good practice to follo
 ├── README.md
 └── src
     ├── CMakeLists.txt
-    ├── run_try.cpp
-    ├── try.hpp
-    └── try.test.cpp
+    ├── main.cpp
+    ├── utilities.cpp
+    ├── utilities.hpp
+    └── utilities.test.cpp
+
 ```
 In this simple example the `try.hpp` file will include the functions and methods, whereas the `try.test.cpp` file will contain corresponding unit test for latter ones.
 Finally in `run_try.cpp` in this example would then be the executable which works on the methods.
