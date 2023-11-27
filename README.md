@@ -47,5 +47,4 @@ Most of our code files will be in `src` where it might be good practice to follo
     └── utilities.test.cpp
 
 ```
-In this simple example the `try.hpp` file will include the functions and methods, whereas the `try.test.cpp` file will contain corresponding unit test for latter ones.
-Finally in `run_try.cpp` in this example would then be the executable which works on the methods.
+In this simple example the `utilities.cpp` file will include the functions and methods, whereas the `utilities.test.cpp` file will contain corresponding unit test for latter ones.
