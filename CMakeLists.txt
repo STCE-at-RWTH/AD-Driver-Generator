@@ -23,8 +23,8 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 
 FetchContent_Declare(
   abseil
-  DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-  URL https://github.com/abseil/abseil-cpp/archive/refs/tags/20230802.1.zip
+  GIT_REPOSITORY https://github.com/abseil/abseil-cpp.git
+  GIT_TAG 8028a87c96df0fff5ab58daeec30c43ce6fb0d20 # 2023-11-28
 )
 set(ABSL_PROPAGATE_CXX_STD ON)
 
