@@ -1,6 +1,6 @@
 enable_testing()
 
-add_library(Utilities utilities.cpp utilities.hpp)
+add_library(libutilities utilities.cpp utilities.hpp)
 
 add_executable(
         utilities.test
@@ -8,7 +8,7 @@ add_executable(
 )
 target_link_libraries(
         utilities.test
-        Utilities
+        libutilities
         GTest::gtest_main
 )
 
