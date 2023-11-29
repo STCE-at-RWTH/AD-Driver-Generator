@@ -1,15 +1,21 @@
 enable_testing()
 
-add_library(libutilities utilities.cpp utilities.hpp)
-
-add_executable(
-        utilities.test
-        utilities.test.cpp
+add_library(libutilities
+  utilities.cpp
+  utilities.hpp
 )
-target_link_libraries(
-        utilities.test
-        libutilities
-        GTest::gtest_main
+
+target_link_libraries(libutilities
+  absl::strings
+)
+
+add_executable(utilities.test
+  utilities.test.cpp
+)
+
+target_link_libraries(utilities.test
+  libutilities
+  GTest::gtest_main
 )
 
 include(GoogleTest)
