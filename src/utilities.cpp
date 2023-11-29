@@ -31,7 +31,7 @@ std::string getTypeOfVariable(const std::string &callSignature, const std::strin
         // do not remove & if it is the only character in the string
         if (i.size() > 1){
             if (absl::StartsWith(i, "&")) {
-                i.erase(0, 1);
+                i.erase(i.begin());
             }
             if (absl::EndsWith(i, "&")) {
                 i.pop_back();
