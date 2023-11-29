@@ -38,6 +38,7 @@ std::string getTypeOfVariable(const std::string &callSignature, const std::strin
             }
         }
 
+        // use logic that the type needs to be always before the variable name
         if (absl::EqualsIgnoreCase(i, variableName)) {
             if (*std::prev(&i) == "&") {
                 return *std::prev(&i,2);
@@ -45,4 +46,5 @@ std::string getTypeOfVariable(const std::string &callSignature, const std::strin
             return *std::prev(&i);
         }
     }
+    return "";
 }

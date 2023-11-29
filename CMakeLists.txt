@@ -26,6 +26,7 @@ FetchContent_Declare(
   DOWNLOAD_EXTRACT_TIMESTAMP TRUE
   URL https://github.com/abseil/abseil-cpp/archive/refs/tags/20230802.1.zip
 )
+set(ABSL_PROPAGATE_CXX_STD ON)
 
 FetchContent_MakeAvailable(googletest abseil)
 
