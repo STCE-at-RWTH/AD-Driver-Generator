@@ -6,8 +6,6 @@
 
 std::string setSeedValue(std::string variable, std::string type_of_variable, std::string value_for_seeding);
 
-std::string getTypeOfVariable(std::string callSignature, std::string variableName);
-
-std::vector<std::string> splitString(std::string inputString, char delimiter);
+std::string getTypeOfVariable(const std::string &callSignature, const std::string &variableName);
 
 #endif //SISC_LAB_UTILITIES_HPP

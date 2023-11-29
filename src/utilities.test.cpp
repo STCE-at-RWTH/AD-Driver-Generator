@@ -1,4 +1,5 @@
 #include "gtest/gtest.h"
+
 #include "utilities.hpp"
 
 TEST(SetSeedValue, BasicInput)
@@ -11,71 +12,106 @@ TEST(SetSeedValue, BasicInput)
     EXPECT_EQ(actual, expected);
 }
 
-TEST(SplitString, WhiteSpace_as_delimiter)
-{
-    // SETUP
-    std::string inputString{"abc def"};
-    char delimiter{' '};
-    auto some_test = " ";
-    std::vector<std::string> expected{"abc", "def"};
-
-    // ACT
-    auto actual = splitString(inputString, delimiter);
-
-    // ASSERT
-    EXPECT_EQ(actual, expected);
-}
-
-TEST(SplitString, Split_at_commata)
-{
-    // SETUP
-    std::string inputString{"abc,def"};
-    char delimiter{','};
-    std::vector<std::string> expected{"abc", "def"};
-
-    // ACT
-    auto actual = splitString(inputString, delimiter);
-
-    // ASSERT
-    EXPECT_EQ(actual, expected);
-}
-
-TEST(SplitString, Delimiter_not_in_string)
-{
-    // SETUP
-    std::string inputString{"abcdef"};
-    char delimiter{' '};
-    std::vector<std::string> expected{"abcdef"};
-
-    // ACT
-    auto actual = splitString(inputString, delimiter);
-
-    // ASSERT
-    EXPECT_EQ(actual, expected);
-}
-
-TEST(SplitString, WhiteSpace_and_Brackets)
-{
-    // SETUP
-    std::string inputString{"(abc def"};
-    std::string delimiter{'(', ' '};
-
-    std::vector<std::string> expected{"abc", "def"};
-    std::vector<std::string> actual;
-    // ACT
-    for (auto delim : delimiter)
-        actual = splitString(inputString, delim);
-
-    // ASSERT
-    EXPECT_EQ(actual, expected);
-}
-
-TEST(GetTypeOfVariable, SimpleInput_with_space_delimiter)
+TEST(GetTypeOfVariable, Input_With_Space_Delimiter)
 {
     // SETUP
     std::string signature{"double x"};
     std::string active_variable{"x"};
     std::string expected{"double"};
+
+    // ACT
+    auto actual = getTypeOfVariable(signature, active_variable);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(GetTypeOfVariable, Throws_Exception_When_Variable_Not_In_Call_Signature)
+{
+    // SETUP
+    std::string signature{"double x"};
+    std::string active_variable{"y"};
+
+    // ACT & ASSERT
+    EXPECT_THROW(getTypeOfVariable(signature, active_variable), std::invalid_argument);
+}
+
+TEST(GetTypeOfVariable, Input_With_Two_Variables_Separated_By_Comma)
+{
+    // SETUP
+    std::string signature{"double x, double y"};
+    std::string active_variable{"x"};
+    std::string expected{"double"};
+
+    // ACT
+    auto actual = getTypeOfVariable(signature, active_variable);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(GetTypeOfVariable, Bracket_Touches_The_Type)
+{
+    // SETUP
+    std::string signature{"(double a"};
+    std::string active_variable{"a"};
+    std::string expected{"double"};
+
+    // ACT
+    auto actual = getTypeOfVariable(signature, active_variable);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(GetTypeOfVariable, Variable_Passed_By_Reference)
+{
+    // SETUP
+    std::string signature{"float &a"};
+    std::string active_variable{"a"};
+    std::string expected{"float"};
+
+    // ACT
+    auto actual = getTypeOfVariable(signature, active_variable);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Whitespaces_Seprated)
+{
+    // SETUP
+    std::string signature{"float & a"};
+    std::string active_variable{"a"};
+    std::string expected{"float"};
+
+    // ACT
+    auto actual = getTypeOfVariable(signature, active_variable);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Touching_Type)
+{
+    // SETUP
+    std::string signature{"float& a"};
+    std::string active_variable{"a"};
+    std::string expected{"float"};
+
+    // ACT
+    auto actual = getTypeOfVariable(signature, active_variable);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Touching_Type_With_Brackets)
+{
+    // SETUP
+    std::string signature{"f(float& a"};
+    std::string active_variable{"a"};
+    std::string expected{"float"};
 
     // ACT
     auto actual = getTypeOfVariable(signature, active_variable);

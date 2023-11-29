@@ -1,10 +1,10 @@
 #include <string>
 #include <stdexcept>
+#include <vector>
+
+#include "absl/strings/str_split.h"
 
 #include "utilities.hpp"
-
-#include <sstream>
-#include <vector>
 
 std::string setSeedValue(std::string variable, std::string type_of_variable, std::string value_for_seeding)
 {
@@ -12,31 +12,37 @@ std::string setSeedValue(std::string variable, std::string type_of_variable, std
 }
 
 
-std::vector<std::string> splitString(std::string inputString, char delimiter)
+std::string getTypeOfVariable(const std::string &callSignature, const std::string &variableName)
 {
-    // create output vector
-  std::vector<std::string> splittedString;
-
-  std::string word;
-  std::stringstream stringStreamOfInputString(inputString);
-
-  while (getline(stringStreamOfInputString, word, delimiter))
-    splittedString.push_back(word);
-
-  return splittedString;
-}
-
-
-std::string getTypeOfVariable(std::string callSignature, std::string variableName)
-{
-    auto callSignatureSplitted = splitString(callSignature, ' ');
-
-    // search for variable name in callsignaturesplitted
-    for (auto i = 0; i < callSignatureSplitted.size(); i++)
+    // check if the variable name is in the call signature
+    try
     {
-        if (callSignatureSplitted[i] == variableName)
-        {
-            return callSignatureSplitted[i-1];
+        if (!(absl::StrContains(callSignature, variableName)))
+            throw std::invalid_argument("Variable name not found in call signature: " + variableName);
+    } catch (std::invalid_argument &exception)
+    {
+        throw exception;
+    }
+
+    std::vector<std::string> callSignatureSplitted = absl::StrSplit(callSignature, absl::ByAnyChar(" ,("));
+
+    for (auto &i : callSignatureSplitted)
+    {
+        // do not remove & if it is the only character in the string
+        if (i.size() > 1){
+            if (absl::StartsWith(i, "&")) {
+                i.erase(0, 1);
+            }
+            if (absl::EndsWith(i, "&")) {
+                i.pop_back();
+            }
+        }
+
+        if (absl::EqualsIgnoreCase(i, variableName)) {
+            if (*std::prev(&i) == "&") {
+                return *std::prev(&i,2);
+            }
+            return *std::prev(&i);
         }
     }
 }
