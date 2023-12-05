@@ -12,9 +12,8 @@ target_link_libraries(libutilities
         absl::algorithm
 )
 
-
 add_executable(utilities.test
-        utilities.test.cpp
+  utilities.test.cpp
 )
 
 target_link_libraries(utilities.test
@@ -31,4 +30,5 @@ target_link_libraries(SimpleConfigFile.test
 )
 
 include(GoogleTest)
-gtest_discover_tests(utilities.test SimpleConfigFile.test)
+gtest_discover_tests(utilities.test
+        SimpleConfigFile.test)

@@ -28,7 +28,13 @@ FetchContent_Declare(
 )
 set(ABSL_PROPAGATE_CXX_STD ON)
 
-FetchContent_MakeAvailable(googletest abseil)
+FetchContent_Declare(
+        yaml-cpp
+        GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
+        GIT_TAG 0.8.0 # 2023-08-10
+)
+
+FetchContent_MakeAvailable(googletest abseil yaml-cpp)
 
 add_executable(main src/main.cpp)
 target_link_libraries(main PRIVATE libutilities)
