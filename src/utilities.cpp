@@ -38,3 +38,12 @@ std::string getTypeOfVariable(const std::string &callSignature, const std::strin
     }
     return "";
 }
+
+std::string createLoopSignature(const std::string &activeVariable, int level) {
+    // create based on the level a multiplicaiton of i
+    char loopVariableChar = 'i';
+    std::string loopVariable;
+    for (auto i = 0; i < level; ++i){ loopVariable += loopVariableChar; }
+    std::string loopSignature = "for (size_t " + loopVariable + " = 0; " + loopVariable + " < " + activeVariable + ".size(); ++" + loopVariable + ")";
+    return loopSignature;
+}

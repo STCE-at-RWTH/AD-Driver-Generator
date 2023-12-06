@@ -109,3 +109,31 @@ TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Touching_Type_With_Brackets
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
+
+TEST(CreateLoopSignature, Loop_with_level_1)
+{
+    // SETUP
+    std::string activeVariable {"x"};
+    int level = 1;
+    std::string expected{"for (size_t i = 0; i < x.size(); ++i)"};
+
+    // ACT
+    std::string actual = createLoopSignature(activeVariable, level);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(CreateLoopSignature, Loop_with_level_2)
+{
+    // SETUP
+    std::string activeVariable {"x"};
+    int level = 2;
+    std::string expected{"for (size_t ii = 0; ii < x.size(); ++ii)"};
+
+    // ACT
+    std::string actual = createLoopSignature(activeVariable, level);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}

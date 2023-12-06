@@ -8,6 +8,9 @@ std::string setSeedValue(std::string variable, std::string type_of_variable, std
 
 std::string getTypeOfVariable(const std::string &callSignature, const std::string &variableName);
 
+std::string createLoopSignature(const std::string &activeVariable, int level);
+
 std::string getAssociationByNameSignature(std::string call_signature, std::string active_variable);
+
 
 #endif //SISC_LAB_UTILITIES_HPP
