@@ -26,16 +26,6 @@ TEST(GetTypeOfVariable, Input_With_Space_Delimiter)
     EXPECT_EQ(actual, expected);
 }
 
-TEST(GetTypeOfVariable, Throws_Exception_When_Variable_Not_In_Call_Signature)
-{
-    // SETUP
-    std::string signature{"double x"};
-    std::string active_variable{"y"};
-
-    // ACT & ASSERT
-    EXPECT_THROW(getTypeOfVariable(signature, active_variable), std::invalid_argument);
-}
-
 TEST(GetTypeOfVariable, Input_With_Two_Variables_Separated_By_Comma)
 {
     // SETUP

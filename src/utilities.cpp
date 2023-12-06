@@ -14,17 +14,7 @@ std::string setSeedValue(std::string variable, std::string type_of_variable, std
 
 std::string getTypeOfVariable(const std::string &callSignature, const std::string &variableName)
 {
-    // check if the variable name is in the call signature
-    try
-    {
-        if (!(absl::StrContains(callSignature, variableName)))
-            throw std::invalid_argument("Variable name not found in call signature: " + variableName);
-    } catch (std::invalid_argument &exception)
-    {
-        throw exception;
-    }
-
-    std::vector<std::string> callSignatureSplitted = absl::StrSplit(callSignature, absl::ByAnyChar(" ,("));
+    std::vector<std::string> callSignatureSplitted = absl::StrSplit(callSignature, absl::ByAnyChar(" ,("),  absl::SkipEmpty());
 
     for (auto &i : callSignatureSplitted)
     {
