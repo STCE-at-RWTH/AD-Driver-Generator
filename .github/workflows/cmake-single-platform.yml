@@ -3,7 +3,7 @@
 name: CMake on a single platform
 
 on:
-  push:classic
+  push:
     branches: [ "develop" ]
   pull_request:
     branches: [ "develop" ]
