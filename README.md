@@ -49,10 +49,15 @@ Most of our code files will be in `src` where it might be good practice to follo
 ```
 In this simple example the `utilities.cpp` file will include the functions and methods, whereas the `utilities.test.cpp` file will contain corresponding unit test for latter ones.
 
+# Git local develop update
+Before start working on your local branch, verify if there is any change on the remote develop branch. Change the branch to you local develop branch and check for updates
+```sh
+git checkout develop
+git pull
+```
 
-# Git updates on remote branches
-
-The develop branch will be used to save changes on the added features
+# Git online develop update 
+The develop branch will be used to save changes on the added features.
 
 Example case of update: 
 Go to your local working branch: 
@@ -71,3 +76,21 @@ To update the last changes done by you in your local branch to develop, use comm
 git checkout develop
 git merge features/branch_victor 
 ```
+
+Now, to make it on the remote develop branch available, perform an add/commit/push command
+```sh
+git add .
+git commit -m "Description of changes" 
+git push
+```
+
+# Git remote branches update
+
+Before updating the develop branch, commit the changes done in your local working branch to your working remote branch.
+
+```sh
+git add .
+git commit -m "Description of changes" 
+git push
+```
+This should save all the changes in your local working branch into the remote branch of the same name.
