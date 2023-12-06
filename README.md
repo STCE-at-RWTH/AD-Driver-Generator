@@ -48,3 +48,26 @@ Most of our code files will be in `src` where it might be good practice to follo
 
 ```
 In this simple example the `utilities.cpp` file will include the functions and methods, whereas the `utilities.test.cpp` file will contain corresponding unit test for latter ones.
+
+
+# Git updates on remote branches
+
+The develop branch will be used to save changes on the added features
+
+Example case of update: 
+Go to your local working branch: 
+
+```sh
+git checkout features/branch_victor 
+```
+
+To update the last changes in develop to your local branch, use the command:
+```sh
+git merge develop
+```
+
+To update the last changes done by you in your local branch to develop, use commands:
+```sh
+git checkout develop
+git merge features/branch_victor 
+```
