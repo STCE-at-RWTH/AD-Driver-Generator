@@ -5,7 +5,7 @@ compile_commands.json
 # IDE stuff
 *.idea
 *.cache
-settings.jason
+*.vscode
 
 # Prerequisites
 *.d
