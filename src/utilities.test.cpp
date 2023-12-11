@@ -139,7 +139,7 @@ TEST(CreateLoopSignature, Loop_with_level_2)
     EXPECT_EQ(actual, expected);
 }
 
-TEST(getAssociationByNameComputeSignature, OneVariableOneParameter){
+TEST(GetAssociationByNameComputeSignature, OneVariableOneParameter){
     // SETUP
     std::string call_signature{"void f(double &x, const double p)"};
     std::string active_variables{"x"};
@@ -150,10 +150,9 @@ TEST(getAssociationByNameComputeSignature, OneVariableOneParameter){
     
     // ASSERT
     EXPECT_EQ(actual, expected);
-
 }
 
-TEST(getAssociationByNameComputeSignature, TwoVariables){
+TEST(GetAssociationByNameComputeSignature, TwoVariables){
     // SETUP
     std::string call_signature{"void f(double &x, double &y)"};
     std::string active_variables{"x, y"};
@@ -164,10 +163,9 @@ TEST(getAssociationByNameComputeSignature, TwoVariables){
     
     // ASSERT
     EXPECT_EQ(actual, expected);
-
 }
 
-TEST(getAssociationByNameComputeSignature, TwoVariablesOneParameter){
+TEST(GetAssociationByNameComputeSignature, TwoVariablesOneParameter){
     // SETUP
     std::string call_signature{"void f(double &x, double &y, const double p)"};
     std::string active_variables{"x, y"};
@@ -178,10 +176,9 @@ TEST(getAssociationByNameComputeSignature, TwoVariablesOneParameter){
     
     // ASSERT
     EXPECT_EQ(actual, expected);
-
 }
 
-TEST(getAssociationByNameComputeSignature, vectorVariable){
+TEST(GetAssociationByNameComputeSignature, VectorVariable){
     // SETUP
     std::string call_signature{"void f(std::vector<double> &x)"};
     std::string active_variables{"x"};
@@ -192,5 +189,30 @@ TEST(getAssociationByNameComputeSignature, vectorVariable){
     
     // ASSERT
     EXPECT_EQ(actual, expected);
+}
 
+TEST(CreateDriverCallSignature, GradientDriver){
+    // SETUP
+    std::string call_signature{"void f(double &x, double &y)"};
+    std::string driver_type{"gradient"};
+    std::string expected{"void f_gradient"};
+    
+    // ACT
+    auto actual = createDriverCallSignature(call_signature, driver_type);
+    
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(CreateDriverCallSignature, JacobianDriver){
+    // SETUP
+    std::string call_signature{"void fxfts(double &x, double &y)"};
+    std::string driver_type{"jacobian"};
+    std::string expected{"void fxfts_jacobian"};
+    
+    // ACT
+    auto actual = createDriverCallSignature(call_signature, driver_type);
+    
+    // ASSERT
+    EXPECT_EQ(actual, expected);
 }
