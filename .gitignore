@@ -5,6 +5,7 @@ compile_commands.json
 # IDE stuff
 *.idea
 *.cache
+settings.jason
 
 # Prerequisites
 *.d
