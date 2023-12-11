@@ -69,7 +69,7 @@ TEST(GetTypeOfVariable, Variable_Passed_By_Reference)
     EXPECT_EQ(actual, expected);
 }
 
-TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Whitespaces_Seprated)
+TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Whitespaces_Separated)
 {
     // SETUP
     std::string signature{"float & a"};
@@ -137,4 +137,60 @@ TEST(CreateLoopSignature, Loop_with_level_2)
 
     // ASSERT
     EXPECT_EQ(actual, expected);
+}
+
+TEST(getAssociationByNameComputeSignature, OneVariableOneParameter){
+    // SETUP
+    std::string call_signature{"void f(double &x, const double p)"};
+    std::string active_variables{"x"};
+    std::string expected{"f_t(x, x_t, p)"};
+    
+    // ACT
+    auto actual = getAssociationByNameSignatureCompute(call_signature, active_variables);
+    
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+
+}
+
+TEST(getAssociationByNameComputeSignature, TwoVariables){
+    // SETUP
+    std::string call_signature{"void f(double &x, double &y)"};
+    std::string active_variables{"x, y"};
+    std::string expected{"f_t(x, x_t, y, y_t)"};
+    
+    // ACT
+    auto actual = getAssociationByNameSignatureCompute(call_signature, active_variables);
+    
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+
+}
+
+TEST(getAssociationByNameComputeSignature, TwoVariablesOneParameter){
+    // SETUP
+    std::string call_signature{"void f(double &x, double &y, const double p)"};
+    std::string active_variables{"x, y"};
+    std::string expected{"f_t(x, x_t, y, y_t, p)"};
+    
+    // ACT
+    auto actual = getAssociationByNameSignatureCompute(call_signature, active_variables);
+    
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+
+}
+
+TEST(getAssociationByNameComputeSignature, vectorVariable){
+    // SETUP
+    std::string call_signature{"void f(std::vector<double> &x)"};
+    std::string active_variables{"x"};
+    std::string expected{"f_t(x, x_t)"};
+    
+    // ACT
+    auto actual = getAssociationByNameSignatureCompute(call_signature, active_variables);
+    
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+
 }
