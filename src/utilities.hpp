@@ -10,7 +10,8 @@ std::string getTypeOfVariable(const std::string &callSignature, const std::strin
 
 std::string createLoopSignature(const std::string &activeVariable, int level);
 
-std::string getAssociationByNameSignature(std::string call_signature, std::string active_variable);
+std::string getAssociationByNameSignatureCompute(const std::string &callSignature, const std::string &activeVariable);
 
+std::string createDriverCallSignature(const std::string &callSignature, const std::string &driver_type);
 
 #endif //SISC_LAB_UTILITIES_HPP

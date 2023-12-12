@@ -7,7 +7,9 @@ add_library(libutilities
 
 target_link_libraries(libutilities
   absl::strings
+  absl::algorithm
 )
+
 
 add_executable(utilities.test
   utilities.test.cpp
