@@ -90,6 +90,42 @@ std::string setSeedValue(const std::string& variable,
     return setSeed;
 }
 
+// Function to set the seed value for a variable
+std::string resetSeedValue(const std::string& variable,
+                         const std::string& mood,
+                         const std::string& output_type,
+                         const std::string& loop_level)
+{
+    // Add appropriate suffix based on the mood
+    std::string reset_Value = "0.0";
+    std::string suffix;
+    if (mood == "tangent") {
+        suffix = "_t";
+    } else if (mood == "adjoint") {
+        suffix = "_a";
+    } else {
+        throw std::invalid_argument("Unsupported mood. Supported moods are 'tangent' and 'adjoint'.");
+    }
+
+    // Construct the seed value assignment string
+    std::string resetSeed;
+    if (output_type == "scalar") {
+        resetSeed = absl::StrCat(variable, suffix, " = ", reset_Value);
+    } else if (output_type == "vector") {
+        int num_loops = std::stoi(loop_level);
+        if (num_loops < 0) {
+            throw std::invalid_argument("Loop level must be a non-negative integer.");
+        }
+
+        std::string loop_index = std::string(num_loops, 'i');
+        resetSeed = absl::StrCat(variable, suffix,"[" , loop_index, "]", " = ", reset_Value);
+    } else {
+        throw std::invalid_argument("Unsupported output type. Supported types are 'scalar' and 'vector'.");
+    }
+
+    return resetSeed;
+}
+
 
 std::string setSeedValue_old(const std::string& variable, const std::string& type_of_variable, const std::string& value_for_seeding)
 {
