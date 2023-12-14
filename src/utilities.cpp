@@ -6,10 +6,23 @@
 #include "absl/strings/str_cat.h"
 #include "absl/algorithm/container.h"
 
-std::string setSeedValue(std::string variable, std::string type_of_variable, std::string value_for_seeding)
+// std::string setSeedValue(std::string variable, std::string type_of_variable, std::string value_for_seeding)
+// {
+//     throw std::runtime_error("Not implemented yet");
+// }
+
+std::string setSeedValue(const std::string& variable, const std::string& type_of_variable, const std::string& value_for_seeding)
 {
-    throw std::runtime_error("Not implemented yet");
+    // Check if the type_of_variable is "double" (For simplicity, you can extend this for other types)
+    if (type_of_variable != "double") {
+        throw std::invalid_argument("Unsupported variable type for seeding.");
+    }
+    // Construct the seed value assignment string
+    std::string seed_assignment = absl::StrCat(type_of_variable, " ", variable, " = ", value_for_seeding);
+
+    return seed_assignment;
 }
+
 
 std::string getTypeOfVariable(const std::string &callSignature, const std::string &variableName)
 {
