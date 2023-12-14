@@ -1,28 +1,83 @@
 #include <string>
 #include <stdexcept>
 #include <vector>
+#include <sstream>  // For std::stringstream
 
 #include "absl/strings/str_split.h"
 #include "absl/strings/str_cat.h"
+#include "absl/strings/str_join.h"
 #include "absl/algorithm/container.h"
+
+// // Function to initialize a seed value for a variable
+// std::string initializeSeedValue(const std::string& variable, const std::string& type_of_variable)
+// {
+//     // Define a set of allowed variable types
+//     const std::vector<std::string> allowed_types = {"int", "double", "float"};
+
+//     // Check if the type_of_variable is in the allowed types
+//     if (std::find(allowed_types.begin(), allowed_types.end(), type_of_variable) == allowed_types.end()) {
+//         // If not, construct a detailed error message
+//         std::string allowed_types_message = absl::StrJoin(allowed_types, ", ");
+//         throw std::invalid_argument("Unsupported variable type for seeding. Allowed types are: " + allowed_types_message);
+//     }
+//     return absl::StrCat(type_of_variable, "_t", " ", variable, "(", variable.size(), ", 0.0)");
+// }
 
 // std::string setSeedValue(std::string variable, std::string type_of_variable, std::string value_for_seeding)
 // {
 //     throw std::runtime_error("Not implemented yet");
 // }
 
+// std::string setSeedValue(const std::string& variable, const std::string& type_of_variable, const std::string& value_for_seeding)
+// {
+//     // Define a set of allowed variable types
+//     const std::vector<std::string> allowed_types = {"int", "double", "float"};
+//     // Check if the type_of_variable is in the allowed types
+//     if (std::find(allowed_types.begin(), allowed_types.end(), type_of_variable) == allowed_types.end()) {
+//         // If not, construct a detailed error message
+//         std::string allowed_types_message = absl::StrJoin(allowed_types, ", ");
+//         throw std::invalid_argument("Unsupported variable type for seeding. Allowed types are: " + allowed_types_message);
+//     }
+//     // Construct the seed value assignment string
+//     std::string seed_assignment = absl::StrCat(type_of_variable, " ", variable, " = ", value_for_seeding);
+
+//     return seed_assignment;
+// }
+
 std::string setSeedValue(const std::string& variable, const std::string& type_of_variable, const std::string& value_for_seeding)
 {
-    // Check if the type_of_variable is "double" (For simplicity, you can extend this for other types)
-    if (type_of_variable != "double") {
-        throw std::invalid_argument("Unsupported variable type for seeding.");
+    // Define a set of allowed variable types
+    const std::vector<std::string> allowed_types = {"int", "double", "float"};
+
+    // Check if the type_of_variable is in the allowed types
+    if (std::find(allowed_types.begin(), allowed_types.end(), type_of_variable) == allowed_types.end()) {
+        // If not, construct a detailed error message
+        std::string allowed_types_message = absl::StrJoin(allowed_types, ", ");
+        throw std::invalid_argument("Unsupported variable type for seeding. Allowed types are: " + allowed_types_message);
     }
-    // Construct the seed value assignment string
-    std::string seed_assignment = absl::StrCat(type_of_variable, " ", variable, " = ", value_for_seeding);
 
-    return seed_assignment;
+    // Split the comma-separated variable names
+    std::vector<std::string> variables;
+    std::istringstream variableStream(variable);
+    std::string individualVariable;
+    while (std::getline(variableStream, individualVariable, ',')) {
+        // Trim leading and trailing whitespaces from individual variable names
+        individualVariable = absl::StripAsciiWhitespace(individualVariable);
+        variables.push_back(individualVariable);
+    }
+
+    // Construct the seed value assignment string for each variable
+    std::vector<std::string> seed_assignments;
+    for (const auto& var : variables) {
+        std::string seed_assignment = absl::StrCat(type_of_variable, " ", var, " = ", value_for_seeding);
+        seed_assignments.push_back(seed_assignment);
+    }
+
+    // Join the seed assignments into a single string with newline separators
+    std::string result = absl::StrJoin(seed_assignments, "\n");
+
+    return result;
 }
-
 
 std::string getTypeOfVariable(const std::string &callSignature, const std::string &variableName)
 {

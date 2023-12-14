@@ -2,16 +2,81 @@
 
 #include "utilities.hpp"
 
-TEST(SetSeedValue, BasicInput)
+TEST(SetSeedValue, VariableFloatType)
 {
     std::string variable = "x";
-    std::string type_of_variable = "double";
+    std::string type_of_variable = "float";
     std::string value_for_seeding = "1.0";
-    std::string expected = "double x = 1.0";
+    std::string expected = "float x = 1.0";
     std::string actual = setSeedValue(variable, type_of_variable, value_for_seeding);
-    // expect that setSeedvalue throws not implemented
     EXPECT_EQ(actual, expected);
 }
+TEST(SetSeedValue, VariableDoubleType)
+{
+    std::string variable = "t";
+    std::string type_of_variable = "double";
+    std::string value_for_seeding = "1.0";
+    std::string expected = "double t = 1.0";
+    std::string actual = setSeedValue(variable, type_of_variable, value_for_seeding);
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(SetSeedValue, VariableIntType)
+{
+    std::string variable = "b";
+    std::string type_of_variable = "int";
+    std::string value_for_seeding = "1.0";
+    std::string expected = "int b = 1.0";
+    std::string actual = setSeedValue(variable, type_of_variable, value_for_seeding);
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(SetSeedValue, VariableInvalidType)
+{
+    // Test case for an invalid scenario where an inappropriate type is given
+    std::string variable = "b";
+    std::string type_of_variable = "invalid_type";  // Set an invalid type
+    std::string value_for_seeding = "1.0";
+
+    // Use EXPECT_THROW to check if the function throws an exception
+    EXPECT_THROW(
+        {
+            try
+            {
+                setSeedValue(variable, type_of_variable, value_for_seeding);
+            }
+            catch (const std::invalid_argument& e)
+            {
+                // Check if the exception message contains the expected error message
+                EXPECT_STRCASEEQ(e.what(), "Unsupported variable type for seeding. Allowed types are: int, double, float");
+                return;
+            }
+            FAIL() << "Expected std::invalid_argument not thrown.";
+        },
+        std::invalid_argument);
+}
+TEST(SetSeedValue, VariableDoubleTypeMultipleVariables)
+{
+    // Test case for multiple variables
+    std::string variable = "t, y, z";
+    std::string type_of_variable = "double";
+    std::string value_for_seeding = "1.0";
+    std::string expected = "double t = 1.0\ndouble y = 1.0\ndouble z = 1.0";
+    std::string actual = setSeedValue(variable, type_of_variable, value_for_seeding);
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(SetSeedValue, VariableDoubleTypeMultipleVariablesTrimmedWhitespace)
+{
+    // Test case for multiple variables with leading/trailing whitespace
+    std::string variable = " t, y ,z ";
+    std::string type_of_variable = "double";
+    std::string value_for_seeding = "1.0";
+    std::string expected = "double t = 1.0\ndouble y = 1.0\ndouble z = 1.0";
+    std::string actual = setSeedValue(variable, type_of_variable, value_for_seeding);
+    EXPECT_EQ(actual, expected);
+}
+
 
 TEST(GetTypeOfVariable, Input_With_Space_Delimiter)
 {
