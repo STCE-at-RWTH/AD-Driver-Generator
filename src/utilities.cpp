@@ -8,43 +8,90 @@
 #include "absl/strings/str_join.h"
 #include "absl/algorithm/container.h"
 
-// // Function to initialize a seed value for a variable
-// std::string initializeSeedValue(const std::string& variable, const std::string& type_of_variable)
-// {
-//     // Define a set of allowed variable types
-//     const std::vector<std::string> allowed_types = {"int", "double", "float"};
+std::string initializeSeedValue(const std::string& variable,
+                                const std::string& type_of_variable,
+                                const std::string& mode,
+                                const std::string& output_type)
+{
+    // Define a set of allowed variable types
+    const std::vector<std::string> allowed_types = {"int", "double", "float"};
 
-//     // Check if the type_of_variable is in the allowed types
-//     if (std::find(allowed_types.begin(), allowed_types.end(), type_of_variable) == allowed_types.end()) {
-//         // If not, construct a detailed error message
-//         std::string allowed_types_message = absl::StrJoin(allowed_types, ", ");
-//         throw std::invalid_argument("Unsupported variable type for seeding. Allowed types are: " + allowed_types_message);
-//     }
-//     return absl::StrCat(type_of_variable, "_t", " ", variable, "(", variable.size(), ", 0.0)");
-// }
+    // Check if the type_of_variable is in the allowed types
+    if (std::find(allowed_types.begin(), allowed_types.end(), type_of_variable) == allowed_types.end()) {
+        // If not, construct a detailed error message
+        std::string allowed_types_message = absl::StrJoin(allowed_types, ", ");
+        throw std::invalid_argument("Unsupported variable type for seeding. Allowed types are: " + allowed_types_message);
+    }
 
-// std::string setSeedValue(std::string variable, std::string type_of_variable, std::string value_for_seeding)
-// {
-//     throw std::runtime_error("Not implemented yet");
-// }
+    // Add appropriate suffix based on the mode
+    std::string suffix;
+    if (mode == "tangent") {
+        suffix = "_t";
+    } else if (mode == "adjoint") {
+        suffix = "_a";
+    } else {
+        throw std::invalid_argument("Unsupported mode. Supported modes are 'tangent' and 'adjoint'.");
+    }
 
-// std::string setSeedValue(const std::string& variable, const std::string& type_of_variable, const std::string& value_for_seeding)
-// {
-//     // Define a set of allowed variable types
-//     const std::vector<std::string> allowed_types = {"int", "double", "float"};
-//     // Check if the type_of_variable is in the allowed types
-//     if (std::find(allowed_types.begin(), allowed_types.end(), type_of_variable) == allowed_types.end()) {
-//         // If not, construct a detailed error message
-//         std::string allowed_types_message = absl::StrJoin(allowed_types, ", ");
-//         throw std::invalid_argument("Unsupported variable type for seeding. Allowed types are: " + allowed_types_message);
-//     }
-//     // Construct the seed value assignment string
-//     std::string seed_assignment = absl::StrCat(type_of_variable, " ", variable, " = ", value_for_seeding);
+    // Add appropriate value 0 or 0.0
+    std::string value;
+    if (variable == "int") {
+        value = "0";
+    } else {
+        value = "0.0";
+    }
 
-//     return seed_assignment;
-// }
+    // Construct the seed value assignment string
+    std::string initSeed;
+    if (output_type == "vector") {
+        initSeed = absl::StrCat("std::vector<", type_of_variable, "> ", variable, suffix, "(", variable, ".size(),",value, ")");
+    } else if (output_type == "scalar") {
+        initSeed = absl::StrCat(type_of_variable, " ", variable, suffix, "(", value, ")");
+    } else {
+        throw std::invalid_argument("Unsupported output type. Supported types are 'vector' and 'scalar'.");
+    }
 
-std::string setSeedValue(const std::string& variable, const std::string& type_of_variable, const std::string& value_for_seeding)
+    return initSeed;
+}
+
+// Function to set the seed value for a variable
+std::string setSeedValue(const std::string& variable,
+                         const std::string& mood,
+                         const std::string& output_type,
+                         const std::string& value_for_seeding,
+                         const std::string& loop_level)
+{
+    // Add appropriate suffix based on the mood
+    std::string suffix;
+    if (mood == "tangent") {
+        suffix = "_t";
+    } else if (mood == "adjoint") {
+        suffix = "_a";
+    } else {
+        throw std::invalid_argument("Unsupported mood. Supported moods are 'tangent' and 'adjoint'.");
+    }
+
+    // Construct the seed value assignment string
+    std::string setSeed;
+    if (output_type == "scalar") {
+        setSeed = absl::StrCat(variable, suffix, " = ", value_for_seeding);
+    } else if (output_type == "vector") {
+        int num_loops = std::stoi(loop_level);
+        if (num_loops < 0) {
+            throw std::invalid_argument("Loop level must be a non-negative integer.");
+        }
+
+        std::string loop_index = std::string(num_loops, 'i');
+        setSeed = absl::StrCat(variable, suffix,"[" , loop_index, "]", " = ", value_for_seeding);
+    } else {
+        throw std::invalid_argument("Unsupported output type. Supported types are 'scalar' and 'vector'.");
+    }
+
+    return setSeed;
+}
+
+
+std::string setSeedValue_old(const std::string& variable, const std::string& type_of_variable, const std::string& value_for_seeding)
 {
     // Define a set of allowed variable types
     const std::vector<std::string> allowed_types = {"int", "double", "float"};
