@@ -17,7 +17,7 @@ and then you can build.
 Run in the main directory
 ```sh
 cmake -S . -B build
-cmake --build build
+cmake --build build -j 4
 ```
 and the project should be ready.
 
