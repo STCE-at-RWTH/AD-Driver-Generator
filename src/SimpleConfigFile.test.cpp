@@ -3,8 +3,7 @@
 
 TEST (SimpleConfigFile, ValidateInput_active_in_call_signature)
 {
-    //SimpleConfigFile config_file;
-    auto config_file = new SimpleConfigFile("cpp",
+    auto config_file = std::make_unique<SimpleConfigFile>("cpp",
         "void f(double &x)",
         "x",
         "tangent",
@@ -14,11 +13,23 @@ TEST (SimpleConfigFile, ValidateInput_active_in_call_signature)
 
 TEST (SimpleConfigFile, ValidateInput_active_not_in_call_signature)
 {
-    //SimpleConfigFile config_file;
-    auto config_file = new SimpleConfigFile("cpp",
+    auto config_file = std::make_unique<SimpleConfigFile>("cpp",
         "void f(double &x)",
-        "abc",
+        "active_not_in_call_signature",
         "tangent",
         "something");
-    EXPECT_TRUE(config_file->validateInput());
+    EXPECT_FALSE(config_file->validateInput());
+}
+
+TEST(SimpleConfigFile, Return_Call_Signature){
+    auto config_file = std::make_unique<SimpleConfigFile>("cpp",
+        "void f(double &x)",
+        "x",
+        "tangent",
+        "something");
+    EXPECT_EQ("cpp", config_file->getLanguage());
+    EXPECT_EQ("x", config_file->getCallSignature().getActive());
+    EXPECT_EQ("something", config_file->getCallSignature().getDriverType());
+    EXPECT_EQ("tangent", config_file->getCallSignature().getMode());
+    EXPECT_EQ("void f(double &x)", config_file->getCallSignature().getCallSignature());
 }

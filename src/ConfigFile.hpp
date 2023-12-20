@@ -1,29 +1,22 @@
-#include <string>
-
-#include "absl/strings/match.h"
-
 #ifndef CONFIG_FILE_HPP
 #define CONFIG_FILE_HPP
 
-struct CallSignature {
-protected:
+#include <string>
+
+struct CallSignature{
     std::string _call_signature{};
     std::string _active{};
     std::string _mode{};
     std::string _driver_type{};
 
-public:
-    CallSignature(
-        std::string& call_signature,
-        std::string& active,
-        std::string& mode,
-        std::string& driver_type)
-    {
-        _call_signature = call_signature;
-        _active = active;
-        _mode = mode;
-        _driver_type = driver_type;
-    }
+    CallSignature( std::string_view call_signature,
+        std::string_view active,
+        std::string_view mode,
+        std::string_view driver_type)
+        : _call_signature(call_signature),
+          _active(active),
+          _mode(mode),
+          _driver_type(driver_type) {}
 
     std::string getCallSignature() const { return _call_signature; }
     std::string getActive() const { return _active; }
@@ -32,7 +25,6 @@ public:
 };
 
 class ConfigFile {
-protected:
     std::string _language{};
     std::vector<CallSignature> _functions{};
 
@@ -41,7 +33,7 @@ public:
 
     virtual bool validateInput() { return false; }
     virtual std::string getLanguage() const { return _language; }
-    virtual std::vector<CallSignature> getFunctions() const { return _functions; }
+    virtual std::vector<CallSignature> getCallSignatureVector() const { return _functions; }
 };
 
 #endif //CONFIG_FILE_HPP

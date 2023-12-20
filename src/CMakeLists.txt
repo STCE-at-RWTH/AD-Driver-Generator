@@ -22,13 +22,13 @@ target_link_libraries(utilities.test
         GTest::gtest_main
 )
 
-add_executable(ConfigFile.test
+add_executable(SimpleConfigFile.test
         SimpleConfigFile.test.cpp)
 
-target_link_libraries(ConfigFile.test
+target_link_libraries(SimpleConfigFile.test
         libutilities
         GTest::gtest_main
 )
 
 include(GoogleTest)
-gtest_discover_tests(utilities.test)
+gtest_discover_tests(utilities.test SimpleConfigFile.test)
