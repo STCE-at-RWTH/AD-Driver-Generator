@@ -28,10 +28,11 @@ TEST(SimpleConfigFile, Return_Call_Signature){
         "tangent",
         "something");
     EXPECT_EQ("cpp", config_file->getLanguage());
-    EXPECT_EQ("x", config_file->getCallSignature().getActive());
-    EXPECT_EQ("something", config_file->getCallSignature().getDriverType());
-    EXPECT_EQ("tangent", config_file->getCallSignature().getMode());
-    EXPECT_EQ("void f(double &x)", config_file->getCallSignature().getCallSignature());
+    std::cout << config_file->getFirstFunction().active << std::endl;
+    EXPECT_EQ("x", config_file->getFirstFunction().active);
+    EXPECT_EQ("something", config_file->getFirstFunction().driver_type);
+    EXPECT_EQ("tangent", config_file->getFirstFunction().mode);
+    EXPECT_EQ("void f(double &x)", config_file->getFirstFunction().call_signature);
 }
 
 TEST(SimpleConfigFile, Creation_of_yaml_reader){
@@ -49,10 +50,10 @@ TEST(SimpleConfigFile, Creation_of_yaml_reader){
     config_file->readYamlFile(yamlContent);
 
     EXPECT_EQ("cpp", config_file->getLanguage());
-    EXPECT_EQ("x", config_file->getCallSignature().getActive());
-    EXPECT_EQ("void f(double &x)", config_file->getCallSignature().getCallSignature());
-    EXPECT_EQ("something", config_file->getCallSignature().getDriverType());
-    EXPECT_EQ("tangent", config_file->getCallSignature().getMode());
+    EXPECT_EQ("x", config_file->getFirstFunction().active);
+    EXPECT_EQ("something", config_file->getFirstFunction().driver_type);
+    EXPECT_EQ("tangent", config_file->getFirstFunction().mode);
+    EXPECT_EQ("void f(double &x)", config_file->getFirstFunction().call_signature);
 
 }
 

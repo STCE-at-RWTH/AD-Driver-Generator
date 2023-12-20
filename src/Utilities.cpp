@@ -168,7 +168,7 @@ std::string setSeedValue_old(const std::string& variable, const std::string& typ
  * @param callSignature the function call signature
  * @param variableName the name of the variable
  *
- * @return the type of the variable
+ * @return the type of the variable as string
  */
 std::string getTypeOfVariable(const std::string &callSignature, const std::string &variableName)
 {
