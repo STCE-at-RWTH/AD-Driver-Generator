@@ -35,7 +35,6 @@ TEST(SetSeedValue, Tangent_Scalar_Type)
     std::string actual = setSeedValue(variable, mood, output_type, value_for_seeding, loop_level);
     EXPECT_EQ(actual, expected);
 }
-
 TEST(SetSeedValue, Adjoint_Vector_Level2_Type)
 {
     std::string variable = "x";
@@ -47,7 +46,6 @@ TEST(SetSeedValue, Adjoint_Vector_Level2_Type)
     std::string actual = setSeedValue(variable, mood, output_type, value_for_seeding, loop_level);
     EXPECT_EQ(actual, expected);
 }
-
 TEST(ResetSeedValue, Tangent_Scalar_Type)
 {
     std::string variable = "x";
@@ -58,7 +56,6 @@ TEST(ResetSeedValue, Tangent_Scalar_Type)
     std::string actual = resetSeedValue(variable, mood, output_type, loop_level);
     EXPECT_EQ(actual, expected);
 }
-
 TEST(ResetSeedValue, Adjoint_Vector_Level2_Type)
 {
     std::string variable = "x";
@@ -69,9 +66,6 @@ TEST(ResetSeedValue, Adjoint_Vector_Level2_Type)
     std::string actual = resetSeedValue(variable, mood, output_type, loop_level);
     EXPECT_EQ(actual, expected);
 }
-
-
-
 TEST(SetSeedValueOld, VariableFloatType)
 {
     std::string variable = "x";
@@ -90,7 +84,6 @@ TEST(SetSeedValueOld, VariableDoubleType)
     std::string actual = setSeedValue_old(variable, type_of_variable, value_for_seeding);
     EXPECT_EQ(actual, expected);
 }
-
 TEST(SetSeedValueOld, VariableIntType)
 {
     std::string variable = "b";
@@ -100,7 +93,6 @@ TEST(SetSeedValueOld, VariableIntType)
     std::string actual = setSeedValue_old(variable, type_of_variable, value_for_seeding);
     EXPECT_EQ(actual, expected);
 }
-
 TEST(SetSeedValueOld, VariableInvalidType)
 {
     // Test case for an invalid scenario where an inappropriate type is given
@@ -135,7 +127,6 @@ TEST(SetSeedValueOld, VariableDoubleTypeMultipleVariables)
     std::string actual = setSeedValue_old(variable, type_of_variable, value_for_seeding);
     EXPECT_EQ(actual, expected);
 }
-
 TEST(SetSeedValueOld, VariableDoubleTypeMultipleVariablesTrimmedWhitespace)
 {
     // Test case for multiple variables with leading/trailing whitespace
@@ -146,8 +137,6 @@ TEST(SetSeedValueOld, VariableDoubleTypeMultipleVariablesTrimmedWhitespace)
     std::string actual = setSeedValue_old(variable, type_of_variable, value_for_seeding);
     EXPECT_EQ(actual, expected);
 }
-
-
 TEST(GetTypeOfVariable, Input_With_Space_Delimiter)
 {
     // SETUP
@@ -161,7 +150,6 @@ TEST(GetTypeOfVariable, Input_With_Space_Delimiter)
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
 TEST(GetTypeOfVariable, Input_With_Two_Variables_Separated_By_Comma)
 {
     // SETUP
@@ -175,7 +163,6 @@ TEST(GetTypeOfVariable, Input_With_Two_Variables_Separated_By_Comma)
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
 TEST(GetTypeOfVariable, Bracket_Touches_The_Type)
 {
     // SETUP
@@ -189,7 +176,6 @@ TEST(GetTypeOfVariable, Bracket_Touches_The_Type)
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
 TEST(GetTypeOfVariable, Variable_Passed_By_Reference)
 {
     // SETUP
@@ -203,7 +189,6 @@ TEST(GetTypeOfVariable, Variable_Passed_By_Reference)
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
 TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Whitespaces_Separated)
 {
     // SETUP
@@ -217,7 +202,6 @@ TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Whitespaces_Separated)
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
 TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Touching_Type)
 {
     // SETUP
@@ -231,7 +215,6 @@ TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Touching_Type)
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
 TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Touching_Type_With_Brackets)
 {
     // SETUP
@@ -245,7 +228,6 @@ TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Touching_Type_With_Brackets
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
 TEST(CreateLoopSignature, Loop_with_level_1)
 {
     // SETUP
@@ -259,7 +241,6 @@ TEST(CreateLoopSignature, Loop_with_level_1)
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
 TEST(CreateLoopSignature, Loop_with_level_2)
 {
     // SETUP
@@ -273,7 +254,6 @@ TEST(CreateLoopSignature, Loop_with_level_2)
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
 TEST(GetAssociationByNameComputeSignature, OneVariableOneParameter){
     // SETUP
     std::string call_signature{"void f(double &x, const double p)"};
@@ -286,7 +266,6 @@ TEST(GetAssociationByNameComputeSignature, OneVariableOneParameter){
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
 TEST(GetAssociationByNameComputeSignature, TwoVariables){
     // SETUP
     std::string call_signature{"void f(double &x, double &y)"};
@@ -299,7 +278,6 @@ TEST(GetAssociationByNameComputeSignature, TwoVariables){
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
 TEST(GetAssociationByNameComputeSignature, TwoVariablesOneParameter){
     // SETUP
     std::string call_signature{"void f(double &x, double &y, const double p)"};
@@ -312,7 +290,6 @@ TEST(GetAssociationByNameComputeSignature, TwoVariablesOneParameter){
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
 TEST(GetAssociationByNameComputeSignature, VectorVariable){
     // SETUP
     std::string call_signature{"void f(std::vector<double> &x)"};
@@ -325,28 +302,26 @@ TEST(GetAssociationByNameComputeSignature, VectorVariable){
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
-TEST(CreateDriverCallSignature, GradientDriver){
+TEST(GetDriverCallSignature, GradientDriver){
     // SETUP
     std::string call_signature{"void f(double &x, double &y)"};
     std::string driver_type{"gradient"};
     std::string expected{"void f_gradient"};
     
     // ACT
-    auto actual = createDriverCallSignature(call_signature, driver_type);
+    auto actual = getFunctionDriverCallSignature(call_signature, driver_type);
     
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-
-TEST(CreateDriverCallSignature, JacobianDriver){
+TEST(GetDriverCallSignature, JacobianDriver){
     // SETUP
     std::string call_signature{"void fxfts(double &x, double &y)"};
     std::string driver_type{"jacobian"};
     std::string expected{"void fxfts_jacobian"};
     
     // ACT
-    auto actual = createDriverCallSignature(call_signature, driver_type);
+    auto actual = getFunctionDriverCallSignature(call_signature, driver_type);
     
     // ASSERT
     EXPECT_EQ(actual, expected);

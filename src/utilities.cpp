@@ -239,7 +239,7 @@ std::string getAssociationByNameSignatureCompute(const std::string &callSignatur
     return functionCall;
 }
 
-std::string createDriverCallSignature(const std::string &callSignature, const std::string &driver_type){
+std::string getFunctionDriverCallSignature(const std::string &callSignature, const std::string &driver_type){
     std::vector<std::string> splittedCallSignature = absl::StrSplit(callSignature, absl::ByAnyChar(" ,()"),  absl::SkipEmpty());
     std::vector<std::string> driverType = absl::StrSplit(driver_type, absl::ByAnyChar(" ,()"),  absl::SkipEmpty());
     std::string driverCallSignature = absl::StrCat(splittedCallSignature[0]," ", splittedCallSignature[1], "_", driverType[0]);  
