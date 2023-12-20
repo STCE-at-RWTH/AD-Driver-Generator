@@ -10,6 +10,7 @@ add_library(libutilities
 target_link_libraries(libutilities
         absl::strings
         absl::algorithm
+        yaml-cpp::yaml-cpp
 )
 
 add_executable(utilities.test

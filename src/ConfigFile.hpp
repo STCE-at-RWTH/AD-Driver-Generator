@@ -34,6 +34,7 @@ public:
     virtual bool validateInput() { return false; }
     virtual std::string getLanguage() const { return _language; }
     virtual std::vector<CallSignature> getCallSignatureVector() const { return _functions; }
+    virtual void readYamlFile(std::string const &file_path) {};
 };
 
 #endif //CONFIG_FILE_HPP

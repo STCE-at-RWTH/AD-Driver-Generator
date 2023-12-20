@@ -33,3 +33,27 @@ TEST(SimpleConfigFile, Return_Call_Signature){
     EXPECT_EQ("tangent", config_file->getCallSignature().getMode());
     EXPECT_EQ("void f(double &x)", config_file->getCallSignature().getCallSignature());
 }
+
+TEST(SimpleConfigFile, Creation_of_yaml_reader){
+    std::string yamlContent = R"(
+    language: cpp
+    functions:
+      call_signature: void f(double &x)
+      active_variable: x
+      mode: tangent
+      driver_type: something
+    )";
+
+    // Setup
+    auto config_file = std::make_unique<SimpleConfigFile>();
+    config_file->readYamlFile(yamlContent);
+
+    EXPECT_EQ("cpp", config_file->getLanguage());
+    EXPECT_EQ("x", config_file->getCallSignature().getActive());
+    EXPECT_EQ("void f(double &x)", config_file->getCallSignature().getCallSignature());
+    EXPECT_EQ("something", config_file->getCallSignature().getDriverType());
+    EXPECT_EQ("tangent", config_file->getCallSignature().getMode());
+
+}
+
+
