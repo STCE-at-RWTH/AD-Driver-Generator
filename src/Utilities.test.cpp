@@ -1,6 +1,6 @@
 #include "gtest/gtest.h"
 
-#include "utilities.hpp"
+#include "Utilities.hpp"
 
 TEST(InitializeSeedValue, DoubleTangentScalar)
 {
