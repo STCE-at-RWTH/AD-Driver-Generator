@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.16)
-SET(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-PROJECT(sisc-lab
+project(sisc-lab
         LANGUAGES CXX
 )
 
@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
 
-ADD_SUBDIRECTORY(src)
+add_subdirectory(src)
 
 FetchContent_Declare(
         googletest

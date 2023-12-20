@@ -1,4 +1,5 @@
 enable_testing()
+include(GoogleTest)
 
 add_library(libutilities
         utilities.cpp
@@ -21,6 +22,7 @@ target_link_libraries(utilities.test
         libutilities
         GTest::gtest_main
 )
+gtest_discover_tests(utilities.test)
 
 add_executable(SimpleConfigFile.test
         SimpleConfigFile.test.cpp)
@@ -29,7 +31,5 @@ target_link_libraries(SimpleConfigFile.test
         libutilities
         GTest::gtest_main
 )
+gtest_discover_tests(SimpleConfigFile.test)
 
-include(GoogleTest)
-gtest_discover_tests(utilities.test
-        SimpleConfigFile.test)
