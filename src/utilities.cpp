@@ -162,6 +162,14 @@ std::string setSeedValue_old(const std::string& variable, const std::string& typ
     return result;
 }
 
+/**
+ * Retrieves the type of a variable from the given function call signature.
+ *
+ * @param callSignature the function call signature
+ * @param variableName the name of the variable
+ *
+ * @return the type of the variable
+ */
 std::string getTypeOfVariable(const std::string &callSignature, const std::string &variableName)
 {
     std::vector<std::string> callSignatureSplitted = absl::StrSplit(callSignature, absl::ByAnyChar(" ,("),  absl::SkipEmpty());

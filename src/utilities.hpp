@@ -1,8 +1,8 @@
-#include <vector>
-#include <string>
-
 #ifndef SISC_LAB_UTILITIES_HPP
 #define SISC_LAB_UTILITIES_HPP
+
+#include <vector>
+#include <string>
 
 std::string initializeSeedValue(const std::string& variable,
                                 const std::string& type_of_variable,
