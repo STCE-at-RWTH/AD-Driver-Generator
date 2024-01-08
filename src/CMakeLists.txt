@@ -6,6 +6,8 @@ add_library(libutilities
         Utilities.hpp
         ConfigFile.hpp
         SimpleConfigFile.hpp
+        OutputParser.hpp
+        CppOutputParser.hpp
 )
 
 target_link_libraries(libutilities
@@ -32,4 +34,13 @@ target_link_libraries(SimpleConfigFile.test
         GTest::gtest_main
 )
 gtest_discover_tests(SimpleConfigFile.test)
+
+add_executable(CppOutputParser.test
+        CppOutputParser.test.cpp)
+
+target_link_libraries(CppOutputParser.test
+        libutilities
+        GTest::gtest_main
+)
+gtest_discover_tests(CppOutputParser.test)
 
