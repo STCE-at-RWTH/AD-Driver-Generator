@@ -8,12 +8,13 @@
 TEST(CppOutputParser, Assert_When_Size_Of_Input_Not_Equal) {
     // Setup
     std::vector<std::string> inputString{"void f_gradient(double &x, double &dx)",
-                                         "x_t = 0"}; std::vector<int> inputInteger{0};
+                                         "x_t = 0"};
+    std::vector<int> inputInteger{0};
     auto input = std::make_pair(inputString, inputInteger);
     auto cpp_output_parser = std::make_unique<CppOutputParser>();
 
     // Act
-    EXPECT_DEATH(cpp_output_parser->parse(input), "");
+    EXPECT_ANY_THROW(cpp_output_parser->parse(input));
 }
 
 TEST(CppOutputParser, Simple_Parse_Expectinv_Opening_Closing_Brackets_And_Semicolon) {
