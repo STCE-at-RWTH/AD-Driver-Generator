@@ -6,8 +6,7 @@
 
 std::string initializeSeedValue(const std::string& variable,
                                 const std::string& type_of_variable,
-                                const std::string& mode,
-                                const std::string& output_type);
+                                const std::string& mode);
 std::string setSeedValue(const std::string& variable,
                          const std::string& mood,
                          const std::string& output_type,

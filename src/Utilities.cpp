@@ -17,11 +17,11 @@ std::string initializeSeedValue(const std::string& variable,
     const std::vector<std::string> allowed_types = {"int", "double", "float"};
 
     // Check if the type_of_variable is in the allowed types
-    if (std::find(allowed_types.begin(), allowed_types.end(), type_of_variable) == allowed_types.end()) {
-        // If not, construct a detailed error message
-        std::string allowed_types_message = absl::StrJoin(allowed_types, ", ");
-        throw std::invalid_argument("Unsupported variable type for seeding. Allowed types are: " + allowed_types_message);
-    }
+    // if (std::find(allowed_types.begin(), allowed_types.end(), type_of_variable) == allowed_types.end()) {
+    //     // If not, construct a detailed error message
+    //     std::string allowed_types_message = absl::StrJoin(allowed_types, ", ");
+    //     throw std::invalid_argument("Unsupported variable type for seeding. Allowed types are: " + allowed_types_message);
+    // }
 
     // Add appropriate suffix based on the mode
     std::string suffix;

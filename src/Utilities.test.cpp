@@ -7,21 +7,19 @@ TEST(InitializeSeedValue, DoubleTangentScalar)
     std::string variable = "x";
     std::string type_of_variable = "double";
     std::string mode = "tangent";
-    std::string output_type = "scalar";
-
+    
     std::string expected = "double x_t(0.0)";
-    std::string actual = initializeSeedValue(variable, type_of_variable, mode, output_type);
+    std::string actual = initializeSeedValue(variable, type_of_variable, mode);
     EXPECT_EQ(actual, expected);
 }
 TEST(InitializeSeedValue, FloatAdjointVector)
 {
     std::string variable = "x";
-    std::string type_of_variable = "float";
+    std::string type_of_variable = "std::vector<float>";
     std::string mode = "adjoint";
-    std::string output_type = "vector";
-
+    
     std::string expected = "std::vector<float> x_a(x.size(),0.0)";
-    std::string actual = initializeSeedValue(variable, type_of_variable, mode, output_type);
+    std::string actual = initializeSeedValue(variable, type_of_variable, mode);
     EXPECT_EQ(actual, expected);
 }
 TEST(SetSeedValue, Tangent_Scalar_Type)
