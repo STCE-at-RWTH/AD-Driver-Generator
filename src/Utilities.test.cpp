@@ -18,42 +18,43 @@ TEST(InitializeSeedValue, FloatAdjointVector)
     std::string type_of_variable = "std::vector<float>";
     std::string mode = "adjoint";
     
-    std::string expected = "std::vector<float> x_a(x.size(),0.0)";
+    std::string expected = "std::vector<float> x_a(x.size(), 0.0)";
     std::string actual = initializeSeedValue(variable, type_of_variable, mode);
     EXPECT_EQ(actual, expected);
 }
 TEST(SetSeedValue, Tangent_Scalar_Type)
 {
     std::string variable = "x";
+    std::string type_of_variable = "double";
     std::string mood = "tangent";
-    std::string output_type = "scalar";
     std::string value_for_seeding = "1.0";
     std::string loop_level = "2";
+
     std::string expected = "x_t = 1.0";
-    std::string actual = setSeedValue(variable, mood, output_type, value_for_seeding, loop_level);
+    std::string actual = setSeedValue(variable, type_of_variable, mood, value_for_seeding, loop_level);
     EXPECT_EQ(actual, expected);
 }
 
 TEST(SetSeedValue, Adjoint_Vector_Level2_Type)
 {
     std::string variable = "x";
+    std::string type_of_variable = "std::vector<double>";
     std::string mood = "adjoint";
-    std::string output_type = "vector";
     std::string value_for_seeding = "1.0";
     std::string loop_level = "2";
     std::string expected = "x_a[ii] = 1.0";
-    std::string actual = setSeedValue(variable, mood, output_type, value_for_seeding, loop_level);
+    std::string actual = setSeedValue(variable, type_of_variable, mood, value_for_seeding, loop_level);
     EXPECT_EQ(actual, expected);
 }
 
 TEST(ResetSeedValue, Tangent_Scalar_Type)
 {
     std::string variable = "x";
+    std::string type_of_variable = "double";
     std::string mood = "tangent";
-    std::string output_type = "scalar";
     std::string loop_level = "2";
     std::string expected = "x_t = 0.0";
-    std::string actual = resetSeedValue(variable, mood, output_type, loop_level);
+    std::string actual = resetSeedValue(variable, type_of_variable, mood, loop_level);
     EXPECT_EQ(actual, expected);
 }
 
@@ -61,10 +62,10 @@ TEST(ResetSeedValue, Adjoint_Vector_Level2_Type)
 {
     std::string variable = "x";
     std::string mood = "adjoint";
-    std::string output_type = "vector";
+    std::string type_of_variable = "std::vector<double>";
     std::string loop_level = "2";
     std::string expected = "x_a[ii] = 0.0";
-    std::string actual = resetSeedValue(variable, mood, output_type, loop_level);
+    std::string actual = resetSeedValue(variable, type_of_variable, mood, loop_level);
     EXPECT_EQ(actual, expected);
 }
 

@@ -12,16 +12,6 @@ std::string initializeSeedValue(const std::string& variable,
                                 const std::string& type_of_variable,
                                 const std::string& mode)
 {
-    // const std::string& output_type
-    // Define a set of allowed variable types
-    const std::vector<std::string> allowed_types = {"int", "double", "float"};
-
-    // Check if the type_of_variable is in the allowed types
-    // if (std::find(allowed_types.begin(), allowed_types.end(), type_of_variable) == allowed_types.end()) {
-    //     // If not, construct a detailed error message
-    //     std::string allowed_types_message = absl::StrJoin(allowed_types, ", ");
-    //     throw std::invalid_argument("Unsupported variable type for seeding. Allowed types are: " + allowed_types_message);
-    // }
 
     // Add appropriate suffix based on the mode
     std::string suffix;
@@ -33,36 +23,39 @@ std::string initializeSeedValue(const std::string& variable,
         throw std::invalid_argument("Unsupported mode. Supported modes are 'tangent' and 'adjoint'.");
     }
 
-    // Add appropriate value 0 or 0.0
+    // Check if type_of_variable contains "int" --> Add appropriate value 0 or 0.0
     std::string value;
-    if (variable == "int") {
+    if (type_of_variable.find("int") != std::string::npos) {
         value = "0";
     } else {
         value = "0.0";
     }
 
-    // Construct the seed value assignment string
-    // std::string initSeed;
-    // if (output_type == "vector") {
-    //     initSeed = absl::StrCat("std::vector<", type_of_variable, "> ", variable, suffix, "(", variable, ".size(),",value, ")");
-    // } else if (output_type == "scalar") {
-    //     initSeed = absl::StrCat(type_of_variable, " ", variable, suffix, "(", value, ")");
-    // } else {
-    //     throw std::invalid_argument("Unsupported output type. Supported types are 'vector' and 'scalar'.");
-    // }
     std::string initSeed;
-    initSeed = absl::StrCat(type_of_variable, " ", variable, suffix, "(", value, ")");
+
+    // Check if type_of_variable contains "std::vector<"
+    if (type_of_variable.find("std::vector<") != std::string::npos) {
+        initSeed = absl::StrCat(type_of_variable, " ", variable, suffix, "(", variable, ".size(), ", value, ")");
+    } else {
+        initSeed = absl::StrCat(type_of_variable, " ", variable, suffix, "(", value, ")");
+    }
 
     return initSeed;
 }
 
 // Function to set the seed value for a variable
 std::string setSeedValue(const std::string& variable,
+                         const std::string& type_of_variable,
                          const std::string& mood,
-                         const std::string& output_type,
                          const std::string& value_for_seeding,
                          const std::string& loop_level)
 {
+    std::string variable_type;
+    if (type_of_variable.find("std::vector<") != std::string::npos) {
+        variable_type= "vector";
+    } else {
+        variable_type= "scalar";
+    }
     // Add appropriate suffix based on the mood
     std::string suffix;
     if (mood == "tangent") {
@@ -75,9 +68,10 @@ std::string setSeedValue(const std::string& variable,
 
     // Construct the seed value assignment string
     std::string setSeed;
-    if (output_type == "scalar") {
+    if (variable_type == "scalar") {
         setSeed = absl::StrCat(variable, suffix, " = ", value_for_seeding);
-    } else if (output_type == "vector") {
+    } 
+    else if (variable_type == "vector") {
         int num_loops = std::stoi(loop_level);
         if (num_loops < 0) {
             throw std::invalid_argument("Loop level must be a non-negative integer.");
@@ -85,7 +79,8 @@ std::string setSeedValue(const std::string& variable,
 
         std::string loop_index = std::string(num_loops, 'i');
         setSeed = absl::StrCat(variable, suffix,"[" , loop_index, "]", " = ", value_for_seeding);
-    } else {
+    } 
+    else {
         throw std::invalid_argument("Unsupported output type. Supported types are 'scalar' and 'vector'.");
     }
 
@@ -94,11 +89,17 @@ std::string setSeedValue(const std::string& variable,
 
 // Function to set the seed value for a variable
 std::string resetSeedValue(const std::string& variable,
-                         const std::string& mood,
-                         const std::string& output_type,
+                         const std::string& type_of_variable,
+                         const std::string& mood,                        
                          const std::string& loop_level)
 {
     // Add appropriate suffix based on the mood
+    std::string variable_type;
+    if (type_of_variable.find("std::vector<") != std::string::npos) {
+        variable_type= "vector";
+    } else {
+        variable_type= "scalar";
+    }
     std::string reset_Value = "0.0";
     std::string suffix;
     if (mood == "tangent") {
@@ -111,9 +112,11 @@ std::string resetSeedValue(const std::string& variable,
 
     // Construct the seed value assignment string
     std::string resetSeed;
-    if (output_type == "scalar") {
+    if (variable_type == "scalar") {
         resetSeed = absl::StrCat(variable, suffix, " = ", reset_Value);
-    } else if (output_type == "vector") {
+    } 
+    else if (variable_type == "vector") 
+    {
         int num_loops = std::stoi(loop_level);
         if (num_loops < 0) {
             throw std::invalid_argument("Loop level must be a non-negative integer.");
@@ -121,7 +124,9 @@ std::string resetSeedValue(const std::string& variable,
 
         std::string loop_index = std::string(num_loops, 'i');
         resetSeed = absl::StrCat(variable, suffix,"[" , loop_index, "]", " = ", reset_Value);
-    } else {
+    } 
+    else 
+    {
         throw std::invalid_argument("Unsupported output type. Supported types are 'scalar' and 'vector'.");
     }
 
