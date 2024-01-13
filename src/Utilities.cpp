@@ -10,9 +10,9 @@
 
 std::string initializeSeedValue(const std::string& variable,
                                 const std::string& type_of_variable,
-                                const std::string& mode,
-                                const std::string& output_type)
+                                const std::string& mode)
 {
+    // const std::string& output_type
     // Define a set of allowed variable types
     const std::vector<std::string> allowed_types = {"int", "double", "float"};
 
@@ -42,14 +42,16 @@ std::string initializeSeedValue(const std::string& variable,
     }
 
     // Construct the seed value assignment string
+    // std::string initSeed;
+    // if (output_type == "vector") {
+    //     initSeed = absl::StrCat("std::vector<", type_of_variable, "> ", variable, suffix, "(", variable, ".size(),",value, ")");
+    // } else if (output_type == "scalar") {
+    //     initSeed = absl::StrCat(type_of_variable, " ", variable, suffix, "(", value, ")");
+    // } else {
+    //     throw std::invalid_argument("Unsupported output type. Supported types are 'vector' and 'scalar'.");
+    // }
     std::string initSeed;
-    if (output_type == "vector") {
-        initSeed = absl::StrCat("std::vector<", type_of_variable, "> ", variable, suffix, "(", variable, ".size(),",value, ")");
-    } else if (output_type == "scalar") {
-        initSeed = absl::StrCat(type_of_variable, " ", variable, suffix, "(", value, ")");
-    } else {
-        throw std::invalid_argument("Unsupported output type. Supported types are 'vector' and 'scalar'.");
-    }
+    initSeed = absl::StrCat(type_of_variable, " ", variable, suffix, "(", value, ")");
 
     return initSeed;
 }
