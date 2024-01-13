@@ -17,7 +17,7 @@ void CppOutputParser::parse(std::pair<std::vector<std::string>, std::vector<int>
 
     // loop over all input first but compare to the integer which is in input second
     for (size_t i = 0; i < input.first.size(); ++i) {
-        // indentation based on the indentaion level integer counter
+        // indentation based on the indentation level integer counter
         auto indentation = std::string(input.second[i],'\t');
 
         // adding brackets if the levels do change

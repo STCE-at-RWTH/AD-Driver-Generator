@@ -292,7 +292,7 @@ TEST(GetAssociationByNameComputeSignature, TwoVariablesOneParameter){
 }
 TEST(GetAssociationByNameComputeSignature, VectorVariable){
     // SETUP
-    std::string call_signature{"void f(std::vector<double> &x)"};
+    std::string call_signature{"void f(const std::vector<double> &x)"};
     std::string active_variables{"x"};
     std::string expected{"f_t(x, x_t)"};
     
@@ -302,7 +302,19 @@ TEST(GetAssociationByNameComputeSignature, VectorVariable){
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-TEST(GetDriverCallSignature, GradientDriver){
+TEST(GetAssociationByNameComputeSignature, GradientEulerMaruyama){
+    // SETUP
+    std::string call_signature{"void euler_maruyama(const size_t np, const size_t ns, const PT &x0, const vec_t<AT> &p,const mat_t<PT> &dW, AT &return)"};
+    std::string active_variables{"p"};
+    std::string expected{"euler_maruyama_t(np, ns, x0, p, p_t, dW, return)"};
+    
+    // ACT
+    auto actual = getAssociationByNameSignatureCompute(call_signature, active_variables);
+    
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+TEST(GetFunctionDriverCallSignature, GradientDriver){
     // SETUP
     std::string call_signature{"void f(double &x, double &y)"};
     std::string driver_type{"gradient"};
@@ -314,7 +326,7 @@ TEST(GetDriverCallSignature, GradientDriver){
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
-TEST(GetDriverCallSignature, JacobianDriver){
+TEST(GetFunctionDriverCallSignature, JacobianDriver){
     // SETUP
     std::string call_signature{"void fxfts(double &x, double &y)"};
     std::string driver_type{"jacobian"};
@@ -326,3 +338,17 @@ TEST(GetDriverCallSignature, JacobianDriver){
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
+TEST(GetDriverFunction, GradientDriverSingleActiveVariable){
+    // SETUP
+    std::string call_signature{"void newton(double &x, double &y)"};
+    std::string driver_type{"gradient"};
+    std::string variableName{"x"};
+    std::string expected{"double newton_gradient(double &x, double &y)"};
+
+    // ACT
+    auto actual = getDriverFunction(call_signature, driver_type, variableName);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+

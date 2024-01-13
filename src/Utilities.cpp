@@ -92,9 +92,9 @@ std::string setSeedValue(const std::string& variable,
 
 // Function to set the seed value for a variable
 std::string resetSeedValue(const std::string& variable,
-                         const std::string& mood,
-                         const std::string& output_type,
-                         const std::string& loop_level)
+                           const std::string& mood,
+                           const std::string& output_type,
+                           const std::string& loop_level)
 {
     // Add appropriate suffix based on the mood
     std::string reset_Value = "0.0";
@@ -126,8 +126,9 @@ std::string resetSeedValue(const std::string& variable,
     return resetSeed;
 }
 
-
-std::string setSeedValue_old(const std::string& variable, const std::string& type_of_variable, const std::string& value_for_seeding)
+std::string setSeedValue_old(const std::string& variable, 
+                             const std::string& type_of_variable, 
+                             const std::string& value_for_seeding)
 {
     // Define a set of allowed variable types
     const std::vector<std::string> allowed_types = {"int", "double", "float"};
@@ -162,15 +163,8 @@ std::string setSeedValue_old(const std::string& variable, const std::string& typ
     return result;
 }
 
-/**
- * Retrieves the type of a variable from the given function call signature.
- *
- * @param callSignature the function call signature
- * @param variableName the name of the variable
- *
- * @return the type of the variable as string
- */
-std::string getTypeOfVariable(const std::string &callSignature, const std::string &variableName)
+std::string getTypeOfVariable(const std::string &callSignature, 
+                              const std::string &variableName)
 {
     std::vector<std::string> callSignatureSplitted = absl::StrSplit(callSignature, absl::ByAnyChar(" ,("),  absl::SkipEmpty());
 
@@ -197,7 +191,9 @@ std::string getTypeOfVariable(const std::string &callSignature, const std::strin
     return "";
 }
 
-std::string createLoopSignature(const std::string &activeVariable, int level) {
+std::string createLoopSignature(const std::string &activeVariable, 
+                                int level)
+                                {
     // create based on the level a multiplication of i
     char loopVariableChar = 'i';
     std::string loopVariable;
@@ -206,7 +202,9 @@ std::string createLoopSignature(const std::string &activeVariable, int level) {
     return loopSignature;
 }
 
-std::string getAssociationByNameSignatureCompute(const std::string &callSignature, const std::string &activeVariable){
+std::string getAssociationByNameSignatureCompute(const std::string &callSignature, 
+                                                 const std::string &activeVariable)
+                                                 {
     
     // creates the function call with the _t at the end
     std::vector<std::string> splittedCallSignature = absl::StrSplit(callSignature, absl::ByAnyChar(" ,()"),  absl::SkipEmpty());
@@ -239,9 +237,24 @@ std::string getAssociationByNameSignatureCompute(const std::string &callSignatur
     return functionCall;
 }
 
-std::string getFunctionDriverCallSignature(const std::string &callSignature, const std::string &driver_type){
+std::string getFunctionDriverCallSignature(const std::string &callSignature, 
+                                           const std::string &driver_type)
+                                           {
     std::vector<std::string> splittedCallSignature = absl::StrSplit(callSignature, absl::ByAnyChar(" ,()"),  absl::SkipEmpty());
     std::vector<std::string> driverType = absl::StrSplit(driver_type, absl::ByAnyChar(" ,()"),  absl::SkipEmpty());
     std::string driverCallSignature = absl::StrCat(splittedCallSignature[0]," ", splittedCallSignature[1], "_", driverType[0]);  
     return driverCallSignature;
 }
+
+std::string getDriverFunction(const std::string &callSignature, 
+                              const std::string &driver_type,
+                              const std::string &variableName)
+                              {
+    std::string driverFunctionType = getTypeOfVariable(callSignature, variableName);
+    std::string driverFunctionCallSignature = getFunctionDriverCallSignature(callSignature, driver_type);
+    std::vector<std::string> SplittedCallSignature = absl::StrSplit(callSignature, absl::MaxSplits('(', 1));
+    std::string driverFunctionVariables = "(" + SplittedCallSignature[1];
+    std::string driverFunction = absl::StrCat(driverFunctionType, " ", driverFunctionCallSignature, driverFunctionVariables);
+    return driverFunction;
+}
+
