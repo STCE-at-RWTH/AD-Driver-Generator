@@ -2,8 +2,8 @@ enable_testing()
 include(GoogleTest)
 
 add_library(libutilities
-        Utilities.cpp
         Utilities.hpp
+        CppUtilities.hpp
         ConfigFile.hpp
         SimpleConfigFile.hpp
         OutputParser.hpp
@@ -16,16 +16,6 @@ target_link_libraries(libutilities
         yaml-cpp::yaml-cpp
 )
 
-add_executable(Utilities.test
-        Utilities.test.cpp
-)
-
-target_link_libraries(Utilities.test
-        libutilities
-        GTest::gtest_main
-)
-gtest_discover_tests(Utilities.test)
-
 add_executable(SimpleConfigFile.test
         SimpleConfigFile.test.cpp)
 
@@ -36,11 +26,22 @@ target_link_libraries(SimpleConfigFile.test
 gtest_discover_tests(SimpleConfigFile.test)
 
 add_executable(CppOutputParser.test
-        CppOutputParser.test.cpp)
+        CppOutputParser.test.cpp
+)
 
 target_link_libraries(CppOutputParser.test
         libutilities
         GTest::gtest_main
 )
 gtest_discover_tests(CppOutputParser.test)
+
+add_executable(CppUtilities.test
+        CppUtilities.test.cpp
+)
+
+target_link_libraries(CppUtilities.test
+        libutilities
+        GTest::gtest_main
+)
+gtest_discover_tests(CppUtilities.test)
 
