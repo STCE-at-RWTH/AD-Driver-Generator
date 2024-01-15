@@ -127,7 +127,8 @@ TEST(GetTypeOfVariable, Bracket_Touching_Variable)
     EXPECT_EQ(actual, expected);
 }
 
-TEST(GetAssociationByNameSignature, OneVariableOneParameter){
+TEST(GetAssociationByNameSignature, OneVariableOneParameter)
+{
     // SETUP
     auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, const double p)", "x", "NOT_IMPORTANT", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
@@ -140,7 +141,8 @@ TEST(GetAssociationByNameSignature, OneVariableOneParameter){
     EXPECT_EQ(actual, expected);
 }
 
-TEST(GetAssociationByNameSignature, TwoVariables){
+TEST(GetAssociationByNameSignature, TwoVariables)
+{
     // SETUP
     auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x,y", "NOT_IMPORTANT", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
@@ -153,7 +155,8 @@ TEST(GetAssociationByNameSignature, TwoVariables){
     EXPECT_EQ(actual, expected);
 }
 
-TEST(GetAssociationByNameSignature, TwoVariablesOneParameter){
+TEST(GetAssociationByNameSignature, TwoVariablesOneParameter)
+{
     // SETUP
     auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, double &y, const double p)", "x, y", "NOT_IMPORTANT", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
@@ -166,7 +169,8 @@ TEST(GetAssociationByNameSignature, TwoVariablesOneParameter){
     EXPECT_EQ(actual, expected);
 }
 
-TEST(GetAssociationByNameSignature, VectorVariable){
+TEST(GetAssociationByNameSignature, VectorVariable)
+{
     // SETUP
     auto mockCallSignature = std::make_unique<CallSignature>("void f(std::vector<double> &x)", "x", "NOT_IMPORTANT", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
@@ -178,6 +182,7 @@ TEST(GetAssociationByNameSignature, VectorVariable){
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
+
 TEST(CreateLoopSignature, Loop_with_level_1)
 {
     // SETUP

@@ -17,7 +17,7 @@ TEST(CppOutputParser, Assert_When_Size_Of_Input_Not_Equal) {
     EXPECT_ANY_THROW(cpp_output_parser->parse(input));
 }
 
-TEST(CppOutputParser, Simple_Parse_Expectinv_Opening_Closing_Brackets_And_Semicolon) {
+TEST(CppOutputParser, Simple_Parse_Expecting_Opening_Closing_Brackets_And_Semicolon) {
     // Setup
     std::vector<std::string> inputString {"void f_gradient(double &x, double &dx)",
                                           "x_t = 0"};

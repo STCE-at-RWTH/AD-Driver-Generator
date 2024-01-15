@@ -23,9 +23,7 @@ public:
     std::string setSeedValue(const std::string &variable, const std::string &value_for_seeding,
                              const std::string &loop_level) final;
     std::string initializeSeedValue(const std::string &variable) final;
-
     std::string resetSeedValue(const std::string &variable, const std::string &loop_level) final;
-
     std::string createDriverCallSignature() final;
 };
 
@@ -59,7 +57,6 @@ std::string CppUtilities::getTypeOfVariable(const std::string &activeVariable)
     // remove empty string if it fails
     return "";
 }
-
 std::string CppUtilities::getAssociationByNameSignature() {
 
     // creates the function call with the _t at the end
@@ -92,7 +89,8 @@ std::string CppUtilities::getAssociationByNameSignature() {
 
     return functionCall;
 }
-std::string CppUtilities::createLoopSignature(const std::string &activeVariable, int level) {
+std::string CppUtilities::createLoopSignature(const std::string &activeVariable, 
+                                              int level) {
     // create based on the level a multiplication of i
     char loopVariableChar = 'i';
     std::string loopVariable;
@@ -100,8 +98,6 @@ std::string CppUtilities::createLoopSignature(const std::string &activeVariable,
     std::string loopSignature = "for (size_t " + loopVariable + " = 0; " + loopVariable + " < " + activeVariable + ".size(); ++" + loopVariable + ")";
     return loopSignature;
 }
-
-
 std::string CppUtilities::setSeedValue(const std::string &variable,
                                        const std::string &value_for_seeding,
                                        const std::string &loop_level)
@@ -143,7 +139,6 @@ std::string CppUtilities::setSeedValue(const std::string &variable,
 
     return setSeed;
 }
-
 std::string CppUtilities::initializeSeedValue(const std::string& variable)
 {
     auto type_of_variable = getTypeOfVariable(variable);
@@ -177,7 +172,6 @@ std::string CppUtilities::initializeSeedValue(const std::string& variable)
 
     return initSeed;
 }
-
 std::string CppUtilities::resetSeedValue(const std::string& variable,
                            const std::string& loop_level)
 {
@@ -222,7 +216,6 @@ std::string CppUtilities::resetSeedValue(const std::string& variable,
 
     return resetSeed;
 }
-
 std::string CppUtilities::createDriverCallSignature(){
     std::vector<std::string> splittedCallSignature
             = absl::StrSplit(_callSignature.call_signature, absl::ByAnyChar(" ,()"),  absl::SkipEmpty());
