@@ -130,7 +130,7 @@ TEST(GetTypeOfVariable, Bracket_Touching_Variable)
 TEST(GetAssociationByNameSignature, OneVariableOneParameter)
 {
     // SETUP
-    auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, const double p)", "x", "NOT_IMPORTANT", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, const double p)", "x", "tangent", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
     std::string expected{"f_t(x, x_t, p)"};
 
@@ -144,9 +144,37 @@ TEST(GetAssociationByNameSignature, OneVariableOneParameter)
 TEST(GetAssociationByNameSignature, TwoVariables)
 {
     // SETUP
-    auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x,y", "NOT_IMPORTANT", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x,y", "tangent", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
     std::string expected{"f_t(x, x_t, y, y_t)"};
+
+    // ACT
+    auto actual = cppUtilities->getAssociationByNameSignature();
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(GetAssociationByNameSignature, NewtonGradientTangent)
+{
+    // SETUP
+    auto mockCallSignature = std::make_unique<CallSignature>("void newton(T &x, const PT &p, const PT &w)", "x, p, w", "tangent", "NOT_IMPORTANT");
+    auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
+    std::string expected{"newton_t(x, x_t, p, p_t, w, w_t)"};
+
+    // ACT
+    auto actual = cppUtilities->getAssociationByNameSignature();
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(GetAssociationByNameSignature, NewtonGradientAdjoint)
+{
+    // SETUP
+    auto mockCallSignature = std::make_unique<CallSignature>("void newton(T &x, const PT &p, const PT &w)", "x, p, w", "adjoint", "NOT_IMPORTANT");
+    auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
+    std::string expected{"newton_a(x, x_a, p, p_a, w, w_a)"};
 
     // ACT
     auto actual = cppUtilities->getAssociationByNameSignature();
@@ -158,7 +186,7 @@ TEST(GetAssociationByNameSignature, TwoVariables)
 TEST(GetAssociationByNameSignature, TwoVariablesOneParameter)
 {
     // SETUP
-    auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, double &y, const double p)", "x, y", "NOT_IMPORTANT", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, double &y, const double p)", "x, y", "tangent", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
     std::string expected{"f_t(x, x_t, y, y_t, p)"};
 
@@ -172,7 +200,7 @@ TEST(GetAssociationByNameSignature, TwoVariablesOneParameter)
 TEST(GetAssociationByNameSignature, VectorVariable)
 {
     // SETUP
-    auto mockCallSignature = std::make_unique<CallSignature>("void f(std::vector<double> &x)", "x", "NOT_IMPORTANT", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("void f(std::vector<double> &x)", "x", "tangent", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
     std::string expected{"f_t(x, x_t)"};
 

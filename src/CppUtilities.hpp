@@ -58,10 +58,17 @@ std::string CppUtilities::getTypeOfVariable(const std::string &activeVariable)
     return "";
 }
 std::string CppUtilities::getAssociationByNameSignature() {
-
+std::string subscript;
+    if (_callSignature.mode == "tangent") {
+        subscript = "t";
+    } else if (_callSignature.mode == "adjoint") {
+        subscript = "a";
+    } else {
+        throw std::invalid_argument("Unsupported mode: '" + _callSignature.mode + "' . Supported moods are 'tangent' and 'adjoint'.");
+    }
     // creates the function call with the _t at the end
     std::vector<std::string> splittedCallSignature = absl::StrSplit(_callSignature.call_signature, absl::ByAnyChar(" ,()"),  absl::SkipEmpty());
-    std::string functionCall = absl::StrCat(splittedCallSignature[1], "_t(");
+    std::string functionCall = absl::StrCat(splittedCallSignature[1], "_",subscript,"(");
 
     // separates the arguments from the call signature and organize in a vector
     std::vector<std::string> callSignatureArguments = absl::StrSplit(_callSignature.call_signature, absl::ByAnyChar(",()"),  absl::SkipEmpty());
@@ -77,7 +84,7 @@ std::string CppUtilities::getAssociationByNameSignature() {
         functionCall = absl::StrCat(functionCall, words.back());
 
         if (absl::c_linear_search(activeVariables, words.back())) {
-            functionCall = absl::StrCat(functionCall, ", ", words.back(), "_t");
+            functionCall = absl::StrCat(functionCall, ", ", words.back(), "_", subscript);
         }
 
         if (i < callSignatureArguments.size() - 1) {
@@ -86,7 +93,6 @@ std::string CppUtilities::getAssociationByNameSignature() {
             functionCall = absl::StrCat(functionCall, ")");
         }
     }
-
     return functionCall;
 }
 std::string CppUtilities::createLoopSignature(const std::string &activeVariable, 
