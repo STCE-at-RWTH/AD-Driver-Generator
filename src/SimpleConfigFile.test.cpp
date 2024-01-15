@@ -58,3 +58,16 @@ TEST(SimpleConfigFile, Creation_of_yaml_reader){
 }
 
 
+TEST(SimpleConfigFile, Check_With_Multiple_Active_ones){
+    auto config_file = std::make_unique<SimpleConfigFile>("cpp",
+                                                          "void f(double &x, double &y)",
+                                                          "x,y",
+                                                          "tangent",
+                                                          "something");
+    EXPECT_EQ("cpp", config_file->getLanguage());
+    EXPECT_EQ("x,y", config_file->getFirstFunction().active);
+    EXPECT_EQ("something", config_file->getFirstFunction().driver_type);
+    EXPECT_EQ("tangent", config_file->getFirstFunction().mode);
+    EXPECT_EQ("void f(double &x, double &y)", config_file->getFirstFunction().call_signature);
+}
+
