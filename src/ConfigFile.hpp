@@ -9,14 +9,14 @@ struct CallSignature{
     std::string output{};
     std::string mode{};
     std::string driver_type{};
-    
+
 
     CallSignature( std::string_view _call_signature,
         std::string_view _active,
         std::string_view _output,
         std::string_view _mode,
         std::string_view _driver_type)
-        
+
         : call_signature(_call_signature),
           active(_active),
           output(_output),
