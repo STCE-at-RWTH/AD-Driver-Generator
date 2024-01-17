@@ -30,6 +30,7 @@ public:
     std::vector<CallSignature> getFunctions() const override { return _functions; }
     CallSignature getFirstFunction() const { return _functions[0]; }
 
+    std::string getActiveVariables() const override;
     void readYamlFile(std::string const &file_path) final;
 
     ~SimpleConfigFile() override = default;
@@ -56,6 +57,10 @@ void SimpleConfigFile::readYamlFile(const std::string &file_path) {
 bool SimpleConfigFile::validateInput() {
     // more for a show of concept this method would need to be updated with serious checks!
     return absl::StrContains(_functions[0].call_signature, _functions[0].active);
+}
+
+std::string SimpleConfigFile::getActiveVariables() const {
+    return { _functions[0].active };
 }
 
 #endif //SIMPLECONFIGFILE_HPP

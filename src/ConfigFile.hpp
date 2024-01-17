@@ -30,6 +30,7 @@ public:
     virtual std::string getLanguage() const { return _language; }
     virtual std::vector<CallSignature> getFunctions() const { return _functions; }
     virtual void readYamlFile(std::string const &file_path) {};
+    virtual std::string getActiveVariables() const { return {}; }
 };
 
 #endif //CONFIG_FILE_HPP
