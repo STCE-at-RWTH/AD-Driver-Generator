@@ -300,6 +300,51 @@ TEST(ResetSeedValue, Adjoint_Vector_Level2_Type)
     EXPECT_EQ(actual, expected);
 }
 
+TEST(Harvest, Adjoint_Vector_Level2_Type)
+{
+    // SETUP
+    auto callSignature = std::make_unique<CallSignature>("std::vector<double> y", "y", "adjoint", "gradient");
+    auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
+    std::string loop_level = "2";
+    std::string expected = "dy[ii] = y_a[ii]";
+
+    // ACT
+    auto actual = cppUtilities->harvest(callSignature->active, loop_level);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(Harvest, Tangent_Vector_Level1_Type)
+{
+    // SETUP
+    auto callSignature = std::make_unique<CallSignature>("std::vector<double> x", "x", "tangent", "gradient");
+    auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
+    std::string loop_level = "1";
+    std::string expected = "dx[i] = x_t[i]";
+
+    // ACT
+    auto actual = cppUtilities->harvest(callSignature->active, loop_level);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(Harvest, Tangent_Scalar_Level0_Type)
+{
+    // SETUP
+    auto callSignature = std::make_unique<CallSignature>("float x", "x", "tangent", "gradient");
+    auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
+    std::string loop_level = "0";
+    std::string expected = "dx = x_t";
+
+    // ACT
+    auto actual = cppUtilities->harvest(callSignature->active, loop_level);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
 TEST(CreateDriverCallSignature, GradientDriver){
     // SETUP
     auto call_signature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x", "tangent", "gradient");
