@@ -98,7 +98,7 @@ std::string CppUtilities::getAssociationByNameSignature() {
     return functionCall;
 }
 
-std::string CppUtilities::createLoopSignature(const std::string &activeVariable, 
+std::string CppUtilities::createLoopSignature(const std::string &activeVariable,
                                               int level) {
     // create based on the level a multiplication of i
     char loopVariableChar = 'i';
@@ -215,7 +215,7 @@ std::string CppUtilities::createDriverCallSignature(){
     // Splits the driver type  in a vector of strings
     std::vector<std::string> driverType
             = absl::StrSplit(_callSignature.driver_type, absl::ByAnyChar(" ,()"),  absl::SkipEmpty());
-    // Concatenates the driver type with the driver function call 
+    // Concatenates the driver type with the driver function call
     std::string driverCallSignature
             = absl::StrCat(splittedCallSignature[0]," ", splittedCallSignature[1], "_", driverType[0]);
     driverCallSignature = absl::StrCat(driverCallSignature, CppUtilities::createDriverCallArguments());
@@ -293,35 +293,35 @@ std::string CppUtilities::createDriverCallArguments(){
     std::string variableTypeString;
 
     for (int i = 0; i < callSignatureArguments.size(); i++) {
-        
+
         words = absl::StrSplit(callSignatureArguments[i], absl::ByAnyChar(" &"), absl::SkipEmpty());
 
         variableType = words;
         variableType.pop_back();
         variableTypeString = absl::StrJoin(variableType, " ");
         driverCallArguments = absl::StrCat(driverCallArguments, variableTypeString, " &", words.back());
-        
+
         if (absl::c_linear_search(activeVariables, words.back()) && _callSignature.mode == "adjoint"){
             if (_callSignature.driver_type == "gradient"){
                 driverCallArguments = absl::StrCat(driverCallArguments, ", ", variableTypeString, " &d", words.back());
             } else if (_callSignature.driver_type == "jacobian"){
                 driverCallArguments = absl::StrCat(driverCallArguments, ",",  variableTypeString, " &d", words.back());
             }
-        } 
-        
+        }
+
         if (absl::c_linear_search(outputVariables, words.back()) && _callSignature.mode == "tangent"){
             if (_callSignature.driver_type == "gradient"){
                 driverCallArguments = absl::StrCat(driverCallArguments, ", ", variableTypeString, " &d", words.back());
             } else if (_callSignature.driver_type == "jacobian"){
                 driverCallArguments = absl::StrCat(driverCallArguments, ", ", variableTypeString, " &d", words.back());
             }
-        } 
+        }
 
         if (i < callSignatureArguments.size() - 1) {
             driverCallArguments = absl::StrCat(driverCallArguments, ", ");
         } else {
             driverCallArguments = absl::StrCat(driverCallArguments, ")");
-        }   
+        }
     }
 return driverCallArguments;
 }
