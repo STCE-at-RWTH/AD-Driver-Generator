@@ -17,6 +17,7 @@ public:
     virtual std::string initializeSeedValue(const std::string &variable) = 0;
     virtual std::string resetSeedValue(const std::string &variable, const std::string &loop_level) = 0;
     virtual std::string createDriverCallSignature() = 0;
+    virtual std::string createDriverCallArguments() = 0;
 
 };
 

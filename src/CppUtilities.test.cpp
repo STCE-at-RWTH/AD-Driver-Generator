@@ -333,11 +333,11 @@ TEST(ResetSeedValue, Adjoint_Vector_Level2_Type)
     EXPECT_EQ(actual, expected);
 }
 
-TEST(CreateDriverCallSignature, GradientDriver){
+TEST(CreateDriverCallSignature, Gradient_Driver){
     // SETUP
-    auto call_signature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x", "tangent", "gradient");
+    auto call_signature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x, y", "tangent", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
-    std::string expected{"void f_gradient"};
+    std::string expected{"void f_gradient(double &x, double &dx, double &y, double &dy)"};
 
     // ACT
     auto actual = cppUtilities->createDriverCallSignature();
@@ -346,14 +346,66 @@ TEST(CreateDriverCallSignature, GradientDriver){
     EXPECT_EQ(actual, expected);
 }
 
-TEST(CreateDriverCallSignature, JacobianDriver){
+TEST(CreateDriverCallSignature, Jacobian_Driver){
     // SETUP
-    auto call_signature = std::make_unique<CallSignature>("void fxfts(double &x, double &y)", "x", "tangent", "jacobian");
+    auto call_signature = std::make_unique<CallSignature>("void sigmoid(double &x, double &y)", "x", "tangent", "jacobian");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
-    std::string expected{"void fxfts_jacobian"};
+    std::string expected{"void sigmoid_jacobian(double &x, std::vector<double> &dx, double &y)"};
 
     // ACT
     auto actual = cppUtilities->createDriverCallSignature();
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(CreateDriverCallSignature, Test_Case_Variable_in_Vector_Form){
+    // SETUP
+    auto call_signature = std::make_unique<CallSignature>("void f(std::vector<double> &x)", "x", "tangent", "jacobian");
+    auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
+    std::string expected{"void f_jacobian(std::vector<double> &x, std::vector<std::vector<double>> &dx)"};
+
+    // ACT
+    auto actual = cppUtilities->createDriverCallSignature();
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);    
+}
+
+TEST(CreateDriverCallArguments, Gradient_Driver_Two_Variables){
+    // SETUP
+    auto call_signature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x, y", "tangent", "gradient");
+    auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
+    std::string expected{"(double &x, double &dx, double &y, double &dy)"};
+
+    // ACT
+    auto actual = cppUtilities->createDriverCallArguments();
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(CreateDriverCallArguments, Gradient_Driver_Three_Variables){
+    // SETUP
+    auto call_signature = std::make_unique<CallSignature>("void f(double &x, const double &y, double &z)", "x, y, z", "tangent", "gradient");
+    auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
+    std::string expected{"(double &x, double &dx, const double &y, const double &dy, double &z, double &dz)"};
+
+    // ACT
+    auto actual = cppUtilities->createDriverCallArguments();
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(CreateDriverCallArguments, Gradient_Driver_Sigmoid){
+    // SETUP
+    auto call_signature = std::make_unique<CallSignature>("void sigmoid(T &x, const T &p, const T &w)", "x, p, w", "tangent", "gradient");
+    auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
+    std::string expected{"(T &x, T &dx, const T &p, const T &dp, const T &w, const T &dw)"};
+
+    // ACT
+    auto actual = cppUtilities->createDriverCallArguments();
 
     // ASSERT
     EXPECT_EQ(actual, expected);
