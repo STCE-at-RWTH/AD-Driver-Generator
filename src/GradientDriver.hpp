@@ -7,6 +7,7 @@
 
 #include "Driver.hpp"
 #include "Utilities.hpp"
+#include "absl/strings/match.h"
 
 class GradientDriver : public Driver {
 public:
@@ -29,14 +30,19 @@ std::pair<std::vector<std::string>, std::vector<int>> GradientDriver::createDriv
     strings.push_back(utilities->initializeSeedValue(configFile->getActiveVariables()));
     counter.push_back(level);
 
-    strings.push_back(utilities->createLoopSignature(configFile->getActiveVariables(), level));
-    counter.push_back(level);
-    level++;
+    if ( absl::StrContains(strings.back(), "std::vector")) {
+        strings.push_back(utilities->createLoopSignature(configFile->getActiveVariables(), level));
+        counter.push_back(level);
+        level++;
+    }
 
     strings.push_back(utilities->setSeedValue(configFile->getActiveVariables(), "1.0", std::to_string(level-1)));
     counter.push_back(level);
 
     strings.push_back(utilities->getAssociationByNameSignature());
+    counter.push_back(level);
+
+   strings.push_back(utilities->harvest(configFile->getActiveVariables(), std::to_string(level-1)));
     counter.push_back(level);
 
     strings.push_back(utilities->resetSeedValue(configFile->getActiveVariables(), std::to_string(level-1)));
