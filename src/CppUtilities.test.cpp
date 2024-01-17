@@ -350,7 +350,7 @@ TEST(CreateDriverCallSignature, Sigmoid_Gradient_Driver){
     // SETUP
     auto call_signature = std::make_unique<CallSignature>("void sigmoid(double &x, double &y)", "x", "tangent", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
-    std::string expected{"void sigmoid_gradient(double &x, std::vector<double> &dx, double &y)"};
+    std::string expected{"void sigmoid_gradient(double &x, double &dx, double &y)"};
 
     // ACT
     auto actual = cppUtilities->createDriverCallSignature();
