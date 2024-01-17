@@ -1,6 +1,7 @@
 # build directories
 *build*
 compile_commands.json
+*.vscode*
 
 # IDE stuff
 *.idea
