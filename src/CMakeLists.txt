@@ -8,6 +8,8 @@ add_library(libutilities
         SimpleConfigFile.hpp
         OutputParser.hpp
         CppOutputParser.hpp
+        Driver.hpp
+        GradientDriver.hpp
 )
 
 target_link_libraries(libutilities
@@ -45,3 +47,11 @@ target_link_libraries(CppUtilities.test
 )
 gtest_discover_tests(CppUtilities.test)
 
+add_executable(GradientDriver.test
+        GradientDriver.test.cpp)
+
+target_link_libraries(GradientDriver.test
+        libutilities
+        GTest::gtest_main
+)
+gtest_discover_tests(GradientDriver.test)
