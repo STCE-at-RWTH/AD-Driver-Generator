@@ -346,11 +346,11 @@ TEST(CreateDriverCallSignature, Gradient_Driver){
     EXPECT_EQ(actual, expected);
 }
 
-TEST(CreateDriverCallSignature, Jacobian_Driver){
+TEST(CreateDriverCallSignature, Sigmoid_Gradient_Driver){
     // SETUP
-    auto call_signature = std::make_unique<CallSignature>("void sigmoid(double &x, double &y)", "x", "tangent", "jacobian");
+    auto call_signature = std::make_unique<CallSignature>("void sigmoid(double &x, double &y)", "x", "tangent", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
-    std::string expected{"void sigmoid_jacobian(double &x, std::vector<double> &dx, double &y)"};
+    std::string expected{"void sigmoid_gradient(double &x, std::vector<double> &dx, double &y)"};
 
     // ACT
     auto actual = cppUtilities->createDriverCallSignature();
@@ -359,7 +359,7 @@ TEST(CreateDriverCallSignature, Jacobian_Driver){
     EXPECT_EQ(actual, expected);
 }
 
-TEST(CreateDriverCallSignature, Test_Case_Variable_in_Vector_Form){
+TEST(CreateDriverCallSignature, Jacobian_Driver){
     // SETUP
     auto call_signature = std::make_unique<CallSignature>("void f(std::vector<double> &x)", "x", "tangent", "jacobian");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
