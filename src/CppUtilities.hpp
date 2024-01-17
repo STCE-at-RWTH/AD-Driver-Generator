@@ -18,7 +18,8 @@ public:
 
     ~CppUtilities() override = default;
 
-    std::string getTypeOfVariable(const std::string &activeVariable) final;
+    std::string getTypeOfVariable(const std::string &activeVariable) const;
+
     std::string getAssociationByNameSignature() final;
     std::string createLoopSignature(const std::string &activeVariable, int level) final;
     std::string setSeedValue(const std::string &variable, const std::string &value_for_seeding,
@@ -31,7 +32,7 @@ public:
     std::string getModeTypeSuffix() final;
 };
 
-std::string CppUtilities::getTypeOfVariable(const std::string &activeVariable)
+std::string CppUtilities::getTypeOfVariable(const std::string &activeVariable) const
 {
     std::vector<std::string> callSignatureSplitted = absl::StrSplit(_callSignature.call_signature, absl::ByAnyChar(" ,("),  absl::SkipEmpty());
 
