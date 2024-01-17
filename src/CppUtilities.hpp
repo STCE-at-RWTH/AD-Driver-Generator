@@ -25,6 +25,7 @@ public:
                              const std::string &loop_level) final;
     std::string initializeSeedValue(const std::string &variable) final;
     std::string resetSeedValue(const std::string &variable, const std::string &loop_level) final;
+    std::string harvest(const std::string &variable, const std::string &loop_level) final;
     std::string createDriverCallSignature() final;
     std::string createDriverCallArguments() final;
 };
@@ -59,6 +60,7 @@ std::string CppUtilities::getTypeOfVariable(const std::string &activeVariable)
     // remove empty string if it fails
     return "";
 }
+
 std::string CppUtilities::getAssociationByNameSignature() {
     std::string subscript;
     if (_callSignature.mode == "tangent") {
@@ -96,6 +98,7 @@ std::string CppUtilities::getAssociationByNameSignature() {
     }
     return functionCall;
 }
+
 std::string CppUtilities::createLoopSignature(const std::string &activeVariable, 
                                               int level) {
     // create based on the level a multiplication of i
@@ -105,6 +108,7 @@ std::string CppUtilities::createLoopSignature(const std::string &activeVariable,
     std::string loopSignature = "for (size_t " + loopVariable + " = 0; " + loopVariable + " < " + activeVariable + ".size(); ++" + loopVariable + ")";
     return loopSignature;
 }
+
 std::string CppUtilities::setSeedValue(const std::string &variable,
                                        const std::string &value_for_seeding,
                                        const std::string &loop_level)
@@ -146,6 +150,7 @@ std::string CppUtilities::setSeedValue(const std::string &variable,
 
     return setSeed;
 }
+
 std::string CppUtilities::initializeSeedValue(const std::string& variable)
 {
     auto type_of_variable = getTypeOfVariable(variable);
@@ -179,8 +184,9 @@ std::string CppUtilities::initializeSeedValue(const std::string& variable)
 
     return initSeed;
 }
+
 std::string CppUtilities::resetSeedValue(const std::string& variable,
-                           const std::string& loop_level)
+                                         const std::string& loop_level)
 {
     auto type_of_variable = getTypeOfVariable(variable);
 
@@ -223,6 +229,7 @@ std::string CppUtilities::resetSeedValue(const std::string& variable,
 
     return resetSeed;
 }
+
 std::string CppUtilities::createDriverCallSignature(){
     // Splits the call signature in a vector of strings
     std::vector<std::string> splittedCallSignature
@@ -235,6 +242,57 @@ std::string CppUtilities::createDriverCallSignature(){
             = absl::StrCat(splittedCallSignature[0]," ", splittedCallSignature[1], "_", driverType[0]);
     driverCallSignature = absl::StrCat(driverCallSignature, CppUtilities::createDriverCallArguments());
     return driverCallSignature;
+}
+
+std::string CppUtilities::harvest(const std::string &variable, const std::string &loop_level)
+{
+    // Determine if the variable is a vector or scalar
+    std::string variable_type;
+    auto type_of_variable = getTypeOfVariable(variable);
+    if (type_of_variable.find("std::vector<") != std::string::npos) {
+        variable_type = "vector";
+    } else {
+        variable_type = "scalar";
+    }
+
+    // Check if loop_level is zero
+    if (loop_level == "0") {
+        // Return the appropriate string based on the mode and variable type
+        if (variable_type == "vector")
+        {
+        // Throw an exception for invalid loop_level
+        throw std::invalid_argument("Loop level cannot be zero while harvesting a vector.");
+        }
+
+        if (_callSignature.mode == "adjoint") {
+            return absl::StrCat("d", variable, " = ", variable, "_a");
+        } else if (_callSignature.mode == "tangent") {
+            return absl::StrCat("d", variable, " = ", variable, "_t");
+        } else {
+            throw std::invalid_argument("Unsupported mode: '" + _callSignature.mode + "'. Supported modes are 'tangent' and 'adjoint'.");
+        }
+    } else if (loop_level > "0") {
+        // Check if the loop level is a positive integer
+        int num_loops = std::stoi(loop_level);
+        if (num_loops < 0) {
+            throw std::invalid_argument("Loop level must be a non-negative integer.");
+        }
+
+        // Construct the loop index string with 'i' repeated num_loops times
+        auto loop_index = std::string(num_loops, 'i');
+
+        // Return the appropriate string based on the mode and variable type with loop index
+        if (_callSignature.mode == "adjoint") {
+            return absl::StrCat("d", variable, "[", loop_index, "] = ", variable, "_a[", loop_index, "]");
+        } else if (_callSignature.mode == "tangent") {
+            return absl::StrCat("d", variable, "[", loop_index, "] = ", variable, "_t[", loop_index, "]");
+        } else {
+            throw std::invalid_argument("Unsupported mode: '" + _callSignature.mode + "'. Supported modes are 'tangent' and 'adjoint'.");
+        }
+    } else {
+        // Throw an exception for invalid loop_level
+        throw std::invalid_argument("Loop level must be a non-negative integer or '0'.");
+    }
 }
 
 std::string CppUtilities::createDriverCallArguments(){
