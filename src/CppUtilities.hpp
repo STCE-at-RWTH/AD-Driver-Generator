@@ -28,6 +28,7 @@ public:
     std::string harvest(const std::string &variable, const std::string &loop_level) final;
     std::string createDriverCallSignature() final;
     std::string createDriverCallArguments() final;
+    std::string getModeTypeSuffix() final;
 };
 
 std::string CppUtilities::getTypeOfVariable(const std::string &activeVariable)
@@ -62,17 +63,11 @@ std::string CppUtilities::getTypeOfVariable(const std::string &activeVariable)
 }
 
 std::string CppUtilities::getAssociationByNameSignature() {
-    std::string subscript;
-    if (_callSignature.mode == "tangent") {
-        subscript = "t";
-    } else if (_callSignature.mode == "adjoint") {
-        subscript = "a";
-    } else {
-        throw std::invalid_argument("Unsupported mode: '" + _callSignature.mode + "' . Supported moods are 'tangent' and 'adjoint'.");
-    }
+    std::string suffix;
+    suffix = getModeTypeSuffix();
     // creates the function call with the _t at the end
     std::vector<std::string> splittedCallSignature = absl::StrSplit(_callSignature.call_signature, absl::ByAnyChar(" ,()"),  absl::SkipEmpty());
-    std::string functionCall = absl::StrCat(splittedCallSignature[1], "_",subscript,"(");
+    std::string functionCall = absl::StrCat(splittedCallSignature[1], suffix,"(");
 
     // separates the arguments from the call signature and organize in a vector
     std::vector<std::string> callSignatureArguments = absl::StrSplit(_callSignature.call_signature, absl::ByAnyChar(",()"),  absl::SkipEmpty());
@@ -124,13 +119,7 @@ std::string CppUtilities::setSeedValue(const std::string &variable,
 
     // Add appropriate suffix based on the mood
     std::string suffix;
-    if (_callSignature.mode == "tangent") {
-        suffix = "_t";
-    } else if (_callSignature.mode == "adjoint") {
-        suffix = "_a";
-    } else {
-        throw std::invalid_argument("Unsupported mode: '" + _callSignature.mode + "' . Supported moods are 'tangent' and 'adjoint'.");
-    }
+    suffix = getModeTypeSuffix();
 
     // Construct the seed value assignment string
     std::string setSeed;
@@ -157,13 +146,7 @@ std::string CppUtilities::initializeSeedValue(const std::string& variable)
 
     // Add appropriate suffix based on the mode
     std::string suffix;
-    if (_callSignature.mode == "tangent") {
-        suffix = "_t";
-    } else if (_callSignature.mode == "adjoint") {
-        suffix = "_a";
-    } else {
-        throw std::invalid_argument("Unsupported mode. Supported modes are 'tangent' and 'adjoint'.");
-    }
+    suffix = getModeTypeSuffix();
 
     // Check if type_of_variable contains "int" --> Add appropriate value 0 or 0.0
     std::string value;
@@ -199,14 +182,7 @@ std::string CppUtilities::resetSeedValue(const std::string& variable,
     }
     std::string reset_Value = "0.0";
     std::string suffix;
-    if (_callSignature.mode == "tangent") {
-        suffix = "_t";
-    } else if (_callSignature.mode == "adjoint") {
-        suffix = "_a";
-    } else {
-        throw std::invalid_argument("Unsupported mood. Supported moods are 'tangent' and 'adjoint'.");
-    }
-
+    suffix = getModeTypeSuffix();
     // Construct the seed value assignment string
     std::string resetSeed;
     if (variable_type == "scalar") {
@@ -263,14 +239,9 @@ std::string CppUtilities::harvest(const std::string &variable, const std::string
         // Throw an exception for invalid loop_level
         throw std::invalid_argument("Loop level cannot be zero while harvesting a vector.");
         }
-
-        if (_callSignature.mode == "adjoint") {
-            return absl::StrCat("d", variable, " = ", variable, "_a");
-        } else if (_callSignature.mode == "tangent") {
-            return absl::StrCat("d", variable, " = ", variable, "_t");
-        } else {
-            throw std::invalid_argument("Unsupported mode: '" + _callSignature.mode + "'. Supported modes are 'tangent' and 'adjoint'.");
-        }
+        std::string suffix;
+        suffix = getModeTypeSuffix();
+        return absl::StrCat("d", variable, " = ", variable, suffix);
     } else if (loop_level > "0") {
         // Check if the loop level is a positive integer
         int num_loops = std::stoi(loop_level);
@@ -282,13 +253,9 @@ std::string CppUtilities::harvest(const std::string &variable, const std::string
         auto loop_index = std::string(num_loops, 'i');
 
         // Return the appropriate string based on the mode and variable type with loop index
-        if (_callSignature.mode == "adjoint") {
-            return absl::StrCat("d", variable, "[", loop_index, "] = ", variable, "_a[", loop_index, "]");
-        } else if (_callSignature.mode == "tangent") {
-            return absl::StrCat("d", variable, "[", loop_index, "] = ", variable, "_t[", loop_index, "]");
-        } else {
-            throw std::invalid_argument("Unsupported mode: '" + _callSignature.mode + "'. Supported modes are 'tangent' and 'adjoint'.");
-        }
+        std::string suffix;
+        suffix = getModeTypeSuffix();
+        return absl::StrCat("d", variable, "[", loop_index, "] = ", variable, suffix,"[", loop_index, "]");
     } else {
         // Throw an exception for invalid loop_level
         throw std::invalid_argument("Loop level must be a non-negative integer or '0'.");
@@ -306,7 +273,6 @@ std::string CppUtilities::createDriverCallArguments(){
         std::vector<std::string> words;
         std::vector<std::string> variableType;
         std::string variableTypeString;
-
 
     for (int i = 0; i < callSignatureArguments.size(); i++) {
         words = absl::StrSplit(callSignatureArguments[i], absl::ByAnyChar(" &"), absl::SkipEmpty());
@@ -330,6 +296,18 @@ std::string CppUtilities::createDriverCallArguments(){
         }   
     }
 return driverCallArguments;
+}
+
+std::string CppUtilities:: getModeTypeSuffix(){
+    std::string suffix;
+    if (_callSignature.mode == "tangent") {
+        suffix = "_t";
+    } else if (_callSignature.mode == "adjoint") {
+        suffix = "_a";
+    } else {
+        throw std::invalid_argument("Unsupported mode: '" + _callSignature.mode + "' . Supported moods are 'tangent' and 'adjoint'.");
+    }
+    return suffix;
 }
 
 #endif //SISC_LAB_CPPUTILITIES_HPP
