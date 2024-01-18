@@ -64,8 +64,7 @@ std::string CppUtilities::getTypeOfVariable(const std::string &activeVariable)
 
 std::string CppUtilities::getAssociationByNameSignature() {
     //Define the suffix based on the mode
-    std::string suffix;
-    suffix = getModeTypeSuffix();
+    std::string suffix = getModeTypeSuffix();
     // creates the function call with the _t at the end
     std::vector<std::string> splittedCallSignature = absl::StrSplit(_callSignature.call_signature, absl::ByAnyChar(" ,()"),  absl::SkipEmpty());
     std::string functionCall = absl::StrCat(splittedCallSignature[1], suffix,"(");
@@ -119,8 +118,7 @@ std::string CppUtilities::setSeedValue(const std::string &variable,
     }
 
     // Get the suffix based on the mode
-    std::string suffix;
-    suffix = getModeTypeSuffix();
+    std::string suffix = getModeTypeSuffix();
 
     // Construct the seed value assignment string
     std::string setSeed;
@@ -146,8 +144,7 @@ std::string CppUtilities::initializeSeedValue(const std::string& variable)
     auto type_of_variable = getTypeOfVariable(variable);
 
     //Get the suffix based on the mode
-    std::string suffix;
-    suffix = getModeTypeSuffix();
+    std::string suffix = getModeTypeSuffix();
 
     // Check if type_of_variable contains "int" --> Add appropriate value 0 or 0.0
     std::string value;
@@ -183,8 +180,7 @@ std::string CppUtilities::resetSeedValue(const std::string& variable,
     }
     std::string reset_Value = "0.0";
     // Get the suffix based on the mode
-    std::string suffix;
-    suffix = getModeTypeSuffix();
+    std::string suffix = getModeTypeSuffix();
     // Construct the seed value assignment string
     std::string resetSeed;
     if (variable_type == "scalar") {
@@ -225,8 +221,7 @@ std::string CppUtilities::createDriverCallSignature(){
 std::string CppUtilities::harvest(const std::string &variable, const std::string &loop_level)
 {
     // Get the suffix based on the mode
-    std::string suffix;
-    suffix = getModeTypeSuffix();
+    std::string suffix = getModeTypeSuffix();
     // Determine if the variable is a vector or scalar
     std::string variable_type;
     auto type_of_variable = getTypeOfVariable(variable);
@@ -301,11 +296,11 @@ return driverCallArguments;
 
 /// @brief Function returns the suffix based on the mode of the driver. It returns "_t" for tangent mode or "_a" for adjoint mode.
 /// @return Returns a string containing "_t" or "_a"
-std::string CppUtilities:: getModeTypeSuffix(){
+std::string CppUtilities::getModeTypeSuffix(){
     std::string suffix;
-    if (_callSignature.mode == "tangent") {
+    if (_callSignature.mode == "tangent" || _callSignature.mode == "Tangent" ) {
         suffix = "_t";
-    } else if (_callSignature.mode == "adjoint") {
+    } else if (_callSignature.mode == "adjoint" || _callSignature.mode == "Adjoint") {
         suffix = "_a";
     } else {
         throw std::invalid_argument("Unsupported mode: '" + _callSignature.mode + "' . Supported moods are 'tangent' and 'adjoint'.");
