@@ -63,6 +63,7 @@ std::string CppUtilities::getTypeOfVariable(const std::string &activeVariable)
 }
 
 std::string CppUtilities::getAssociationByNameSignature() {
+    //Define the suffix based on the mode
     std::string suffix;
     suffix = getModeTypeSuffix();
     // creates the function call with the _t at the end
@@ -82,7 +83,7 @@ std::string CppUtilities::getAssociationByNameSignature() {
         words = absl::StrSplit(callSignatureArguments[i], absl::ByAnyChar(" &"), absl::SkipEmpty());
         functionCall = absl::StrCat(functionCall, words.back());
         if (absl::c_linear_search(activeVariables, words.back())) {
-            functionCall = absl::StrCat(functionCall, ", ", words.back(), "_", subscript);
+            functionCall = absl::StrCat(functionCall, ", ", words.back(), suffix);
         }
 
         if (i < callSignatureArguments.size() - 1) {
@@ -117,7 +118,7 @@ std::string CppUtilities::setSeedValue(const std::string &variable,
         variable_type= "scalar";
     }
 
-    // Add appropriate suffix based on the mood
+    // Get the suffix based on the mode
     std::string suffix;
     suffix = getModeTypeSuffix();
 
@@ -144,7 +145,7 @@ std::string CppUtilities::initializeSeedValue(const std::string& variable)
 {
     auto type_of_variable = getTypeOfVariable(variable);
 
-    // Add appropriate suffix based on the mode
+    //Get the suffix based on the mode
     std::string suffix;
     suffix = getModeTypeSuffix();
 
@@ -173,7 +174,7 @@ std::string CppUtilities::resetSeedValue(const std::string& variable,
 {
     auto type_of_variable = getTypeOfVariable(variable);
 
-    // Add appropriate suffix based on the mood
+    // Add appropriate suffix based on the mode
     std::string variable_type;
     if (type_of_variable.find("std::vector<") != std::string::npos) {
         variable_type= "vector";
@@ -181,6 +182,7 @@ std::string CppUtilities::resetSeedValue(const std::string& variable,
         variable_type= "scalar";
     }
     std::string reset_Value = "0.0";
+    // Get the suffix based on the mode
     std::string suffix;
     suffix = getModeTypeSuffix();
     // Construct the seed value assignment string
@@ -222,6 +224,9 @@ std::string CppUtilities::createDriverCallSignature(){
 
 std::string CppUtilities::harvest(const std::string &variable, const std::string &loop_level)
 {
+    // Get the suffix based on the mode
+    std::string suffix;
+    suffix = getModeTypeSuffix();
     // Determine if the variable is a vector or scalar
     std::string variable_type;
     auto type_of_variable = getTypeOfVariable(variable);
@@ -239,8 +244,6 @@ std::string CppUtilities::harvest(const std::string &variable, const std::string
         // Throw an exception for invalid loop_level
         throw std::invalid_argument("Loop level cannot be zero while harvesting a vector.");
         }
-        std::string suffix;
-        suffix = getModeTypeSuffix();
         return absl::StrCat("d", variable, " = ", variable, suffix);
     } else if (loop_level > "0") {
         // Check if the loop level is a positive integer
@@ -253,8 +256,6 @@ std::string CppUtilities::harvest(const std::string &variable, const std::string
         auto loop_index = std::string(num_loops, 'i');
 
         // Return the appropriate string based on the mode and variable type with loop index
-        std::string suffix;
-        suffix = getModeTypeSuffix();
         return absl::StrCat("d", variable, "[", loop_index, "] = ", variable, suffix,"[", loop_index, "]");
     } else {
         // Throw an exception for invalid loop_level
@@ -298,6 +299,8 @@ std::string CppUtilities::createDriverCallArguments(){
 return driverCallArguments;
 }
 
+/// @brief Function returns the suffix based on the mode of the driver. It returns "_t" for tangent mode or "_a" for adjoint mode.
+/// @return Returns a string containing "_t" or "_a"
 std::string CppUtilities:: getModeTypeSuffix(){
     std::string suffix;
     if (_callSignature.mode == "tangent") {
