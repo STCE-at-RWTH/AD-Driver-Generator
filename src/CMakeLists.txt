@@ -2,6 +2,7 @@ include(GoogleTest)
 
 add_library(libutilities
         Utilities.hpp
+        UtilitiesMock.hpp
         CppUtilities.hpp
         ConfigFile.hpp
         SimpleConfigFile.hpp
@@ -18,6 +19,7 @@ target_link_libraries(libutilities
         absl::strings
         absl::algorithm
         yaml-cpp::yaml-cpp
+        GTest::gmock
 )
 add_executable(SimpleConfigFile.test
         SimpleConfigFile.test.cpp)

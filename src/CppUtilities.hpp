@@ -18,6 +18,10 @@ public:
 
     ~CppUtilities() override = default;
 
+    bool checkMock() final {
+        return false;
+    }
+
     std::string getTypeOfVariable(const std::string &activeVariable) const;
     std::string getAssociationByNameSignature() final;
     std::string createLoopSignature(const std::string &activeVariable, int level) final;

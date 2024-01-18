@@ -10,6 +10,7 @@ public:
     Utilities() = default;
     virtual ~Utilities() = default;
 
+    virtual bool checkMock() = 0;
     virtual std::string getAssociationByNameSignature() = 0;
     virtual std::string createLoopSignature(const std::string &activeVariable, int level) = 0;
     virtual std::string setSeedValue(const std::string &variable, const std::string &value_for_seeding, const std::string &loop_level) = 0;
@@ -22,4 +23,5 @@ public:
     virtual std::string getModeTypeSuffix() = 0;
 
 };
+
 #endif //SISC_LAB_UTILITIES_HPP

@@ -1,12 +1,12 @@
 #include "GradientDriver.hpp"
+#include "UtilitiesMock.hpp"
 #include "CppUtilities.hpp"
 #include "SimpleConfigFile.hpp"
 #include "CppOutputParser.hpp"
 
 #include <gtest/gtest.h>
 
-TEST(GradientDriver, CreateDriver_WhenOneActiveVariableIsDouble_ReturnsExpectedOutput) {
-    // Setup
+TEST(GradientDriver, Create_Driver_For_Scalar) {
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
                                                           "void f(double &x, double &y)",
                                                           "x",
