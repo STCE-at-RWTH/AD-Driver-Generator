@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "CppUtilities.hpp"
+#include "CallSignature.hpp"
 
 TEST(GetTypeOfVariable, Input_With_Space_Delimiter)
 {

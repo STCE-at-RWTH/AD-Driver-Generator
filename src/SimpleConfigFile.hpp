@@ -5,6 +5,7 @@
 #include "yaml-cpp/yaml.h"
 
 #include "ConfigFile.hpp"
+#include "CallSignature.hpp"
 
 class SimpleConfigFile : public ConfigFile
 {

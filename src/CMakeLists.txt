@@ -5,6 +5,7 @@ add_library(libutilities
         UtilitiesMock.hpp
         CppUtilities.hpp
         ConfigFile.hpp
+        ConfigFileMock.hpp
         SimpleConfigFile.hpp
         OutputParser.hpp
         CppOutputParser.hpp

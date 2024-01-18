@@ -2,9 +2,37 @@
 #include "UtilitiesMock.hpp"
 #include "CppUtilities.hpp"
 #include "SimpleConfigFile.hpp"
+#include "ConfigFileMock.hpp"
 #include "CppOutputParser.hpp"
 
 #include <gtest/gtest.h>
+
+using ::testing::Return;
+
+TEST(GradientDriver, With_mocks){
+    auto mockUtilities = std::make_unique<UtilitiesMock>();
+    auto mockConfigFile = std::make_unique<ConfigFileMock>();
+
+    EXPECT_CALL(*mockUtilities, getAssociationByNameSignature())
+    .Times(1)
+    .WillRepeatedly(Return("void f(double &x)"));
+    EXPECT_CALL(*mockUtilities, getAssociationByNameSignature())
+            .Times(1)
+            .WillRepeatedly(Return("void f(double &x)"));
+
+    auto driver = std::make_unique<GradientDriver>();
+    auto output = driver->createDriver(mockUtilities.get(), mockConfigFile.get());
+
+    std::vector<std::string> expected = {"void f_gradient(double &x, double &dx)\n"
+                     "double x_t(0.0)\n"
+                     "x_t = 1.0\n"
+                     "f_t(x, x_t)\n"
+                     "dx = x_t\n"
+                     "x_t = 0.0"};
+
+    EXPECT_EQ(output.first, expected);
+
+}
 
 TEST(GradientDriver, Create_Driver_For_Scalar) {
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
