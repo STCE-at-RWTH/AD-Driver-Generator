@@ -459,3 +459,38 @@ TEST(CreateDriverCallArguments, Gradient_Driver_Sigmoid){
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
+
+TEST(GetModeTypeSuffix,Adjoint_Suffix){
+    // SETUP
+    auto call_signature = std::make_unique<CallSignature>("NOT IMPORTANT", "NOT IMPORTANT", "adjoint", "NOT IMPORTANT");
+    auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
+    std::string expected{"_a"};
+
+    // ACT
+    auto actual = cppUtilities->getModeTypeSuffix();
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(GetModeTypeSuffix,Tangent_Suffix){
+    // SETUP
+    auto call_signature = std::make_unique<CallSignature>("NOT IMPORTANT", "NOT IMPORTANT", "tangent", "NOT IMPORTANT");
+    auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
+    std::string expected{"_t"};
+
+    // ACT
+    auto actual = cppUtilities->getModeTypeSuffix();
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);    
+}
+
+TEST(GetModeTypeSuffix, ThrowError_Suffix) {
+    // SETUP
+    auto call_signature = std::make_unique<CallSignature>("NOT IMPORTANT", "NOT IMPORTANT", "adgent", "NOT IMPORTANT");
+    auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
+
+    // ACT & ASSERT
+    EXPECT_THROW(cppUtilities->getModeTypeSuffix(), std::invalid_argument);
+}
