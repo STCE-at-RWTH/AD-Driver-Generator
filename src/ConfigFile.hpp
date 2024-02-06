@@ -8,15 +8,19 @@ struct CallSignature{
     std::string active{};
     std::string mode{};
     std::string driver_type{};
+    std::string output{};
 
     CallSignature( std::string_view _call_signature,
         std::string_view _active,
         std::string_view _mode,
-        std::string_view _driver_type)
+        std::string_view _driver_type,
+        std::string_view _output)
+        
         : call_signature(_call_signature),
           active(_active),
           mode(_mode),
-          driver_type(_driver_type) {}
+          driver_type(_driver_type),
+          output(_output) {}
 };
 
 class ConfigFile {
