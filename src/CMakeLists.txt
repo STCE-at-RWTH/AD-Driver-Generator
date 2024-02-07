@@ -10,6 +10,8 @@ add_library(libutilities
         CppOutputParser.hpp
         Driver.hpp
         GradientDriver.hpp
+        DriverFactory.hpp
+        UtilitiesFactory.hpp
 )
 
 target_link_libraries(libutilities
