@@ -43,7 +43,7 @@ public:
  * @param file_path path to the yaml file
  */
 void SimpleConfigFile::readYamlFile(const std::string &file_path) {
-    YAML::Node yamlFile = YAML::Load(file_path);
+    YAML::Node yamlFile = YAML::LoadFile(file_path);
     _language = yamlFile["language"].as<std::string>();
     _functions = { CallSignature(yamlFile["functions"]["call_signature"].as<std::string>(),
                                  yamlFile["functions"]["active_variable"].as<std::string>(),

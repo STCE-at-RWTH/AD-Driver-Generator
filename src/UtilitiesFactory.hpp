@@ -12,7 +12,8 @@ public:
 
 std::unique_ptr<Utilities> UtilitiesFactory::getUtilities(const ConfigFile *configFile) {
     if (configFile->getLanguage() == "cpp") {
-        return std::unique_ptr<CppUtilities>();
+        std::vector<CallSignature> callSignatures = configFile->getFunctions();
+        return std::unique_ptr<CppUtilities>(new CppUtilities(callSignatures[0]));
     } else {
         // abort
         std::abort();
