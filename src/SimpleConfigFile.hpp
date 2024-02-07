@@ -31,6 +31,7 @@ public:
     
     std::string getLanguage() const override { return _language; }
     std::string getActiveVariables() const override;
+    std::string getOutputVariables() const override;
     std::string getDriverType() const override { return _functions[0].driver_type; }
     void readYamlFile(std::string const &file_path) final;
 
@@ -63,6 +64,10 @@ bool SimpleConfigFile::validateInput() {
 
 std::string SimpleConfigFile::getActiveVariables() const {
     return { _functions[0].active };
+}
+
+std::string SimpleConfigFile::getOutputVariables() const {
+    return { _functions[0].output };
 }
 
 #endif //SIMPLECONFIGFILE_HPP

@@ -36,6 +36,7 @@ public:
     virtual std::vector<CallSignature> getFunctions() const { return _functions; }
     virtual void readYamlFile(std::string const &file_path) {};
     virtual std::string getActiveVariables() const { return {}; }
+    virtual std::string getOutputVariables() const { return {}; }
     virtual std::string getDriverType() const { return {}; }
 };
 

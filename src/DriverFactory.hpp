@@ -6,6 +6,7 @@
 #include <memory>
 #include "Driver.hpp"
 #include "GradientDriver.hpp"
+#include "JacobianDriver.hpp"
 
 class DriverFactory {
 public:
@@ -15,7 +16,11 @@ public:
 std::unique_ptr<Driver> DriverFactory::getDriverType(const ConfigFile *configFile) {
     if (configFile->getDriverType() == "gradient") {
         return std::make_unique<GradientDriver>();
-    } else {
+    } 
+    else if (configFile->getDriverType() == "jacobian") {
+        return std::make_unique<JacobianDriver>();
+    }
+    else {
         // stop
         std::cout << "Invalid driver type: " << configFile->getDriverType() << std::endl;
         std::exit(1);

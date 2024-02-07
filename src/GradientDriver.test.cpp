@@ -10,6 +10,7 @@ TEST(GradientDriver, CreateDriver_WhenOneActiveVariableIsDouble_ReturnsExpectedO
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
                                                           "void f(double &x, double &y)",
                                                           "x","y",
+                                                          "NOT_IMPORTANT",
                                                           "tangent",
                                                           "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(config_file->getFirstFunction());
@@ -28,6 +29,7 @@ TEST(GradientDriver, CreateDriver_WhenPassiveVariableInCallSignature_ReturnsExpe
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
                                                           "void g(float &y, float &z, const double &p)",
                                                           "y", "z",
+                                                          "NOT_IMPORTANT",
                                                           "tangent",
                                                           "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(config_file->getFirstFunction());
@@ -45,7 +47,7 @@ TEST(GradientDriver, CreateDriver_WhenInputIsVector_ReturnsExpectedOutput) {
     // Setup
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
                                                           "void someFunction(std::vector<double> &x, std::vector<double> &y)",
-                                                          "x", 
+                                                          "x",
                                                           "y",
                                                           "tangent",
                                                           "gradient");
