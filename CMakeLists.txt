@@ -10,8 +10,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 include(FetchContent)
 
-add_subdirectory(src)
-
 FetchContent_Declare(
         googletest
         DOWNLOAD_EXTRACT_TIMESTAMP TRUE
@@ -24,7 +22,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_Declare(
         abseil
         GIT_REPOSITORY https://github.com/abseil/abseil-cpp.git
-        GIT_TAG 8028a87c96df0fff5ab58daeec30c43ce6fb0d20 # 2023-11-28
+        GIT_TAG 563c86a80c06ffbbfaa2ea792a9c255a5c258cf0 # 2024-02-07
 )
 set(ABSL_PROPAGATE_CXX_STD ON)
 
@@ -36,5 +34,6 @@ FetchContent_Declare(
 
 FetchContent_MakeAvailable(googletest abseil yaml-cpp)
 
-add_executable(main src/main.cpp)
-target_link_libraries(main PRIVATE libutilities)
+enable_testing()
+add_subdirectory(src)
+add_subdirectory(tests)
