@@ -18,7 +18,6 @@ target_link_libraries(libutilities
         absl::algorithm
         yaml-cpp::yaml-cpp
 )
-
 add_executable(SimpleConfigFile.test
         SimpleConfigFile.test.cpp)
 
@@ -56,3 +55,20 @@ target_link_libraries(GradientDriver.test
         GTest::gtest_main
 )
 gtest_discover_tests(GradientDriver.test)
+
+add_executable(DriverFactory.test
+        DriverFactory.test.cpp)
+
+target_link_libraries(DriverFactory.test
+        libutilities
+        GTest::gtest_main
+)
+gtest_discover_tests(DriverFactory.test)
+
+add_executable(UtilitiesFactory.test
+        UtilitiesFactory.test.cpp)
+target_link_libraries(UtilitiesFactory.test
+        libutilities
+        GTest::gtest_main
+)
+gtest_discover_tests(UtilitiesFactory.test)

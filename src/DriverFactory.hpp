@@ -1,6 +1,7 @@
 #ifndef SISC_LAB_DRIVERFACTORY_HPP
 #define SISC_LAB_DRIVERFACTORY_HPP
 
+#include <iostream>
 #include <string>
 #include <memory>
 #include "Driver.hpp"
@@ -15,8 +16,9 @@ std::unique_ptr<Driver> DriverFactory::getDriverType(const ConfigFile *configFil
     if (configFile->getDriverType() == "gradient") {
         return std::make_unique<GradientDriver>();
     } else {
-        // abort
-        std::abort();
+        // stop
+        std::cout << "Invalid driver type: " << configFile->getDriverType() << std::endl;
+        std::exit(1);
     }
 }
 

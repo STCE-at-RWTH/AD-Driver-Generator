@@ -2,6 +2,7 @@
 #define SISC_LAB_UTILITIESFACTORY_HPP
 
 #include <memory>
+#include <iostream>
 #include "Utilities.hpp"
 #include "CppUtilities.hpp"
 
@@ -13,10 +14,11 @@ public:
 std::unique_ptr<Utilities> UtilitiesFactory::getUtilities(const ConfigFile *configFile) {
     if (configFile->getLanguage() == "cpp") {
         std::vector<CallSignature> callSignatures = configFile->getFunctions();
-        return std::unique_ptr<CppUtilities>(new CppUtilities(callSignatures[0]));
+        return std::make_unique<CppUtilities>(callSignatures[0]);
     } else {
-        // abort
-        std::abort();
+        // end program with exit code 1
+        std::cout << "Invalid input language type: " << configFile->getDriverType() << std::endl;
+        std::exit(1);
     }
 }
 
