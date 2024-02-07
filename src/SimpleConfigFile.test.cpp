@@ -7,7 +7,8 @@ TEST (SimpleConfigFile, ValidateInput_active_in_call_signature)
         "void f(double &x)",
         "x",
         "tangent",
-        "something");
+        "something",
+        "NOT_IMPORTANT");
     EXPECT_TRUE(config_file->validateInput());
 }
 
@@ -17,7 +18,8 @@ TEST (SimpleConfigFile, ValidateInput_active_not_in_call_signature)
         "void f(double &x)",
         "active_not_in_call_signature",
         "tangent",
-        "something");
+        "something",
+        "NOT_IMPORTANT");
     EXPECT_FALSE(config_file->validateInput());
 }
 
@@ -26,7 +28,8 @@ TEST(SimpleConfigFile, Return_Call_Signature){
         "void f(double &x)",
         "x",
         "tangent",
-        "something");
+        "something",
+        "NOT_IMPORTANT");
     EXPECT_EQ("cpp", config_file->getLanguage());
     std::cout << config_file->getFirstFunction().active << std::endl;
     EXPECT_EQ("x", config_file->getFirstFunction().active);
@@ -43,6 +46,7 @@ TEST(SimpleConfigFile, Creation_of_yaml_reader){
       active_variable: x
       mode: tangent
       driver_type: something
+      output: NOT_IMPORTANT
     )";
 
     // Setup
@@ -63,7 +67,8 @@ TEST(SimpleConfigFile, Check_With_Multiple_Active_ones){
                                                           "void f(double &x, double &y)",
                                                           "x,y",
                                                           "tangent",
-                                                          "something");
+                                                          "something",
+                                                          "NOT_IMPORTANT");
     EXPECT_EQ("cpp", config_file->getLanguage());
     EXPECT_EQ("x,y", config_file->getFirstFunction().active);
     EXPECT_EQ("something", config_file->getFirstFunction().driver_type);
