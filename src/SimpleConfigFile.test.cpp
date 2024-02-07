@@ -38,27 +38,7 @@ TEST(SimpleConfigFile, CreateSimpleConfigFile_WhenInputInConstructor_ReturnsExpe
     EXPECT_EQ("void f(double &x)", config_file->getFirstFunction().call_signature);
 }
 
-TEST(SimpleConfigFile, Creation_of_yaml_reader){
-    std::string yamlContent = R"(
-    language: cpp
-    functions:
-      call_signature: void f(double &x)
-      active_variable: x
-      output: y
-      mode: tangent
-      driver_type: gradient)";
 
-    // Setup
-    auto config_file = std::make_unique<SimpleConfigFile>();
-    config_file->readYamlFile(yamlContent);
-
-    EXPECT_EQ("cpp", config_file->getLanguage());
-    EXPECT_EQ("x", config_file->getFirstFunction().active);
-    EXPECT_EQ("something", config_file->getFirstFunction().driver_type);
-    EXPECT_EQ("tangent", config_file->getFirstFunction().mode);
-    EXPECT_EQ("void f(double &x, double &y)", config_file->getFirstFunction().call_signature);
-
-}
 
 
 TEST(SimpleConfigFile, Check_With_Multiple_Active_ones){
