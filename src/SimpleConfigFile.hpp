@@ -31,6 +31,7 @@ public:
     CallSignature getFirstFunction() const { return _functions[0]; }
 
     std::string getActiveVariables() const override;
+    std::string getDriverType() const override { return _functions[0].driver_type; }
     void readYamlFile(std::string const &file_path) final;
 
     ~SimpleConfigFile() override = default;
