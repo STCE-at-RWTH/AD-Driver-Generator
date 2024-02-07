@@ -7,6 +7,7 @@ TEST(DriverFactory, GetDriverType_WhenConfigurationIsGradient_ReturnsNotNull) {
                                                           "NOT_IMPORTANT",
                                                           "NOT_IMPORTANT",
                                                           "NOT_IMPORTANT",
+                                                          "NOT_IMPORTANT",
                                                           "gradient");
 
     auto driver = std::make_unique<DriverFactory>()->getDriverType(configFile.get());
@@ -15,6 +16,7 @@ TEST(DriverFactory, GetDriverType_WhenConfigurationIsGradient_ReturnsNotNull) {
 
 TEST(DriverFactory, GetDriverType_WhenConfigurationIsNotGradient_StopsExecution) {
     auto configFile = std::make_unique<SimpleConfigFile>("NOT_IMPORTANT",
+                                                         "NOT_IMPORTANT",
                                                          "NOT_IMPORTANT",
                                                          "NOT_IMPORTANT",
                                                          "NOT_IMPORTANT",

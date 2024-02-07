@@ -17,11 +17,11 @@ public:
     SimpleConfigFile(std::string_view language,
                      std::string_view call_signature,
                      std::string_view active,
+                     std::string_view output,
                      std::string_view mode,
-                     std::string_view driver_type,
-                     std::string_view output)
+                     std::string_view driver_type)
                      : _language(language){
-        _functions = { CallSignature(call_signature, active, mode, driver_type, output)};
+        _functions = { CallSignature(call_signature, active, output, mode, driver_type)};
         }
 
     bool validateInput() override;
@@ -48,9 +48,9 @@ void SimpleConfigFile::readYamlFile(const std::string &file_path) {
     _language = yamlFile["language"].as<std::string>();
     _functions = { CallSignature(yamlFile["functions"]["call_signature"].as<std::string>(),
                                  yamlFile["functions"]["active_variable"].as<std::string>(),
+                                 yamlFile["functions"]["output"].as<std::string>(),
                                  yamlFile["functions"]["mode"].as<std::string>(),
-                                 yamlFile["functions"]["driver_type"].as<std::string>(),
-                                 yamlFile["functions"]["output"].as<std::string>()) };
+                                 yamlFile["functions"]["driver_type"].as<std::string>())};
 }
 
 /**

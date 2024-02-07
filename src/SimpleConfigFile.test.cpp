@@ -6,9 +6,9 @@ TEST (SimpleConfigFile, ValidateInput_WhenActiveVariableInCallSignature_ReturnsT
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
         "void f(double &x)",
         "x",
+        "NOT_IMPORTANT",
         "tangent",
-        "something",
-        "NOT_IMPORTANT");
+        "something");
     EXPECT_TRUE(config_file->validateInput());
 }
 
@@ -17,9 +17,9 @@ TEST (SimpleConfigFile, ValidateInput_WhenActiveVariableNotInCallSignature_Retur
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
         "void f(double &x)",
         "active_not_in_call_signature",
+        "NOT_IMPORTANT",
         "tangent",
-        "something",
-        "NOT_IMPORTANT");
+        "something");
     EXPECT_FALSE(config_file->validateInput());
 }
 
@@ -27,9 +27,9 @@ TEST(SimpleConfigFile, CreateSimpleConfigFile_WhenInputInConstructor_ReturnsExpe
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
         "void f(double &x)",
         "x",
+        "NOT_IMPORTANT",
         "tangent",
-        "something",
-        "NOT_IMPORTANT");
+        "something");
     EXPECT_EQ("cpp", config_file->getLanguage());
     std::cout << config_file->getFirstFunction().active << std::endl;
     EXPECT_EQ("x", config_file->getFirstFunction().active);
@@ -42,12 +42,11 @@ TEST(SimpleConfigFile, Creation_of_yaml_reader){
     std::string yamlContent = R"(
     language: cpp
     functions:
-      call_signature: void f(double &x)
+      call_signature: void f(double &x, double &y)
       active_variable: x
+      output: y
       mode: tangent
-      driver_type: something
-      output: NOT_IMPORTANT
-    )";
+      driver_type: something)";
 
     // Setup
     auto config_file = std::make_unique<SimpleConfigFile>();
@@ -57,7 +56,7 @@ TEST(SimpleConfigFile, Creation_of_yaml_reader){
     EXPECT_EQ("x", config_file->getFirstFunction().active);
     EXPECT_EQ("something", config_file->getFirstFunction().driver_type);
     EXPECT_EQ("tangent", config_file->getFirstFunction().mode);
-    EXPECT_EQ("void f(double &x)", config_file->getFirstFunction().call_signature);
+    EXPECT_EQ("void f(double &x, double &y)", config_file->getFirstFunction().call_signature);
 
 }
 
@@ -66,9 +65,9 @@ TEST(SimpleConfigFile, Check_With_Multiple_Active_ones){
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
                                                           "void f(double &x, double &y)",
                                                           "x,y",
+                                                          "NOT_IMPORTANT",
                                                           "tangent",
-                                                          "something",
-                                                          "NOT_IMPORTANT");
+                                                          "something");
     EXPECT_EQ("cpp", config_file->getLanguage());
     EXPECT_EQ("x,y", config_file->getFirstFunction().active);
     EXPECT_EQ("something", config_file->getFirstFunction().driver_type);
