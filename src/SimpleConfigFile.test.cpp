@@ -42,11 +42,11 @@ TEST(SimpleConfigFile, Creation_of_yaml_reader){
     std::string yamlContent = R"(
     language: cpp
     functions:
-      call_signature: void f(double &x, double &y)
+      call_signature: void f(double &x)
       active_variable: x
       output: y
       mode: tangent
-      driver_type: something)";
+      driver_type: gradient)";
 
     // Setup
     auto config_file = std::make_unique<SimpleConfigFile>();
