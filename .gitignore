@@ -41,6 +41,9 @@ compile_commands.json
 *.out
 *.app
 
+# text files
+*.txt
+
 # tags files
 tags
 .vscode/settings.json
