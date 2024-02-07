@@ -2,5 +2,6 @@ language: cpp
 functions:
   call_signature: void f(double &x)
   active_variable: x
+  output: y
   mode: tangent
   driver_type: gradient

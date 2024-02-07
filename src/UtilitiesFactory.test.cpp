@@ -7,6 +7,7 @@ TEST(UtilitiesFactory, GetUtilities_WhenConfigurationIsCpp_ReturnsNotNull) {
                                                          "NOT_IMPORTANT",
                                                          "NOT_IMPORTANT",
                                                          "NOT_IMPORTANT",
+                                                         "NOT_IMPORTANT",
                                                          "NOT_IMPORTANT");
 
     auto utilities = std::make_unique<UtilitiesFactory>()->getUtilities(configFile.get());
@@ -15,6 +16,7 @@ TEST(UtilitiesFactory, GetUtilities_WhenConfigurationIsCpp_ReturnsNotNull) {
 
 TEST(UtilitiesFactory, GetUtilities_WhenConfigurationIsInvalid_StopsExecution) {
     auto configFile = std::make_unique<SimpleConfigFile>("Some_Random_Language",
+                                                         "NOT_IMPORTANT",
                                                          "NOT_IMPORTANT",
                                                          "NOT_IMPORTANT",
                                                          "NOT_IMPORTANT",

@@ -6,6 +6,7 @@ TEST (SimpleConfigFile, ValidateInput_WhenActiveVariableInCallSignature_ReturnsT
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
         "void f(double &x)",
         "x",
+        "NOT_IMPORTANT",
         "tangent",
         "something");
     EXPECT_TRUE(config_file->validateInput());
@@ -16,6 +17,7 @@ TEST (SimpleConfigFile, ValidateInput_WhenActiveVariableNotInCallSignature_Retur
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
         "void f(double &x)",
         "active_not_in_call_signature",
+        "NOT_IMPORTANT",
         "tangent",
         "something");
     EXPECT_FALSE(config_file->validateInput());
@@ -25,6 +27,7 @@ TEST(SimpleConfigFile, CreateSimpleConfigFile_WhenInputInConstructor_ReturnsExpe
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
         "void f(double &x)",
         "x",
+        "NOT_IMPORTANT",
         "tangent",
         "something");
     EXPECT_EQ("cpp", config_file->getLanguage());
@@ -35,10 +38,14 @@ TEST(SimpleConfigFile, CreateSimpleConfigFile_WhenInputInConstructor_ReturnsExpe
     EXPECT_EQ("void f(double &x)", config_file->getFirstFunction().call_signature);
 }
 
+
+
+
 TEST(SimpleConfigFile, Check_With_Multiple_Active_ones){
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
                                                           "void f(double &x, double &y)",
                                                           "x,y",
+                                                          "NOT_IMPORTANT",
                                                           "tangent",
                                                           "something");
     EXPECT_EQ("cpp", config_file->getLanguage());

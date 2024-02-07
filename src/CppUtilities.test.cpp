@@ -4,7 +4,7 @@
 TEST(GetTypeOfVariable, Input_With_Space_Delimiter)
 {
   // Setup
-  auto mockCallSignature = std::make_unique<CallSignature>("double x", "x", "NOT_IMPORTANT", "NOT_IMPORTANT");
+  auto mockCallSignature = std::make_unique<CallSignature>("double x", "x", "NOT_IMPORTANT", "NOT_IMPORTANT","NOT_IMPORTANT");
   auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
   std::string expected{"double"};
 
@@ -18,7 +18,7 @@ TEST(GetTypeOfVariable, Input_With_Space_Delimiter)
 TEST(GetTypeOfVariable, Input_With_Two_Variables_Separated_By_Comma)
 {
   // SETUP
-  auto mockCallSignature = std::make_unique<CallSignature>("double x, double y", "x", "NOT_IMPORTANT", "NOT_IMPORTANT");
+  auto mockCallSignature = std::make_unique<CallSignature>("double x, double y", "x", "NOT_IMPORTANT", "NOT_IMPORTANT","NOT_IMPORTANT");
   auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
   std::string expected{"double"};
 
@@ -32,7 +32,7 @@ TEST(GetTypeOfVariable, Input_With_Two_Variables_Separated_By_Comma)
 TEST(GetTypeOfVariable, Bracket_Touches_The_Type)
 {
   // SETUP
-  auto mockCallSignature = std::make_unique<CallSignature>("double (a)", "a", "NOT_IMPORTANT", "NOT_IMPORTANT");
+  auto mockCallSignature = std::make_unique<CallSignature>("double (a)", "a", "NOT_IMPORTANT", "NOT_IMPORTANT","NOT_IMPORTANT");
   auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
   std::string expected{"double"};
 
@@ -46,7 +46,7 @@ TEST(GetTypeOfVariable, Bracket_Touches_The_Type)
 TEST(GetTypeOfVariable, Variable_Passed_By_Reference)
 {
   // SETUP
-  auto mockCallSignature = std::make_unique<CallSignature>("float &a", "a", "NOT_IMPORTANT", "NOT_IMPORTANT");
+  auto mockCallSignature = std::make_unique<CallSignature>("float &a", "a", "NOT_IMPORTANT", "NOT_IMPORTANT","NOT_IMPORTANT");
   auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
   std::string expected{"float"};
 
@@ -60,7 +60,7 @@ TEST(GetTypeOfVariable, Variable_Passed_By_Reference)
 TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Whitespaces_Separated)
 {
   // SETUP
-  auto mockCallSignature = std::make_unique<CallSignature>("float & a", "a", "NOT_IMPORTANT", "NOT_IMPORTANT");
+  auto mockCallSignature = std::make_unique<CallSignature>("float & a", "a", "NOT_IMPORTANT", "NOT_IMPORTANT","NOT_IMPORTANT");
   auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
   std::string expected{"float"};
 
@@ -74,7 +74,7 @@ TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Whitespaces_Separated)
 TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Touching_Type)
 {
   // SETUP
-  auto mockCallSignature = std::make_unique<CallSignature>("float& a", "a", "NOT_IMPORTANT", "NOT_IMPORTANT");
+  auto mockCallSignature = std::make_unique<CallSignature>("float& a", "a", "NOT_IMPORTANT", "NOT_IMPORTANT","NOT_IMPORTANT");
   auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
   std::string expected{"float"};
 
@@ -88,7 +88,7 @@ TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Touching_Type)
 TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Touching_Type_With_Brackets)
 {
   // SETUP
-  auto mockCallSignature = std::make_unique<CallSignature>("float& (a)", "a", "NOT_IMPORTANT", "NOT_IMPORTANT");
+  auto mockCallSignature = std::make_unique<CallSignature>("float& (a)", "a", "NOT_IMPORTANT", "NOT_IMPORTANT","NOT_IMPORTANT");
   auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
   std::string expected{"float"};
 
@@ -102,7 +102,7 @@ TEST(GetTypeOfVariable, Variable_Passed_By_Reference_Touching_Type_With_Brackets
 TEST(GetTypeOfVariable, Two_Variables_And_Bracket)
 {
     // SETUP
-    auto mockCallSignature = std::make_unique<CallSignature>("double &x, float& y", "y", "NOT_IMPORTANT", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("double &x, float& y", "y", "NOT_IMPORTANT", "NOT_IMPORTANT","NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
     std::string expected{"float"};
 
@@ -116,7 +116,7 @@ TEST(GetTypeOfVariable, Two_Variables_And_Bracket)
 TEST(GetTypeOfVariable, Bracket_Touching_Variable)
 {
     // SETUP
-    auto mockCallSignature = std::make_unique<CallSignature>("double &x)", "x", "NOT_IMPORTANT", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("double &x)", "x", "NOT_IMPORTANT", "NOT_IMPORTANT","NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
     std::string expected{"double"};
 
@@ -130,7 +130,7 @@ TEST(GetTypeOfVariable, Bracket_Touching_Variable)
 TEST(GetAssociationByNameSignature, OneVariableOneParameter)
 {
     // SETUP
-    auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, const double p)", "x", "tangent", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, const double p)", "x", "NOT_IMPORTANT","tangent", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
     std::string expected{"f_t(x, x_t, p)"};
 
@@ -144,7 +144,7 @@ TEST(GetAssociationByNameSignature, OneVariableOneParameter)
 TEST(GetAssociationByNameSignature, TwoVariables)
 {
     // SETUP
-    auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x,y", "tangent", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x,y", "NOT_IMPORTANT","tangent", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
     std::string expected{"f_t(x, x_t, y, y_t)"};
 
@@ -158,7 +158,7 @@ TEST(GetAssociationByNameSignature, TwoVariables)
 TEST(GetAssociationByNameSignature, NewtonGradientTangent)
 {
     // SETUP
-    auto mockCallSignature = std::make_unique<CallSignature>("void newton(T &x, const PT &p, const PT &w)", "x, p, w", "tangent", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("void newton(T &x, const PT &p, const PT &w)", "x, p, w", "NOT_IMPORTANT", "tangent", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
     std::string expected{"newton_t(x, x_t, p, p_t, w, w_t)"};
 
@@ -172,7 +172,7 @@ TEST(GetAssociationByNameSignature, NewtonGradientTangent)
 TEST(GetAssociationByNameSignature, NewtonGradientAdjoint)
 {
     // SETUP
-    auto mockCallSignature = std::make_unique<CallSignature>("void newton(T &x, const PT &p, const PT &w)", "x, p, w", "adjoint", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("void newton(T &x, const PT &p, const PT &w)", "x, p, w","NOT_IMPORTANT", "adjoint", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
     std::string expected{"newton_a(x, x_a, p, p_a, w, w_a)"};
 
@@ -186,7 +186,7 @@ TEST(GetAssociationByNameSignature, NewtonGradientAdjoint)
 TEST(GetAssociationByNameSignature, TwoVariablesOneParameter)
 {
     // SETUP
-    auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, double &y, const double p)", "x, y", "tangent", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("void f(double &x, double &y, const double p)", "x, y", "NOT_IMPORTANT","tangent", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
     std::string expected{"f_t(x, x_t, y, y_t, p)"};
 
@@ -200,7 +200,7 @@ TEST(GetAssociationByNameSignature, TwoVariablesOneParameter)
 TEST(GetAssociationByNameSignature, VectorVariable)
 {
     // SETUP
-    auto mockCallSignature = std::make_unique<CallSignature>("void f(std::vector<double> &x)", "x", "tangent", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("void f(std::vector<double> &x)", "x", "NOT_IMPORTANT","tangent", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
     std::string expected{"f_t(x, x_t)"};
 
@@ -217,7 +217,7 @@ TEST(CreateLoopSignature, Loop_with_level_1)
     std::string activeVariable {"x"};
     int level = 1;
     std::string expected{"for (size_t i = 0; i < x.size(); ++i)"};
-    auto mockCallSignature = std::make_unique<CallSignature>("NOT_IMPORTANT", "NOT_IMPORTANT", "NOT_IMPORTANT", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("NOT_IMPORTANT", "NOT_IMPORTANT", "NOT_IMPORTANT", "NOT_IMPORTANT","NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
 
     // ACT
@@ -233,7 +233,7 @@ TEST(CreateLoopSignature, Loop_with_level_2)
     std::string activeVariable {"x"};
     int level = 2;
     std::string expected{"for (size_t ii = 0; ii < x.size(); ++ii)"};
-    auto mockCallSignature = std::make_unique<CallSignature>("NOT_IMPORTANT", "NOT_IMPORTANT", "NOT_IMPORTANT", "NOT_IMPORTANT");
+    auto mockCallSignature = std::make_unique<CallSignature>("NOT_IMPORTANT", "NOT_IMPORTANT", "NOT_IMPORTANT", "NOT_IMPORTANT","NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*mockCallSignature);
 
     // ACT
@@ -246,7 +246,7 @@ TEST(CreateLoopSignature, Loop_with_level_2)
 TEST(SetSeedValue, Tangent_Scalar_Type)
 {
     // SETUP
-    auto callSignature = std::make_unique<CallSignature>("double x", "x", "tangent", "gradient");
+    auto callSignature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x", "NOT_IMPORTANT","tangent", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
     std::string value_for_seeding = "1.0";
     std::string loop_level = "2";
@@ -262,7 +262,7 @@ TEST(SetSeedValue, Tangent_Scalar_Type)
 TEST(SetSeedValue, Adjoint_Vector_Level2_Type)
 {
     // SETUP
-    auto callSignature = std::make_unique<CallSignature>("std::vector<double> x", "x", "adjoint", "gradient");
+    auto callSignature = std::make_unique<CallSignature>("std::vector<double> x", "x", "NOT_IMPORTANT","adjoint", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
     std::string value_for_seeding = "1.0";
     std::string loop_level = "2";
@@ -278,7 +278,7 @@ TEST(SetSeedValue, Adjoint_Vector_Level2_Type)
 TEST(InitializeSeedValue, DoubleTangentScalar)
 {
     // SETUP
-    auto callSignature = std::make_unique<CallSignature>("f(double x)", "x", "tangent", "NOT_IMPORTANT");
+    auto callSignature = std::make_unique<CallSignature>("f(double x)", "x", "NOT_IMPORTANT","tangent", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
     std::string expected = "double x_t(0.0)";
 
@@ -292,7 +292,7 @@ TEST(InitializeSeedValue, DoubleTangentScalar)
 TEST(InitializeSeedValue, FloatAdjointVector)
 {
     // SETUP
-    auto callSignature = std::make_unique<CallSignature>("void f(std::vector<float> x)", "x", "adjoint", "NOT_IMPORTANT");
+    auto callSignature = std::make_unique<CallSignature>("void f(std::vector<float> x)", "x", "NOT_IMPORTANT","adjoint", "NOT_IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
     std::string expected = "std::vector<float> x_a(x.size(), 0.0)";
 
@@ -306,7 +306,7 @@ TEST(InitializeSeedValue, FloatAdjointVector)
 TEST(ResetSeedValue, Tangent_Scalar_Type)
 {
     // SETUP
-    auto callSignature = std::make_unique<CallSignature>("double x", "x", "tangent", "gradient");
+    auto callSignature = std::make_unique<CallSignature>("double x", "x", "NOT_IMPORTANT","tangent", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
     std::string loop_level = "2";
 
@@ -321,7 +321,7 @@ TEST(ResetSeedValue, Tangent_Scalar_Type)
 TEST(ResetSeedValue, Adjoint_Vector_Level2_Type)
 {
     // SETUP
-    auto callSignature = std::make_unique<CallSignature>("std::vector<double> x", "x", "adjoint", "gradient");
+    auto callSignature = std::make_unique<CallSignature>("std::vector<double> x", "x", "NOT_IMPORTANT","adjoint", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
     std::string loop_level = "2";
     std::string expected = "x_a[ii] = 0.0";
@@ -336,7 +336,7 @@ TEST(ResetSeedValue, Adjoint_Vector_Level2_Type)
 
 TEST(CreateDriverCallSignature, Gradient_Driver){
     // SETUP
-    auto call_signature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x, y", "tangent", "gradient");
+    auto call_signature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x, y", "NOT_IMPORTANT","tangent", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
     std::string expected{"void f_gradient(double &x, double &dx, double &y, double &dy)"};
 
@@ -350,7 +350,7 @@ TEST(CreateDriverCallSignature, Gradient_Driver){
 TEST(Harvest, Adjoint_Vector_Level2_Type)
 {
     // SETUP
-    auto callSignature = std::make_unique<CallSignature>("std::vector<double> y", "y", "adjoint", "gradient");
+    auto callSignature = std::make_unique<CallSignature>("std::vector<double> y", "y", "NOT_IMPORTANT","adjoint", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
     std::string loop_level = "2";
     std::string expected = "dy[ii] = y_a[ii]";
@@ -366,7 +366,7 @@ TEST(Harvest, Adjoint_Vector_Level2_Type)
 TEST(Harvest, Tangent_Vector_Level1_Type)
 {
     // SETUP
-    auto callSignature = std::make_unique<CallSignature>("std::vector<double> x", "x", "tangent", "gradient");
+    auto callSignature = std::make_unique<CallSignature>("std::vector<double> x", "x", "NOT_IMPORTANT","tangent", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
     std::string loop_level = "1";
     std::string expected = "dx[i] = x_t[i]";
@@ -381,7 +381,7 @@ TEST(Harvest, Tangent_Vector_Level1_Type)
 TEST(Harvest, Tangent_Scalar_Level0_Type)
 {
     // SETUP
-    auto callSignature = std::make_unique<CallSignature>("float x", "x", "tangent", "gradient");
+    auto callSignature = std::make_unique<CallSignature>("float x", "x", "NOT_IMPORTANT","tangent", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
     std::string loop_level = "0";
     std::string expected = "dx = x_t";
@@ -397,7 +397,7 @@ TEST(Harvest, Tangent_Scalar_Level0_Type)
 TEST(CreateDriverCallSignature, Sigmoid_Gradient_Driver)
 {
     // SETUP
-    auto call_signature = std::make_unique<CallSignature>("void sigmoid(double &x, double &y)", "x", "tangent", "gradient");
+    auto call_signature = std::make_unique<CallSignature>("void sigmoid(double &x, double &y)", "x", "NOT_IMPORTANT","tangent", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
     std::string expected{"void sigmoid_gradient(double &x, double &dx, double &y)"};
 
@@ -410,7 +410,7 @@ TEST(CreateDriverCallSignature, Sigmoid_Gradient_Driver)
 
 TEST(CreateDriverCallSignature, Jacobian_Driver){
     // SETUP
-    auto call_signature = std::make_unique<CallSignature>("void f(std::vector<double> &x)", "x", "tangent", "jacobian");
+    auto call_signature = std::make_unique<CallSignature>("void f(std::vector<double> &x)", "x", "NOT_IMPORTANT","tangent", "jacobian");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
     std::string expected{"void f_jacobian(std::vector<double> &x, std::vector<std::vector<double>> &dx)"};
 
@@ -423,7 +423,7 @@ TEST(CreateDriverCallSignature, Jacobian_Driver){
 
 TEST(CreateDriverCallArguments, Gradient_Driver_Two_Variables){
     // SETUP
-    auto call_signature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x, y", "tangent", "gradient");
+    auto call_signature = std::make_unique<CallSignature>("void f(double &x, double &y)", "x, y", "NOT_IMPORTANT","tangent", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
     std::string expected{"(double &x, double &dx, double &y, double &dy)"};
 
@@ -436,7 +436,7 @@ TEST(CreateDriverCallArguments, Gradient_Driver_Two_Variables){
 
 TEST(CreateDriverCallArguments, Gradient_Driver_Three_Variables){
     // SETUP
-    auto call_signature = std::make_unique<CallSignature>("void f(double &x, const double &y, double &z)", "x, y, z", "tangent", "gradient");
+    auto call_signature = std::make_unique<CallSignature>("void f(double &x, const double &y, double &z)", "x, y, z", "NOT_IMPORTANT","tangent", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
     std::string expected{"(double &x, double &dx, const double &y, const double &dy, double &z, double &dz)"};
 
@@ -449,7 +449,7 @@ TEST(CreateDriverCallArguments, Gradient_Driver_Three_Variables){
 
 TEST(CreateDriverCallArguments, Gradient_Driver_Sigmoid){
     // SETUP
-    auto call_signature = std::make_unique<CallSignature>("void sigmoid(T &x, const T &p, const T &w)", "x, p, w", "tangent", "gradient");
+    auto call_signature = std::make_unique<CallSignature>("void sigmoid(T &x, const T &p, const T &w)", "x, p, w", "NOT_IMPORTANT","tangent", "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
     std::string expected{"(T &x, T &dx, const T &p, const T &dp, const T &w, const T &dw)"};
 
@@ -462,7 +462,7 @@ TEST(CreateDriverCallArguments, Gradient_Driver_Sigmoid){
 
 TEST(GetModeTypeSuffix,Adjoint_Suffix){
     // SETUP
-    auto call_signature = std::make_unique<CallSignature>("NOT IMPORTANT", "NOT IMPORTANT", "adjoint", "NOT IMPORTANT");
+    auto call_signature = std::make_unique<CallSignature>("NOT IMPORTANT", "NOT IMPORTANT","NOT_IMPORTANT", "adjoint", "NOT IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
     std::string expected{"_a"};
 
@@ -475,7 +475,7 @@ TEST(GetModeTypeSuffix,Adjoint_Suffix){
 
 TEST(GetModeTypeSuffix,Tangent_Suffix){
     // SETUP
-    auto call_signature = std::make_unique<CallSignature>("NOT IMPORTANT", "NOT IMPORTANT", "tangent", "NOT IMPORTANT");
+    auto call_signature = std::make_unique<CallSignature>("NOT IMPORTANT", "NOT IMPORTANT","NOT_IMPORTANT","tangent", "NOT IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
     std::string expected{"_t"};
 
@@ -488,7 +488,7 @@ TEST(GetModeTypeSuffix,Tangent_Suffix){
 
 TEST(GetModeTypeSuffix, ThrowError_Suffix) {
     // SETUP
-    auto call_signature = std::make_unique<CallSignature>("NOT IMPORTANT", "NOT IMPORTANT", "adgent", "NOT IMPORTANT");
+    auto call_signature = std::make_unique<CallSignature>("NOT IMPORTANT", "NOT IMPORTANT", "NOT_IMPORTANT","adgent", "NOT IMPORTANT");
     auto cppUtilities = std::make_unique<CppUtilities>(*call_signature);
 
     // ACT & ASSERT
