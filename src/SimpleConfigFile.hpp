@@ -32,8 +32,11 @@ public:
     std::string getLanguage() const override { return _language; }
     std::string getActiveVariables() const override;
     std::string getOutputVariables() const override;
+    std::string getMode() const override;
     std::string getDriverType() const override { return _functions[0].driver_type; }
     void readYamlFile(std::string const &file_path) final;
+
+    
 
     ~SimpleConfigFile() override = default;
 };
@@ -68,6 +71,10 @@ std::string SimpleConfigFile::getActiveVariables() const {
 
 std::string SimpleConfigFile::getOutputVariables() const {
     return { _functions[0].output };
+}
+
+std::string SimpleConfigFile::getMode() const {
+    return { _functions[0].mode };
 }
 
 #endif //SIMPLECONFIGFILE_HPP

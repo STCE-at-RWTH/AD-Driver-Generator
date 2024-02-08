@@ -32,17 +32,30 @@ std::pair<std::vector<std::string>, std::vector<int>> JacobianDriver::createDriv
     counter.push_back(level);
     level++;
 
-    strings.push_back(utilities->setSeedValue(configFile->getActiveVariables(), "1.0", std::to_string(level-1)));
-    counter.push_back(level);
-
+    if ( configFile->getMode() == "tangent") {
+        strings.push_back(utilities->setSeedValue(configFile->getActiveVariables(), "1.0", std::to_string(level-1)));
+        counter.push_back(level);
+    } else if (configFile->getMode() == "adjoint"){
+        strings.push_back(utilities->setSeedValue(configFile->getOutputVariables(), "1.0", std::to_string(level-1)));
+        counter.push_back(level);
+    } else {
+        throw std::invalid_argument("Unsupported mode: '" + configFile->getMode() + "'. Supported modes are 'tangent' and 'adjoint'.");
+    }
     strings.push_back(utilities->getAssociationByNameSignature());
     counter.push_back(level);
 
     strings.push_back(utilities->harvestVec(configFile->getActiveVariables(), configFile->getOutputVariables()));
     counter.push_back(level);
 
-    strings.push_back(utilities->resetSeedValue(configFile->getActiveVariables(), std::to_string(level-1)));
-    counter.push_back(level);
+    if ( configFile->getMode() == "tangent") {
+        strings.push_back(utilities->resetSeedValue(configFile->getActiveVariables(), std::to_string(level-1)));
+        counter.push_back(level);
+    } else if (configFile->getMode() == "adjoint"){
+        strings.push_back(utilities->resetSeedValue(configFile->getOutputVariables(), std::to_string(level-1)));
+        counter.push_back(level);
+    } else {
+        throw std::invalid_argument("Unsupported mode: '" + configFile->getMode() + "'. Supported modes are 'tangent' and 'adjoint'.");
+    }
 
     return std::make_pair(strings, counter);
 
