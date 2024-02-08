@@ -18,8 +18,7 @@ public:
 
     ~CppUtilities() override = default;
 
-    std::string getTypeOfVariable(const std::string &activeVariable) const;
-
+    std::string getTypeOfVariable(const std::string &activeVariable);
     std::string getAssociationByNameSignature() final;
     std::string createLoopSignature(const std::string &activeVariable, int level) final;
     std::string setSeedValue(const std::string &variable, const std::string &value_for_seeding,
@@ -32,7 +31,7 @@ public:
     std::string getModeTypeSuffix() final;
 };
 
-std::string CppUtilities::getTypeOfVariable(const std::string &activeVariable) const
+std::string CppUtilities::getTypeOfVariable(const std::string &activeVariable)
 {
     std::vector<std::string> callSignatureSplitted = absl::StrSplit(_callSignature.call_signature, absl::ByAnyChar(" ,("),  absl::SkipEmpty());
 
@@ -78,11 +77,14 @@ std::string CppUtilities::getAssociationByNameSignature() {
     std::vector<std::string> activeVariables = absl::StrSplit(_callSignature.active, absl::ByAnyChar(" ,"),  absl::SkipEmpty());
     std::vector<std::string> words;
 
+    std::vector<std::string> outputVariables = absl::StrSplit(_callSignature.output, absl::ByAnyChar(" ,"),  absl::SkipEmpty());
+
+
     // checks which arguments from call signature are active variables or parameters
     for (int i = 0; i < callSignatureArguments.size(); i++) {
         words = absl::StrSplit(callSignatureArguments[i], absl::ByAnyChar(" &"), absl::SkipEmpty());
         functionCall = absl::StrCat(functionCall, words.back());
-        if (absl::c_linear_search(activeVariables, words.back())) {
+        if (absl::c_linear_search(activeVariables, words.back()) || absl::c_linear_search(outputVariables, words.back())) {
             functionCall = absl::StrCat(functionCall, ", ", words.back(), suffix);
         }
 
@@ -261,31 +263,46 @@ std::string CppUtilities::harvest(const std::string &variable, const std::string
 
 std::string CppUtilities::createDriverCallArguments(){
     std::string driverCallArguments = "(";
-        // Creates a string vector with all arguments from the call signature
-        std::vector<std::string> callSignatureArguments = absl::StrSplit(_callSignature.call_signature, absl::ByAnyChar(",()"),  absl::SkipEmpty());
-        callSignatureArguments.erase(callSignatureArguments.begin());
+    // Creates a string vector with all arguments from the call signature
+    std::vector<std::string> callSignatureArguments = absl::StrSplit(_callSignature.call_signature, absl::ByAnyChar(",()"),  absl::SkipEmpty());
+    callSignatureArguments.erase(callSignatureArguments.begin());
 
-        // Creates a string vector with the active variables
-        std::vector<std::string> activeVariables = absl::StrSplit(_callSignature.active, absl::ByAnyChar(" ,"),  absl::SkipEmpty());
-        std::vector<std::string> words;
-        std::vector<std::string> variableType;
-        std::string variableTypeString;
+    // Creates a string vector with the active variables
+    std::vector<std::string> activeVariables = absl::StrSplit(_callSignature.active, absl::ByAnyChar(" ,"),  absl::SkipEmpty());
+
+    // Creates a string vector with the output  variables
+    std::vector<std::string> outputVariables = absl::StrSplit(_callSignature.output, absl::ByAnyChar(" ,"),  absl::SkipEmpty());
+
+    // Creates auxiliary variables
+    std::vector<std::string> words;
+    std::vector<std::string> variableType;
+    std::string variableTypeString;
 
     for (int i = 0; i < callSignatureArguments.size(); i++) {
+        
         words = absl::StrSplit(callSignatureArguments[i], absl::ByAnyChar(" &"), absl::SkipEmpty());
+
         variableType = words;
         variableType.pop_back();
         variableTypeString = absl::StrJoin(variableType, " ");
         driverCallArguments = absl::StrCat(driverCallArguments, variableTypeString, " &", words.back());
         
-        if (absl::c_linear_search(activeVariables, words.back())){
+        if (absl::c_linear_search(activeVariables, words.back()) && _callSignature.mode == "adjoint"){
             if (_callSignature.driver_type == "gradient"){
                 driverCallArguments = absl::StrCat(driverCallArguments, ", ", variableTypeString, " &d", words.back());
             } else if (_callSignature.driver_type == "jacobian"){
-                driverCallArguments = absl::StrCat(driverCallArguments, ", std::vector<", variableTypeString, "> &d", words.back());
+                driverCallArguments = absl::StrCat(driverCallArguments, ",",  variableTypeString, " &d", words.back());
             }
         } 
         
+        if (absl::c_linear_search(outputVariables, words.back()) && _callSignature.mode == "tangent"){
+            if (_callSignature.driver_type == "gradient"){
+                driverCallArguments = absl::StrCat(driverCallArguments, ", ", variableTypeString, " &d", words.back());
+            } else if (_callSignature.driver_type == "jacobian"){
+                driverCallArguments = absl::StrCat(driverCallArguments, ", ", variableTypeString, " &d", words.back());
+            }
+        } 
+
         if (i < callSignatureArguments.size() - 1) {
             driverCallArguments = absl::StrCat(driverCallArguments, ", ");
         } else {
