@@ -9,6 +9,7 @@ add_library(libutilities
         CppOutputParser.hpp
         Driver.hpp
         GradientDriver.hpp
+        JacobianDriver.hpp
         DriverFactory.hpp
         UtilitiesFactory.hpp
 )
@@ -55,6 +56,15 @@ target_link_libraries(GradientDriver.test
         GTest::gtest_main
 )
 gtest_discover_tests(GradientDriver.test)
+
+add_executable(JacobianDriver.test
+        JacobianDriver.test.cpp)
+
+target_link_libraries(JacobianDriver.test
+        libutilities
+        GTest::gtest_main
+)
+gtest_discover_tests(JacobianDriver.test)
 
 add_executable(DriverFactory.test
         DriverFactory.test.cpp)

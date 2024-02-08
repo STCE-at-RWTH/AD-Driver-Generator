@@ -9,12 +9,18 @@ TEST(GradientDriver, CreateDriver_WhenOneActiveVariableIsDouble_ReturnsExpectedO
     // Setup
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
                                                           "void f(double &x, double &y)",
-                                                          "x","y",
+                                                          "x",
+                                                          "y",
                                                           "tangent",
                                                           "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(config_file->getFirstFunction());
     auto driver = std::make_unique<GradientDriver>();
-    std::vector<std::string> expected = {"void f_gradient(double &x, double &y, double &dy)", "double x_t(0.0)", "x_t = 1.0", "f_t(x, x_t, y, y_t)", "dx = x_t", "x_t = 0.0"};
+    std::vector<std::string> expected = {"void f_gradient(double &x, double &y, double &dy)",
+                                         "double x_t(0.0)",
+                                         "x_t = 1.0",
+                                         "f_t(x, x_t, y, y_t)",
+                                         "dx = x_t",
+                                         "x_t = 0.0"};
 
     // Act
     auto [strings, level] = driver->createDriver(cppUtilities.get(), config_file.get());
@@ -27,12 +33,18 @@ TEST(GradientDriver, CreateDriver_WhenPassiveVariableInCallSignature_ReturnsExpe
     // Setup
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
                                                           "void g(float &y, float &z, const double &p)",
-                                                          "y", "z",
+                                                          "y",
+                                                          "z",
                                                           "tangent",
                                                           "gradient");
     auto cppUtilities = std::make_unique<CppUtilities>(config_file->getFirstFunction());
     auto driver = std::make_unique<GradientDriver>();
-    std::vector<std::string> expected = {"void g_gradient(float &y, float &z, float &dz, const double &p)", "float y_t(0.0)", "y_t = 1.0", "g_t(y, y_t, z, z_t, p)", "dy = y_t", "y_t = 0.0"};
+    std::vector<std::string> expected = {"void g_gradient(float &y, float &z, float &dz, const double &p)",
+                                         "float y_t(0.0)",
+                                         "y_t = 1.0",
+                                         "g_t(y, y_t, z, z_t, p)",
+                                         "dy = y_t",
+                                         "y_t = 0.0"};
 
     // Act
     auto [strings, level] = driver->createDriver(cppUtilities.get(), config_file.get());
@@ -45,7 +57,7 @@ TEST(GradientDriver, CreateDriver_WhenInputIsVector_ReturnsExpectedOutput) {
     // Setup
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
                                                           "void someFunction(std::vector<double> &x, std::vector<double> &y)",
-                                                          "x", 
+                                                          "x",
                                                           "y",
                                                           "tangent",
                                                           "gradient");

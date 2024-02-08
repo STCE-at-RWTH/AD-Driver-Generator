@@ -38,9 +38,6 @@ TEST(SimpleConfigFile, CreateSimpleConfigFile_WhenInputInConstructor_ReturnsExpe
     EXPECT_EQ("void f(double &x)", config_file->getFirstFunction().call_signature);
 }
 
-
-
-
 TEST(SimpleConfigFile, Check_With_Multiple_Active_ones){
     auto config_file = std::make_unique<SimpleConfigFile>("cpp",
                                                           "void f(double &x, double &y)",
@@ -55,3 +52,17 @@ TEST(SimpleConfigFile, Check_With_Multiple_Active_ones){
     EXPECT_EQ("void f(double &x, double &y)", config_file->getFirstFunction().call_signature);
 }
 
+TEST(SimpleConfigFile, Check_With_1_Active_1_Output_ones){
+    auto config_file = std::make_unique<SimpleConfigFile>("cpp",
+                                                          "void f(double &x, double &y)",
+                                                          "x",
+                                                          "y",
+                                                          "tangent",
+                                                          "something");
+    EXPECT_EQ("cpp", config_file->getLanguage());
+    EXPECT_EQ("x", config_file->getFirstFunction().active);
+    EXPECT_EQ("y", config_file->getFirstFunction().output);
+    EXPECT_EQ("something", config_file->getFirstFunction().driver_type);
+    EXPECT_EQ("tangent", config_file->getFirstFunction().mode);
+    EXPECT_EQ("void f(double &x, double &y)", config_file->getFirstFunction().call_signature);
+}

@@ -26,14 +26,17 @@ public:
 
     bool validateInput() override;
 
-    std::string getLanguage() const override { return _language; }
-
-    std::vector<CallSignature> getFunctions() const override { return _functions; }
     CallSignature getFirstFunction() const { return _functions[0]; }
-
+    std::vector<CallSignature> getFunctions() const override { return _functions; }
+    
+    std::string getLanguage() const override { return _language; }
     std::string getActiveVariables() const override;
+    std::string getOutputVariables() const override;
+    std::string getMode() const override;
     std::string getDriverType() const override { return _functions[0].driver_type; }
     void readYamlFile(std::string const &file_path) final;
+
+    
 
     ~SimpleConfigFile() override = default;
 };
@@ -64,6 +67,14 @@ bool SimpleConfigFile::validateInput() {
 
 std::string SimpleConfigFile::getActiveVariables() const {
     return { _functions[0].active };
+}
+
+std::string SimpleConfigFile::getOutputVariables() const {
+    return { _functions[0].output };
+}
+
+std::string SimpleConfigFile::getMode() const {
+    return { _functions[0].mode };
 }
 
 #endif //SIMPLECONFIGFILE_HPP
