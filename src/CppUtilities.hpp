@@ -18,7 +18,7 @@ public:
 
     ~CppUtilities() override = default;
 
-    std::string getTypeOfVariable(const std::string &activeVariable);
+    std::string getTypeOfVariable(const std::string &activeVariable) const;
     std::string getAssociationByNameSignature() final;
     std::string createLoopSignature(const std::string &activeVariable, int level) final;
     std::string setSeedValue(const std::string &variable, const std::string &value_for_seeding,
@@ -31,7 +31,7 @@ public:
     std::string getModeTypeSuffix() final;
 };
 
-std::string CppUtilities::getTypeOfVariable(const std::string &activeVariable)
+std::string CppUtilities::getTypeOfVariable(const std::string &activeVariable) const
 {
     std::vector<std::string> callSignatureSplitted = absl::StrSplit(_callSignature.call_signature, absl::ByAnyChar(" ,("),  absl::SkipEmpty());
 
@@ -77,8 +77,8 @@ std::string CppUtilities::getAssociationByNameSignature() {
     std::vector<std::string> activeVariables = absl::StrSplit(_callSignature.active, absl::ByAnyChar(" ,"),  absl::SkipEmpty());
     std::vector<std::string> words;
 
+    // creates a vector with the output variables
     std::vector<std::string> outputVariables = absl::StrSplit(_callSignature.output, absl::ByAnyChar(" ,"),  absl::SkipEmpty());
-
 
     // checks which arguments from call signature are active variables or parameters
     for (int i = 0; i < callSignatureArguments.size(); i++) {
