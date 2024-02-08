@@ -26,6 +26,7 @@ public:
     std::string initializeSeedValue(const std::string &variable) final;
     std::string resetSeedValue(const std::string &variable, const std::string &loop_level) final;
     std::string harvest(const std::string &variable, const std::string &loop_level) final;
+    std::string harvestVec(const std::string &ActVariable, const std::string &OutVariable) final;
     std::string createDriverCallSignature() final;
     std::string createDriverCallArguments() final;
     std::string getModeTypeSuffix() final;
@@ -258,6 +259,19 @@ std::string CppUtilities::harvest(const std::string &variable, const std::string
     } else {
         // Throw an exception for invalid loop_level
         throw std::invalid_argument("Loop level must be a non-negative integer or '0'.");
+    }
+}
+
+std::string CppUtilities::harvestVec(const std::string &ActVariable, const std::string &OutVariable)
+{
+    std::string suffix = getModeTypeSuffix();
+
+    if (_callSignature.mode == "tangent") {
+        return absl::StrCat("d", OutVariable, ".insert(","d", OutVariable,".end(), ", OutVariable, suffix, ".begin(), ", OutVariable, suffix, ".end())");
+    } else if (_callSignature.mode == "adjoint") {
+                return absl::StrCat("d", ActVariable, ".insert(","d", ActVariable,".end(), ", ActVariable, suffix, ".begin(), ", ActVariable, suffix, ".end())");
+    } else {
+        throw std::invalid_argument("Unsupported mode: '" + _callSignature.mode + "'. Supported modes are 'tangent' and 'adjoint'.");
     }
 }
 

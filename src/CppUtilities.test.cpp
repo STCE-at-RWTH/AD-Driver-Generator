@@ -356,7 +356,7 @@ TEST(Harvest, Adjoint_Vector_Level2_Type)
 
     // ACT
     auto actual = cppUtilities->harvest(callSignature->active, loop_level);
-  
+
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
@@ -390,6 +390,35 @@ TEST(Harvest, Tangent_Scalar_Level0_Type)
     // ASSERT
     EXPECT_EQ(actual, expected);
 }
+
+TEST(HarvestVec, Tangent_Vec_Type)
+{
+    // SETUP
+    auto callSignature = std::make_unique<CallSignature>("void f(std::vector<double> x, std::vector<double> y)", "x", "y","tangent", "gradient");
+    auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
+    std::string expected = "dy.insert(dy.end(), y_t.begin(), y_t.end())";
+
+    // ACT
+    auto actual = cppUtilities->harvestVec(callSignature->active,callSignature->output);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
+TEST(HarvestVec, Adjoint_Vec_Type)
+{
+    // SETUP
+    auto callSignature = std::make_unique<CallSignature>("void f(std::vector<double> x, std::vector<double> y)", "x", "y","adjoint", "gradient");
+    auto cppUtilities = std::make_unique<CppUtilities>(*callSignature);
+    std::string expected = "dx.insert(dx.end(), x_a.begin(), x_a.end())";
+
+    // ACT
+    auto actual = cppUtilities->harvestVec(callSignature->active,callSignature->output);
+
+    // ASSERT
+    EXPECT_EQ(actual, expected);
+}
+
 
 TEST(CreateDriverCallSignature, One_Variable_Gradient_Driver_Tangent_Mode)
 {
@@ -443,7 +472,7 @@ TEST(CreateDriverCallSignature, Two_Variables_Jacobian_Driver_Tangent_Mode){
     auto actual = cppUtilities->createDriverCallSignature();
 
     // ASSERT
-    EXPECT_EQ(actual, expected);    
+    EXPECT_EQ(actual, expected);
 }
 
 TEST(CreateDriverCallSignature, Gradient_Driver_Adjoint)
@@ -522,7 +551,7 @@ TEST(GetModeTypeSuffix,Tangent_Suffix){
     auto actual = cppUtilities->getModeTypeSuffix();
 
     // ASSERT
-    EXPECT_EQ(actual, expected);    
+    EXPECT_EQ(actual, expected);
 }
 
 TEST(GetModeTypeSuffix, ThrowError_Suffix) {

@@ -21,7 +21,7 @@ TEST(JacobianDriver, CreateDriver_WhenOneActiveVariableIsDouble_ReturnsExpectedO
                                          "for (size_t i = 0; i < x.size(); ++i)",
                                          "x_t[i] = 1.0", 
                                          "f_t(x, x_t, y, y_t)", 
-                                         "dy[i] = y_t[i]", 
+                                         "dy.insert(dy.end(), y_t.begin(), y_t.end())", 
                                          "x_t[i] = 0.0"};
 
     // Act

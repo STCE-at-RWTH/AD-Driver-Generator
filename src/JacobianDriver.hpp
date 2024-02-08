@@ -38,7 +38,7 @@ std::pair<std::vector<std::string>, std::vector<int>> JacobianDriver::createDriv
     strings.push_back(utilities->getAssociationByNameSignature());
     counter.push_back(level);
 
-    strings.push_back(utilities->harvest(configFile->getActiveVariables(), std::to_string(level-1)));
+    strings.push_back(utilities->harvestVec(configFile->getActiveVariables(), configFile->getOutputVariables()));
     counter.push_back(level);
 
     strings.push_back(utilities->resetSeedValue(configFile->getActiveVariables(), std::to_string(level-1)));
