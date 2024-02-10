@@ -5,8 +5,14 @@
 
 class CallSignature{
 public:
+    CallSignature(std::string_view callSignature, std::string_view activeVariavle, std::string_view output,
+                  std::string_view mode, std::string_view driverType) {
+
+    }
+
     std::string call_signature{};
     std::string active{};
+    std::string output{};
     std::string mode{};
     std::string driver_type{};
 

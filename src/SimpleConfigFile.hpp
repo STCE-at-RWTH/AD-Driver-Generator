@@ -35,10 +35,7 @@ public:
     std::string getOutputVariables() const override;
     std::string getMode() const override;
     std::string getDriverType() const override { return _functions[0].driver_type; }
-    std::string getActiveVariables() const override;
     void readYamlFile(std::string const &file_path) final;
-
-
 
     ~SimpleConfigFile() override = default;
 };
@@ -71,7 +68,6 @@ std::string SimpleConfigFile::getActiveVariables() const {
     return { _functions[0].active };
 }
 
-<<<<<<< HEAD
 std::string SimpleConfigFile::getOutputVariables() const {
     return { _functions[0].output };
 }
@@ -79,7 +75,4 @@ std::string SimpleConfigFile::getOutputVariables() const {
 std::string SimpleConfigFile::getMode() const {
     return { _functions[0].mode };
 }
-
-=======
->>>>>>> d3fd5d6 (include getActiveVariable functionality to ConfigFile)
 #endif //SIMPLECONFIGFILE_HPP
