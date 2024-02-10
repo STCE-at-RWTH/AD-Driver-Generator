@@ -41,6 +41,7 @@ std::pair<std::vector<std::string>, std::vector<int>> JacobianDriver::createDriv
     } else {
         throw std::invalid_argument("Unsupported mode: '" + configFile->getMode() + "'. Supported modes are 'tangent' and 'adjoint'.");
     }
+    
     strings.push_back(utilities->getAssociationByNameSignature());
     counter.push_back(level);
 
