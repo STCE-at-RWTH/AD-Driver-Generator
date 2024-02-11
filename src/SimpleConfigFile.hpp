@@ -61,8 +61,25 @@ void SimpleConfigFile::readYamlFile(const std::string &file_path) {
  * @return bool if active is in call signature
  */
 bool SimpleConfigFile::validateInput() {
-    // more for a show of concept this method would need to be updated with serious checks!
-    return absl::StrContains(_functions[0].call_signature, _functions[0].active);
+    // Separate the arguments name from the call signature
+    std::vector<std::string> callSignatureArguments = absl::StrSplit(_functions[0].call_signature, absl::ByAnyChar("("),  absl::SkipEmpty());
+    callSignatureArguments.erase(callSignatureArguments.begin());
+    // Check if active and output are in call signature
+    bool isActiveInCallSignature = absl::StrContains(callSignatureArguments[0], _functions[0].active);
+    bool isOutputInCallSignature = absl::StrContains(callSignatureArguments[0], _functions[0].output);
+    //Check if mode and driver type are valid
+    bool isModeValid = absl::StrContains(_functions[0].mode, "tangent") ||
+                       absl::StrContains(_functions[0].mode, "Tangent") ||
+                       absl::StrContains(_functions[0].mode, "Adjoint") ||
+                       absl::StrContains(_functions[0].mode, "adjoint");
+    bool isDriverTypeValid = absl::StrContains(_functions[0].driver_type, "Gradient") ||
+                             absl::StrContains(_functions[0].driver_type, "gradient") ||
+                             absl::StrContains(_functions[0].driver_type, "Jacobian") ||
+                             absl::StrContains(_functions[0].driver_type, "jacobian") ||
+                             absl::StrContains(_functions[0].driver_type, "Hessian") ||
+                             absl::StrContains(_functions[0].driver_type, "hessian");
+    bool validInput = isActiveInCallSignature && isOutputInCallSignature && isModeValid && isDriverTypeValid;
+    return validInput;
 }
 
 std::string SimpleConfigFile::getActiveVariables() const {

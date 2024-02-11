@@ -281,12 +281,6 @@ std::string CppUtilities::createDriverCallArguments(){
     std::vector<std::string> callSignatureArguments = absl::StrSplit(_callSignature.call_signature, absl::ByAnyChar(",()"),  absl::SkipEmpty());
     callSignatureArguments.erase(callSignatureArguments.begin());
 
-    // Creates a string vector with the active variables
-    std::vector<std::string> activeVariables = absl::StrSplit(_callSignature.active, absl::ByAnyChar(" ,"),  absl::SkipEmpty());
-
-    // Creates a string vector with the output  variables
-    std::vector<std::string> outputVariables = absl::StrSplit(_callSignature.output, absl::ByAnyChar(" ,"),  absl::SkipEmpty());
-
     // Creates auxiliary variables
     std::vector<std::string> words;
     std::vector<std::string> variableType;
@@ -301,7 +295,7 @@ std::string CppUtilities::createDriverCallArguments(){
         variableTypeString = absl::StrJoin(variableType, " ");
         driverCallArguments = absl::StrCat(driverCallArguments, variableTypeString, " &", words.back());
         
-        if (absl::c_linear_search(activeVariables, words.back()) && _callSignature.mode == "adjoint"){
+        if (absl::c_linear_search(_callSignature.activeVec, words.back()) && _callSignature.mode == "adjoint"){
             if (_callSignature.driver_type == "gradient"){
                 driverCallArguments = absl::StrCat(driverCallArguments, ", ", variableTypeString, " &d", words.back());
             } else if (_callSignature.driver_type == "jacobian"){
@@ -309,7 +303,7 @@ std::string CppUtilities::createDriverCallArguments(){
             }
         } 
         
-        if (absl::c_linear_search(outputVariables, words.back()) && _callSignature.mode == "tangent"){
+        if (absl::c_linear_search( _callSignature.outputVec, words.back()) && _callSignature.mode == "tangent"){
             if (_callSignature.driver_type == "gradient"){
                 driverCallArguments = absl::StrCat(driverCallArguments, ", ", variableTypeString, " &d", words.back());
             } else if (_callSignature.driver_type == "jacobian"){
