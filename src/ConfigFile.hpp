@@ -2,6 +2,7 @@
 #define CONFIG_FILE_HPP
 
 #include <string>
+
 #include "CallSignature.hpp"
 
 class ConfigFile {

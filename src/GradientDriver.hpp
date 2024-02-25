@@ -1,13 +1,10 @@
-//
-// Created by felix on 1/17/24.
-//
-
 #ifndef SISC_LAB_GRADIENTDRIVER_HPP
 #define SISC_LAB_GRADIENTDRIVER_HPP
 
+#include <absl/strings/match.h>
+
 #include "Driver.hpp"
 #include "Utilities.hpp"
-#include "absl/strings/match.h"
 
 class GradientDriver : public Driver {
 public:
@@ -50,7 +47,5 @@ std::pair<std::vector<std::string>, std::vector<int>> GradientDriver::createDriv
 
     return std::make_pair(strings, counter);
 }
-
-
 
 #endif //SISC_LAB_GRADIENTDRIVER_HPP

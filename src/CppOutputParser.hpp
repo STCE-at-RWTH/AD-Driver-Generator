@@ -3,8 +3,10 @@
 
 #include <iostream>
 #include <cassert>
+
+#include <absl/strings/str_cat.h>
+
 #include "OutputParser.hpp"
-#include "absl/strings/str_cat.h"
 
 class CppOutputParser : public OutputParser {
 public:

@@ -1,16 +1,17 @@
 #ifndef SISC_LAB_CPPUTILITIES_HPP
 #define SISC_LAB_CPPUTILITIES_HPP
 
+#include <utility>
+
+#include <absl/strings/str_split.h>
+#include <absl/strings/str_cat.h>
+#include <absl/strings/str_join.h>
+#include <absl/algorithm/container.h>
 
 #include "ConfigFile.hpp"
 #include "Utilities.hpp"
-#include "absl/strings/str_split.h"
-#include "absl/strings/str_cat.h"
-#include "absl/strings/str_join.h"
-#include "absl/algorithm/container.h"
 #include "CallSignature.hpp"
 
-#include <utility>
 
 class CppUtilities : public Utilities {
     CallSignature _callSignature;
@@ -18,10 +19,6 @@ public:
     explicit CppUtilities(CallSignature callSignature) : _callSignature(std::move(callSignature)) {};
 
     ~CppUtilities() override = default;
-
-    bool checkMock() final {
-        return false;
-    }
 
     std::string getTypeOfVariable(const std::string &activeVariable) const;
     std::string getAssociationByNameSignature() final;
@@ -233,8 +230,7 @@ std::string CppUtilities::harvest(const std::string &variable, const std::string
     std::string suffix = getModeTypeSuffix();
     // Determine if the variable is a vector or scalar
     std::string variable_type;
-    auto type_of_variable = getTypeOfVariable(variable);
-    if (type_of_variable.find("std::vector<") != std::string::npos) {
+    if (getTypeOfVariable(variable).find("std::vector<") != std::string::npos) {
         variable_type = "vector";
     } else {
         variable_type = "scalar";
