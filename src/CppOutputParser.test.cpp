@@ -1,8 +1,5 @@
-//
-// Created by felix on 1/8/24.
-//
+#include <gtest/gtest.h>
 
-#include "gtest/gtest.h"
 #include "CppOutputParser.hpp"
 
 TEST(CppOutputParser, Assert_When_Size_Of_Input_Not_Equal) {

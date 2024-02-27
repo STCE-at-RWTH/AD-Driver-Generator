@@ -3,6 +3,7 @@
 
 #include <memory>
 #include <iostream>
+
 #include "Utilities.hpp"
 #include "CppUtilities.hpp"
 
@@ -17,7 +18,7 @@ std::unique_ptr<Utilities> UtilitiesFactory::getUtilities(const ConfigFile *conf
         return std::make_unique<CppUtilities>(callSignatures[0]);
     } else {
         // end program with exit code 1
-        std::cout << "Invalid input language type: " << configFile->getDriverType() << std::endl;
+        std::cout << "Invalid input language type: " << configFile->getLanguage() << std::endl;
         std::exit(1);
     }
 }

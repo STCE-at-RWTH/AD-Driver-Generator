@@ -1,28 +1,32 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+
 #include "DriverFactory.hpp"
-#include "SimpleConfigFile.hpp"
+#include "ConfigFileMock.hpp"
 
 TEST(DriverFactory, GetDriverType_WhenConfigurationIsGradient_ReturnsNotNull) {
-    auto configFile = std::make_unique<SimpleConfigFile>("NOT_IMPORTANT",
-                                                          "NOT_IMPORTANT",
-                                                          "NOT_IMPORTANT",
-                                                          "NOT_IMPORTANT",
-                                                          "NOT_IMPORTANT",
-                                                          "gradient");
+    ConfigFileMock configFileMock;
+    EXPECT_CALL(configFileMock, getDriverType())
+    .WillRepeatedly(::testing::Return("gradient"));
 
-    auto driver = std::make_unique<DriverFactory>()->getDriverType(configFile.get());
+    auto driver = std::make_unique<DriverFactory>()->getDriverType(&configFileMock);
+    EXPECT_TRUE(driver != nullptr);
+}
+
+TEST(DriverFactory, GetDriverType_WhenConfigurationIsJacobian_ReturnsNotNull) {
+    ConfigFileMock configFileMock;
+    EXPECT_CALL(configFileMock, getDriverType())
+    .WillRepeatedly(::testing::Return("jacobian"));
+
+    auto driver = std::make_unique<DriverFactory>()->getDriverType(&configFileMock);
     EXPECT_TRUE(driver != nullptr);
 }
 
 TEST(DriverFactory, GetDriverType_WhenConfigurationIsNotGradient_StopsExecution) {
-    auto configFile = std::make_unique<SimpleConfigFile>("NOT_IMPORTANT",
-                                                         "NOT_IMPORTANT",
-                                                         "NOT_IMPORTANT",
-                                                         "NOT_IMPORTANT",
-                                                         "NOT_IMPORTANT",
-                                                         "NOT_VALID");
+    EXPECT_EXIT(
+            ConfigFileMock configFileMock;
+            EXPECT_CALL(configFileMock, getDriverType()).WillOnce(::testing::Return("INVALID_DRIVER_TYPE"));
 
-    EXPECT_EXIT(std::make_unique<DriverFactory>()->getDriverType(configFile.get()),
+            std::make_unique<DriverFactory>()->getDriverType(&configFileMock),
                 ::testing::ExitedWithCode(1), "");
 
 }

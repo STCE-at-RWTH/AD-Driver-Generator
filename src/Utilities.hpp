@@ -3,11 +3,11 @@
 
 #include <vector>
 #include <string>
+
 #include "ConfigFile.hpp"
 
 class Utilities{
 public:
-    Utilities() = default;
     virtual ~Utilities() = default;
 
     virtual std::string getAssociationByNameSignature() = 0;
@@ -20,6 +20,6 @@ public:
     virtual std::string createDriverCallSignature() = 0;
     virtual std::string createDriverCallArguments() = 0;
     virtual std::string getModeTypeSuffix() = 0;
-
 };
+
 #endif //SISC_LAB_UTILITIES_HPP
