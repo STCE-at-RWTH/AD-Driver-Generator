@@ -7,7 +7,6 @@
 
 int main(int argc, char **argv) {
     const std::string FILENAME{argv[1]};
-    const std::string FILENAME_OUTPUT{argv[2]};
 
     // read into to config file
     auto configFile = std::make_unique<SimpleConfigFile>();
@@ -23,10 +22,17 @@ int main(int argc, char **argv) {
 
     parser->parse(output_pair);
 
-    std::ofstream OutputFile (FILENAME_OUTPUT);
-    for (auto const &str: output_pair.first) {
+    if (argv[2] != nullptr){
+      const std::string FILENAME_OUTPUT{argv[2]};
+      std::ofstream OutputFile (FILENAME_OUTPUT);
+      for (auto const &str: output_pair.first) {
         OutputFile << str << std::endl;
+      }
+      OutputFile.close();
     }
-
-    OutputFile.close();
+    else{
+      for (auto const &str: output_pair.first) {
+        std::cout << str << std::endl;
+      }
+    }
 }

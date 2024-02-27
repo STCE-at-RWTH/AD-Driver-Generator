@@ -1,28 +1,36 @@
-#include "gtest/gtest.h"
+#include <gtest/gtest.h>
+#include <gmock/gmock.h>
+
 #include "UtilitiesFactory.hpp"
-#include "SimpleConfigFile.hpp"
+#include "ConfigFileMock.hpp"
 
-TEST(UtilitiesFactory, GetUtilities_WhenConfigurationIsCpp_ReturnsNotNull) {
-    auto configFile = std::make_unique<SimpleConfigFile>("cpp",
-                                                         "NOT_IMPORTANT",
-                                                         "NOT_IMPORTANT",
-                                                         "NOT_IMPORTANT",
-                                                         "NOT_IMPORTANT",
-                                                         "NOT_IMPORTANT");
+TEST(UtilitiesFactory, GetUtilities_WhenConfigurationIsCpp_ReturnsUtilities) {
+    // Arrange
+    ConfigFileMock configFileMock;
+    auto callSignature = CallSignature("f(const std::vector<double> &x)", "x", "y", "tangent", "jacobian");
+    auto callSignatures = std::vector<CallSignature>();
+    callSignatures.push_back(callSignature);
 
-    auto utilities = std::make_unique<UtilitiesFactory>()->getUtilities(configFile.get());
+    EXPECT_CALL(configFileMock, getLanguage())
+            .WillOnce(testing::Return("cpp"));
+    EXPECT_CALL(configFileMock, getFunctions())
+            .WillOnce(testing::Return(callSignatures));
+
+    // Act
+    auto utilities = std::make_unique<UtilitiesFactory>()->getUtilities(&configFileMock);
+
+    // Assert
     EXPECT_TRUE(utilities != nullptr);
 }
 
 TEST(UtilitiesFactory, GetUtilities_WhenConfigurationIsInvalid_StopsExecution) {
-    auto configFile = std::make_unique<SimpleConfigFile>("Some_Random_Language",
-                                                         "NOT_IMPORTANT",
-                                                         "NOT_IMPORTANT",
-                                                         "NOT_IMPORTANT",
-                                                         "NOT_IMPORTANT",
-                                                         "NOT_IMPORTANT");
+    EXPECT_EXIT(
+            // Arrange
+            ConfigFileMock configFileMock;
+            EXPECT_CALL(configFileMock, getLanguage())
+                    .WillOnce(testing::Return("SOME_UNKNOWN_STRING"));
 
-    EXPECT_EXIT(std::make_unique<UtilitiesFactory>()->getUtilities(configFile.get()),
+            // Act
+            std::make_unique<UtilitiesFactory>()->getUtilities(&configFileMock),
                 ::testing::ExitedWithCode(1), "");
 }
-

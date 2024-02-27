@@ -1,13 +1,15 @@
 #ifndef SIMPLECONFIGFILE_HPP
 #define SIMPLECONFIGFILE_HPP
 
-#include "absl/strings/match.h"
-#include "yaml-cpp/yaml.h"
+#include <absl/strings/match.h>
+#include <yaml-cpp/yaml.h>
 
 #include "ConfigFile.hpp"
+#include "CallSignature.hpp"
 
 class SimpleConfigFile : public ConfigFile
 {
+
     std::string _language{};
     std::vector<CallSignature> _functions{};
 
@@ -28,7 +30,7 @@ public:
 
     CallSignature getFirstFunction() const { return _functions[0]; }
     std::vector<CallSignature> getFunctions() const override { return _functions; }
-    
+
     std::string getLanguage() const override { return _language; }
     std::string getActiveVariables() const override;
     std::string getOutputVariables() const override;

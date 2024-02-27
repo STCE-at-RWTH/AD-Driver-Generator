@@ -12,8 +12,8 @@ include(FetchContent)
 
 FetchContent_Declare(
         googletest
-        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
-        URL https://github.com/google/googletest/archive/refs/tags/v1.14.0.zip
+        GIT_REPOSITORY https://github.com/google/googletest.git
+        GIT_TAG b75ecf1bed2fcd416b66c86cb6fe79122abf132e # 2024-02-08
 )
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
@@ -29,7 +29,7 @@ set(ABSL_PROPAGATE_CXX_STD ON)
 FetchContent_Declare(
         yaml-cpp
         GIT_REPOSITORY https://github.com/jbeder/yaml-cpp.git
-        GIT_TAG 0.8.0 # 2023-08-10
+        GIT_TAG 4afd53b0d3140ba2eb85816bfced209cf37ff096 # 2024-01-26
 )
 
 FetchContent_MakeAvailable(googletest abseil yaml-cpp)
