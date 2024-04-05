@@ -12,7 +12,7 @@ public:
     std::pair<std::vector<std::string>, std::vector<int>>
     createDriver(Utilities *utilities, ConfigFile *configFiles) override;
 
-};;
+};
 
 std::pair<std::vector<std::string>, std::vector<int>> JacobianDriver::createDriver(Utilities *utilities, ConfigFile *configFile) {
     std::vector<std::string> strings;
