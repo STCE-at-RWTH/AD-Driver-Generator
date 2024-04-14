@@ -1,10 +1,12 @@
 # build directories
 *build*
 compile_commands.json
+*.vscode*
 
 # IDE stuff
 *.idea
 *.cache
+*.vscode
 
 # Prerequisites
 *.d
@@ -39,5 +41,9 @@ compile_commands.json
 *.out
 *.app
 
+# text files
+*.txt
+
 # tags files
 tags
+.vscode/settings.json

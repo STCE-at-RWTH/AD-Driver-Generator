@@ -1,0 +1,7 @@
+language: cpp
+functions:
+  call_signature: void f(std::vector<double> &x, std::vector<double> &y)
+  active_variable: x
+  output: y
+  mode: adjoint
+  driver_type: jacobian
