@@ -13,7 +13,7 @@ include(FetchContent)
 FetchContent_Declare(
         googletest
         GIT_REPOSITORY https://github.com/google/googletest.git
-        GIT_TAG b75ecf1bed2fcd416b66c86cb6fe79122abf132e # 2024-02-08
+        GIT_TAG 0af976647f49ff0944c5971ae0a45d6fcdf1ecca # 2024-04-05
 )
 
 # For Windows: Prevent overriding the parent project's compiler/linker settings
@@ -22,7 +22,7 @@ set(gtest_force_shared_crt ON CACHE BOOL "" FORCE)
 FetchContent_Declare(
         abseil
         GIT_REPOSITORY https://github.com/abseil/abseil-cpp.git
-        GIT_TAG 563c86a80c06ffbbfaa2ea792a9c255a5c258cf0 # 2024-02-07
+        GIT_TAG 61e47a454c81eb07147b0315485f476513cc1230 # 2024-04-05
 )
 set(ABSL_PROPAGATE_CXX_STD ON)
 

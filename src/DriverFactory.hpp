@@ -11,7 +11,7 @@
 
 class DriverFactory {
 public:
-    std::unique_ptr<Driver> getDriverType(const ConfigFile *configFile);
+    static std::unique_ptr<Driver> getDriverType(const ConfigFile *configFile);
 };
 
 std::unique_ptr<Driver> DriverFactory::getDriverType(const ConfigFile *configFile) {
