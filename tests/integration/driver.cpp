@@ -5,7 +5,7 @@
 #include "../../src/UtilitiesFactory.hpp"
 #include "../../src/CppOutputParser.hpp"
 
-int main(int argc, char **argv) {
+int main([[maybe_unused]] int argc, char **argv) {
     const std::string FILENAME{argv[1]};
 
     // read into to config file

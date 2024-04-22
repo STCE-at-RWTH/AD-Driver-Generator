@@ -9,7 +9,7 @@
 
 class UtilitiesFactory {
 public:
-    std::unique_ptr<Utilities> getUtilities(const ConfigFile *configFile);
+    static std::unique_ptr<Utilities> getUtilities(const ConfigFile *configFile);
 };
 
 std::unique_ptr<Utilities> UtilitiesFactory::getUtilities(const ConfigFile *configFile) {

@@ -19,7 +19,7 @@ add_test(NAME JacobianDriver.ExternalYAMLFile_TangentMode1ActiveVector1OutputVec
         "${CMAKE_CURRENT_SOURCE_DIR}/cpp_jacobian_tangent_1_act_vec_1_out_vector.txt"
 )
 
-add_test(NAME JacobianDriver.ExternalYAMLFile_AjointMode1ActiveVector1OutputVector
+add_test(NAME JacobianDriver.ExternalYAMLFile_AdjointMode1ActiveVector1OutputVector
         COMMAND driver
         "${CMAKE_CURRENT_SOURCE_DIR}/cpp_jacobian_adjoint_1_act_vec_1_out_vector.yml"
         "${CMAKE_CURRENT_SOURCE_DIR}/cpp_jacobian_adjoint_1_act_vec_1_out_vector.txt"

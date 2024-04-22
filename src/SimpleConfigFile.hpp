@@ -28,14 +28,14 @@ public:
 
     bool validateInput() override;
 
-    CallSignature getFirstFunction() const { return _functions[0]; }
-    std::vector<CallSignature> getFunctions() const override { return _functions; }
+    [[nodiscard]] CallSignature getFirstFunction() const { return _functions[0]; }
+    [[nodiscard]] std::vector<CallSignature> getFunctions() const override { return _functions; }
 
-    std::string getLanguage() const override { return _language; }
-    std::string getActiveVariables() const override;
-    std::string getOutputVariables() const override;
-    std::string getMode() const override;
-    std::string getDriverType() const override { return _functions[0].driver_type; }
+    [[nodiscard]] std::string getLanguage() const override { return _language; }
+    [[nodiscard]] std::string getActiveVariables() const override;
+    [[nodiscard]] std::string getOutputVariables() const override;
+    [[nodiscard]] std::string getMode() const override;
+    [[nodiscard]] std::string getDriverType() const override { return _functions[0].driver_type; }
     void readYamlFile(std::string const &file_path) final;
 
     ~SimpleConfigFile() override = default;

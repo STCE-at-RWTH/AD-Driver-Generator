@@ -20,7 +20,7 @@ public:
 
     ~CppUtilities() override = default;
 
-    std::string getTypeOfVariable(const std::string &activeVariable) const;
+    [[nodiscard]] std::string getTypeOfVariable(const std::string &activeVariable) const;
     std::string getAssociationByNameSignature() final;
     std::string createLoopSignature(const std::string &activeVariable, int level) final;
     std::string setSeedValue(const std::string &variable, const std::string &value_for_seeding,
@@ -305,9 +305,7 @@ std::string CppUtilities::createDriverCallArguments(){
         }
 
         if (absl::c_linear_search(outputVariables, words.back()) && _callSignature.mode == "tangent"){
-            if (_callSignature.driver_type == "gradient"){
-                driverCallArguments = absl::StrCat(driverCallArguments, ", ", variableTypeString, " &d", words.back());
-            } else if (_callSignature.driver_type == "jacobian"){
+            if (_callSignature.driver_type == "gradient" || _callSignature.driver_type == "jacobian"){
                 driverCallArguments = absl::StrCat(driverCallArguments, ", ", variableTypeString, " &d", words.back());
             }
         }
